@@ -11,6 +11,12 @@ import {
   RefreshCw,
   Bell,
   ExternalLink,
+  ShieldCheck,
+  FileSearch,
+  Award,
+  ScanSearch,
+  Hammer,
+  FileText,
 } from "lucide-react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -221,6 +227,177 @@ export default function RgpdView() {
           })}
         </div>
 
+      </div>
+
+      {/* SECTION — LA PREUVE PAR L'AUDIT */}
+      <div className="mb-16 sm:mb-20">
+        <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-violet-600 mb-3">
+          Transparence absolue
+        </span>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 leading-tight">
+          La preuve par l'audit — pas juste des promesses
+        </h2>
+        <p className="text-sm text-gray-600 mb-6 sm:mb-8 max-w-3xl leading-relaxed">
+          À la livraison de votre Synthèse, on ne se contente pas de vous dire qu'il est sécurisé.
+          On le prouve. Chaque instance passe par <span className="font-semibold text-gray-900">4 scanners de sécurité indépendants</span>,
+          et vous recevez les rapports publics — consultables par n'importe qui, daté du jour de la livraison.
+        </p>
+
+        {/* Process en 3 étapes */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10">
+          {[
+            {
+              num: "1",
+              icon: Hammer,
+              title: "On construit votre Synthèse",
+              desc: "Votre instance est développée avec les standards de sécurité les plus stricts dès le départ.",
+              color: "from-violet-500 to-violet-600",
+            },
+            {
+              num: "2",
+              icon: ScanSearch,
+              title: "On le soumet à 4 auditeurs indépendants",
+              desc: "Chaque scanner analyse votre instance sous un angle différent : chiffrement, en-têtes, vulnérabilités.",
+              color: "from-blue-500 to-blue-600",
+            },
+            {
+              num: "3",
+              icon: FileText,
+              title: "On vous remet les rapports vérifiables",
+              desc: "Vous recevez un lien public pour chaque audit. Consultable par vous, votre DSI, vos clients.",
+              color: "from-emerald-500 to-emerald-600",
+            },
+          ].map((step) => {
+            const Icon = step.icon;
+            return (
+              <div key={step.num} className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shrink-0`}>
+                    <Icon className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-xs font-bold text-gray-400">Étape {step.num}</span>
+                </div>
+                <p className="text-sm font-semibold text-gray-900 mb-1.5 leading-snug">{step.title}</p>
+                <p className="text-[13px] sm:text-xs text-gray-500 leading-relaxed">{step.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Les 4 auditeurs */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          {[
+            {
+              name: "SSL Labs",
+              organism: "par Qualys",
+              color: "#dc2626",
+              icon: Lock,
+              checks: "Vérifie le chiffrement TLS, la robustesse du HTTPS et la résistance aux attaques par interception.",
+              grade: "A+",
+              gradeLabel: "Note attendue",
+              url: "https://www.ssllabs.com/ssltest/",
+            },
+            {
+              name: "Mozilla Observatory",
+              organism: "par Mozilla Foundation",
+              color: "#ea580c",
+              icon: Eye,
+              checks: "Analyse les en-têtes HTTP, les politiques de sécurité de contenu (CSP) et les protections anti-XSS.",
+              grade: "A+",
+              gradeLabel: "Note attendue",
+              url: "https://observatory.mozilla.org",
+            },
+            {
+              name: "Security Headers",
+              organism: "par Scott Helme",
+              color: "#2563eb",
+              icon: ShieldCheck,
+              checks: "Scanne toutes les en-têtes de sécurité HTTP (HSTS, X-Frame-Options, Content-Security-Policy...).",
+              grade: "A+",
+              gradeLabel: "Note attendue",
+              url: "https://securityheaders.com",
+            },
+            {
+              name: "OWASP ZAP",
+              organism: "par OWASP Foundation",
+              color: "#7c3aed",
+              icon: FileSearch,
+              checks: "Scanner automatisé de vulnérabilités couvrant le Top 10 OWASP : injections, XSS, CSRF, authentification, etc.",
+              grade: "0 critique",
+              gradeLabel: "Résultat attendu",
+              url: "https://www.zaproxy.org",
+            },
+          ].map((auditor) => {
+            const Icon = auditor.icon;
+            return (
+              <div
+                key={auditor.name}
+                className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-gray-300 transition-all"
+              >
+                {/* Top stripe avec couleur de l'auditeur */}
+                <div className="h-1.5 w-full" style={{ backgroundColor: auditor.color }} />
+
+                <div className="p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: auditor.color + "15" }}
+                      >
+                        <Icon className="h-5 w-5" style={{ color: auditor.color }} />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 truncate">{auditor.name}</p>
+                        <p className="text-[11px] sm:text-xs text-gray-500 truncate">{auditor.organism}</p>
+                      </div>
+                    </div>
+                    {/* Badge note */}
+                    <div className="text-right shrink-0">
+                      <div
+                        className="inline-flex items-center justify-center min-w-[44px] h-9 px-2 rounded-lg font-bold text-sm"
+                        style={{
+                          color: auditor.color,
+                          backgroundColor: auditor.color + "15",
+                          border: `1px solid ${auditor.color}30`,
+                        }}
+                      >
+                        {auditor.grade}
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-1">{auditor.gradeLabel}</p>
+                    </div>
+                  </div>
+
+                  <p className="text-[13px] sm:text-xs text-gray-600 leading-relaxed mb-4">
+                    {auditor.checks}
+                  </p>
+
+                  <a
+                    href={auditor.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Voir le site de l'auditeur
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Closer */}
+        <div className="mt-8 rounded-2xl bg-gradient-to-br from-violet-50 to-blue-50 border border-violet-100 px-5 py-5 sm:px-7 sm:py-6">
+          <div className="flex items-start gap-3 sm:gap-4">
+            <Award className="h-5 w-5 sm:h-6 sm:w-6 text-violet-600 shrink-0 mt-0.5" />
+            <p className="text-[13px] sm:text-sm text-gray-700 leading-relaxed">
+              Ce n'est pas Synthèse qui vous dit qu'il est sécurisé.{" "}
+              <span className="font-semibold text-gray-900">Ce sont 4 organismes indépendants</span>,
+              au moment de la livraison, avec des rapports datés que vous pouvez consulter, garder et partager.
+              La sécurité devient un livrable contractuel — pas un argument marketing.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* SECTION 4 — CRM et données clients */}
