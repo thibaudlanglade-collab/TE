@@ -9,7 +9,7 @@ import {
 const fadeUp = (delay = 0, duration = 0.6) => ({
   initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration, delay, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
 })
 
 export function HeroSection() {
