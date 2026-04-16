@@ -16,6 +16,7 @@ import {
   GoogleDriveLogo, ExcelLogo,
 } from "@/components/IntegrationLogos";
 import IntegrationHero from "@/components/ui/integration-hero";
+import ComprendreView from "@/pages/ComprendreView";
 import { GradientCard } from "@/components/ui/gradient-card";
 import { BentoGridShowcase } from "@/components/ui/bento-product-features";
 import { Switch } from "@/components/ui/switch";
@@ -475,21 +476,21 @@ function IntegrationModal({
    HomeView
    ═══════════════════════════════════════════════════════════════════════════ */
 
-export default function HomeView() {
+export default function HomeView({ onComprendreClick, onRgpdClick }: { onComprendreClick?: () => void; onRgpdClick?: () => void }) {
   const [selectedApp, setSelectedApp] = useState<IntegrationApp | null>(null);
 
   return (
     <div>
-      <HeroSection />
+      <HeroSection onComprendreClick={onComprendreClick} />
 
       {/* CARTES PERSONNALISATION */}
       <section className="py-16 md:py-24">
         <div className="mx-auto w-full max-w-5xl space-y-8 px-4">
           <AnimatedContainer className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold leading-tight">
               Synthèse s'adapte à votre activité, quelle qu'elle soit
             </h2>
-            <p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base">
+            <p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base leading-relaxed">
               Les fonctionnalités que vous explorez ici sont des exemples généraux,
               conçus pour montrer ce qui est possible. Dans la réalité, chaque
               élément de Synthèse est configuré autour de votre activité : vos
@@ -515,46 +516,69 @@ export default function HomeView() {
               )
             })}
           </AnimatedContainer>
+
+          <AnimatedContainer delay={0.5} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+            {[
+              { label: "Un email reçu déclenche une mise à jour dans votre Excel" },
+              { label: "Une photo de chantier devient un rapport d'intervention classé" },
+              { label: "Votre planning se réorganise quand un client annule" },
+              { label: "Vos devis PDF se transforment en tableau comparatif" },
+              { label: "Chaque matin, un briefing de vos priorités du jour" },
+              { label: "Un bon de commande WhatsApp devient une ligne de suivi" },
+              { label: "Vos factures se saisissent toutes seules dans votre logiciel" },
+              { label: "Vos réunions se transcrivent et s'archivent automatiquement" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-dashed border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 px-4 py-3"
+              >
+                <p className="text-[13px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{item.label}</p>
+              </div>
+            ))}
+          </AnimatedContainer>
+          <p className="text-center text-xs sm:text-sm text-gray-400 dark:text-gray-500">
+            Et des centaines d'autres combinaisons possibles, selon votre activité.
+          </p>
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto py-12 px-6">
+      <div className="max-w-5xl mx-auto py-8 sm:py-12 px-4 sm:px-6">
       {/* SECTION 2 — ACCROCHE ÉMOTIONNELLE "JARVIS" */}
-      <div className="mb-20">
-        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-3xl border border-violet-100 overflow-hidden">
+      <div className="mb-14 sm:mb-20">
+        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-2xl sm:rounded-3xl border border-violet-100 overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
 
             {/* LEFT — Globe interactif */}
-            <div className="flex items-center justify-center p-8 md:p-10 border-b md:border-b-0 md:border-r border-violet-100">
-              <GlobeInteractive className="w-full max-w-xs" />
+            <div className="flex items-center justify-center p-6 sm:p-8 md:p-10 border-b md:border-b-0 md:border-r border-violet-100">
+              <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
             </div>
 
             {/* RIGHT — Contenu "Jarvis" */}
-            <div className="flex flex-col justify-center px-8 md:px-12 py-10">
-              <h2 className="text-2xl md:text-3xl font-display text-gray-900 mb-8">
+            <div className="flex flex-col justify-center px-5 py-7 sm:px-8 sm:py-10 md:px-12">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-display text-gray-900 mb-5 sm:mb-8 leading-tight">
                 Synthèse, c'est cette petite voix que vous avez tous les jours.
               </h2>
 
-              <div className="space-y-4 mb-8">
-                <p className="text-base text-gray-700 italic">
+              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                <p className="text-sm sm:text-base text-gray-700 italic leading-relaxed">
                   « Si seulement mes emails pouvaient se trier tout seuls. »
                 </p>
-                <p className="text-base text-gray-700 italic">
+                <p className="text-sm sm:text-base text-gray-700 italic leading-relaxed">
                   « Si seulement mes fichiers se rangeaient dans le bon dossier. »
                 </p>
-                <p className="text-base text-gray-700 italic">
+                <p className="text-sm sm:text-base text-gray-700 italic leading-relaxed">
                   « Si seulement quelqu'un pouvait me faire un résumé en arrivant au bureau. »
                 </p>
-                <p className="text-base text-gray-700 italic">
+                <p className="text-sm sm:text-base text-gray-700 italic leading-relaxed">
                   « Si seulement j'avais un assistant qui connaît mes dossiers par cœur. »
                 </p>
               </div>
 
-              <p className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
                 C'est exactement ce que fait Synthèse.
               </p>
 
-              <p className="text-base text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 Et ce ne sont que des exemples. Si vous pouvez le décrire, on peut
                 le construire. La seule limite, c'est votre imagination.
               </p>
@@ -564,53 +588,27 @@ export default function HomeView() {
         </div>
       </div>
 
-      {/* SECTION 3 — "ET COMME SI ÇA NE SUFFISAIT PAS..." */}
-      <div className="mb-20">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
-            Et comme si ça ne suffisait pas...
-          </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Quelques raisons de plus de nous faire confiance.
-          </p>
-        </div>
-
-        <BentoGridShowcase
-          integration={<BentoSupportCard />}
-          trackers={<BentoPricingCard />}
-          statistic={<BentoStatCard />}
-          focus={<BentoEvolveCard />}
-          productivity={<BentoImprovementCard />}
-          shortcuts={<BentoSecurityCard />}
-        />
-
-        <div className="text-center mt-10">
-          <p className="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            Et si vous avez encore des interrogations sur la RGPD, la maintenance
-            ou les aspects techniques, on vous explique tout en détail un peu plus
-            bas sur cette page — pour ceux qui aiment bien les détails.
-          </p>
-        </div>
-      </div>
+      {/* SECTION — COMPRENDRE SYNTHÈSE (page complète intégrée) */}
+      <ComprendreView />
 
       {/* SECTION — POURQUOI ÇA N'EXISTAIT PAS AVANT */}
-      <div className="mb-20">
+      <div className="mb-16 sm:mb-20">
 
         {/* Titre */}
-        <div className="text-center mb-12">
-          <span className="inline-block text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
+        <div className="text-center mb-8 sm:mb-12 px-2">
+          <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
             Une opportunité historique
           </span>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
             Pourquoi Synthèse n'existait pas il y a 5 ans
           </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Ce n'est pas qu'on n'y avait pas pensé. C'est que les technologies pour le construire n'existaient tout simplement pas.
           </p>
         </div>
 
         {/* Timeline avant / maintenant */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-10 sm:mb-14">
           {[
             {
               era: "Avant",
@@ -646,13 +644,13 @@ export default function HomeView() {
               ],
             },
           ].map((col) => (
-            <div key={col.era} className={`rounded-2xl border p-6 ${col.color}`}>
-              <span className={`inline-block text-xs font-bold uppercase tracking-widest px-2 py-1 rounded-md mb-5 ${col.badge}`}>
+            <div key={col.era} className={`rounded-2xl border p-5 sm:p-6 ${col.color}`}>
+              <span className={`inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest px-2 py-1 rounded-md mb-4 sm:mb-5 ${col.badge}`}>
                 {col.era}
               </span>
-              <ul className="space-y-3">
+              <ul className="space-y-2.5 sm:space-y-3">
                 {col.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+                  <li key={item} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-current shrink-0 opacity-50" />
                     {item}
                   </li>
@@ -662,14 +660,16 @@ export default function HomeView() {
           ))}
         </div>
 
-        {/* Les mêmes outils que les meilleurs */}
-        <div className="rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50 overflow-hidden">
-          <div className="px-8 py-8 border-b border-gray-100 dark:border-gray-800">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Pour vous offrir le meilleur, on s'est inspiré des meilleurs
+        {/* CARTE 1 — PREUVE SOCIALE : les mêmes outils que les meilleurs */}
+        <div className="rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50 overflow-hidden">
+          <div className="px-5 py-6 sm:px-8 sm:py-8 border-b border-gray-100 dark:border-gray-800">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
+              Les mêmes briques que Notion, Stripe, Shopify, Slack…
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
-              On n'a pas réinventé la roue. On a simplement choisi les mêmes matériaux que ceux utilisés par les entreprises tech les plus exigeantes au monde — et on les a mis à votre service.
+            <p className="text-[13px] sm:text-sm text-gray-500 dark:text-gray-400 max-w-2xl leading-relaxed">
+              Construire quelque chose de solide, ça commence par de bons matériaux. Pour chaque élément de
+              Synthèse — le moteur IA, l'agent, la base de données, l'hébergement — on a sélectionné la brique
+              la plus robuste du marché, déjà éprouvée à grande échelle. On les assemble pour vous.
             </p>
           </div>
 
@@ -724,28 +724,30 @@ export default function HomeView() {
                 ],
               },
             ].map((row) => (
-              <div key={row.tool} className="flex flex-col sm:flex-row sm:items-center gap-4 px-8 py-5">
+              <div key={row.tool} className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 px-5 py-5 sm:px-8">
                 {/* Tool */}
-                <div className="flex items-center gap-3 w-52 shrink-0">
+                <div className="flex items-center gap-3 md:w-52 md:shrink-0">
                   <div
-                    className="w-2 h-8 rounded-full shrink-0"
+                    className="w-1.5 h-8 rounded-full shrink-0"
                     style={{ backgroundColor: row.color }}
                   />
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">{row.tool}</p>
                     <p className="text-xs text-gray-400">{row.role}</p>
                   </div>
                 </div>
 
-                {/* Desc */}
-                <p className="text-xs text-gray-400 w-44 shrink-0 hidden sm:block">{row.desc}</p>
+                {/* Desc — visible sur mobile aussi mais plus petit */}
+                <p className="text-[11px] sm:text-xs text-gray-400 md:w-44 md:shrink-0 italic">
+                  {row.desc}
+                </p>
 
                 {/* Companies */}
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                   {row.trustedBy.map((co) => (
                     <span
                       key={co.name}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full border"
+                      className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 rounded-full border"
                       style={{
                         color: co.color,
                         borderColor: co.color + "30",
@@ -760,112 +762,137 @@ export default function HomeView() {
             ))}
           </div>
 
-          {/* Footer de la carte */}
-          <div className="px-8 py-5 bg-gradient-to-r from-violet-50 to-blue-50 dark:from-violet-900/20 dark:to-blue-900/20 border-t border-gray-100 dark:border-gray-800">
-            <p className="text-sm text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto">
-              Ces entreprises ont choisi ces outils après des audits rigoureux de sécurité, de performance et de conformité.{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                Vous bénéficiez du même niveau d'exigence — sans avoir à le chercher vous-même.
-              </span>
+          {/* Footer de la carte — renforce la preuve sociale */}
+          <div className="px-5 py-5 sm:px-8 bg-gradient-to-r from-violet-50 to-blue-50 dark:from-violet-900/20 dark:to-blue-900/20 border-t border-gray-100 dark:border-gray-800">
+            <p className="text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 text-center max-w-2xl mx-auto leading-relaxed">
+              Des briques déjà en place chez{" "}
+              <span className="font-semibold text-gray-900 dark:text-white">Notion, Stripe, Salesforce ou Mozilla</span>
+              {" "}— on les a simplement assemblées avec soin pour vous.
             </p>
           </div>
         </div>
 
+        {/* CARTE 2 — RGPD : vos données, votre propriété */}
+        {onRgpdClick && (
+          <div className="mt-10 rounded-3xl border border-emerald-100 dark:border-emerald-900/40 bg-gradient-to-br from-emerald-50/60 to-white dark:from-emerald-900/10 dark:to-gray-900/50 overflow-hidden">
+            <div className="px-8 py-8 flex flex-col md:flex-row md:items-center gap-6">
+
+              {/* Icône + texte */}
+              <div className="flex items-start gap-4 flex-1">
+                <div className="shrink-0 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400">
+                  <Shield className="h-6 w-6" />
+                </div>
+                <div>
+                  <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">
+                    Conformité & sécurité
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1.5">
+                    Vos données, votre propriété
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+                    Chiffrées, hébergées en Europe, jamais revendues ni utilisées pour entraîner des modèles
+                    tiers. Conformité RGPD native, sans collecte à des fins publicitaires.
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <button
+                type="button"
+                onClick={onRgpdClick}
+                className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all hover:-translate-y-0.5"
+              >
+                Voir notre page RGPD
+                <span aria-hidden>→</span>
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
 
-      {/* SECTION — COMMENT ÇA MARCHE / EXEMPLE CONCRET */}
-      <div className="mb-20">
-
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
-            Comment ça marche
-          </span>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
-            Les possibilités sont infinies.<br />
-            <span className="text-gray-400 dark:text-gray-500">Vraiment.</span>
+      {/* SECTION — "ET COMME SI ÇA NE SUFFISAIT PAS..." */}
+      <div className="mb-16 sm:mb-20">
+        <div className="text-center mb-8 sm:mb-12 px-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
+            Et comme si ça ne suffisait pas...
           </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Ce qui rend Synthèse unique, c'est son architecture. On ne part pas d'un logiciel existant qu'on essaie d'adapter.
-            On part de <span className="font-semibold text-gray-800 dark:text-gray-200">votre façon de travailler</span>, et on construit autour.
-            Le résultat : si vous pouvez le décrire, on peut le construire.
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Quelques raisons de plus de nous faire confiance.
           </p>
         </div>
 
-        {/* Infinity cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-14">
-          {[
-            { label: "Un email reçu déclenche une mise à jour dans votre Excel" },
-            { label: "Une photo de chantier devient un rapport d'intervention classé" },
-            { label: "Votre planning se réorganise quand un client annule" },
-            { label: "Vos devis PDF se transforment en tableau comparatif" },
-            { label: "Chaque matin, un briefing de vos priorités du jour" },
-            { label: "Un bon de commande WhatsApp devient une ligne de suivi" },
-            { label: "Vos factures se saisissent toutes seules dans votre logiciel" },
-            { label: "Vos réunions se transcrivent et s'archivent automatiquement" },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-dashed border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 px-4 py-3"
-            >
-              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{item.label}</p>
-            </div>
-          ))}
+        <BentoGridShowcase
+          integration={<BentoSupportCard />}
+          trackers={<BentoPricingCard />}
+          statistic={<BentoStatCard />}
+          focus={<BentoEvolveCard />}
+          productivity={<BentoImprovementCard />}
+          shortcuts={<BentoSecurityCard />}
+        />
+
+        <div className="text-center mt-8 sm:mt-10 px-2">
+          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Et si vous avez encore des interrogations sur la RGPD, la maintenance
+            ou les aspects techniques, on vous explique tout en détail un peu plus
+            bas sur cette page — pour ceux qui aiment bien les détails.
+          </p>
         </div>
-        <p className="text-center text-sm text-gray-400 dark:text-gray-500 mb-14 -mt-10">
-          Et des centaines d'autres combinaisons possibles, selon votre activité.
-        </p>
+      </div>
+
+      {/* SECTION — EXEMPLE CONCRET */}
+      <div className="mb-16 sm:mb-20">
 
         {/* Exemple concret — Vauclaire Industrie */}
-        <div className="rounded-3xl border border-gray-100 dark:border-gray-800 overflow-hidden mb-14">
+        <div className="rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-800 overflow-hidden mb-10 sm:mb-14">
 
           {/* Header entreprise */}
-          <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-8 py-6 flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-                <span className="text-2xl">🏭</span>
+          <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-5 py-5 sm:px-8 sm:py-6 flex flex-col gap-4">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
+                <span className="text-xl sm:text-2xl">🏭</span>
               </div>
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-0.5">Exemple concret</p>
-                <p className="text-lg font-semibold text-white">Vauclaire Industrie</p>
-                <p className="text-sm text-slate-400">Fabrication de pièces métalliques · 28 employés · Normandie</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mb-0.5">Exemple concret</p>
+                <p className="text-base sm:text-lg font-semibold text-white">Vauclaire Industrie</p>
+                <p className="text-xs sm:text-sm text-slate-400 leading-snug">Fabrication de pièces métalliques · 28 employés · Normandie</p>
               </div>
             </div>
-            <div className="sm:ml-auto flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {["Outlook", "Excel", "WhatsApp", "PDF fournisseurs"].map((t) => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-300 font-medium">{t}</span>
+                <span key={t} className="text-[11px] sm:text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-300 font-medium">{t}</span>
               ))}
             </div>
           </div>
 
           {/* Situation initiale */}
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-gray-800">
-            <div className="px-8 py-6 bg-red-50/40 dark:bg-red-950/10">
-              <p className="text-xs font-bold uppercase tracking-widest text-red-500 mb-4">Avant Synthèse</p>
-              <ul className="space-y-3">
+            <div className="px-5 py-5 sm:px-8 sm:py-6 bg-red-50/40 dark:bg-red-950/10">
+              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-red-500 mb-3 sm:mb-4">Avant Synthèse</p>
+              <ul className="space-y-2.5 sm:space-y-3">
                 {[
                   "2h par jour à trier des emails de commandes et fournisseurs",
                   "Le planning de production refait manuellement chaque lundi matin",
                   "Les factures PDF re-saisies à la main dans Excel",
                   "Les techniciens envoient des photos sur WhatsApp, les rapports se perdent",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                  <li key={item} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                     <span className="text-red-400 mt-0.5 shrink-0">✗</span>
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="px-8 py-6 bg-emerald-50/40 dark:bg-emerald-950/10">
-              <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-4">Avec Synthèse</p>
-              <ul className="space-y-3">
+            <div className="px-5 py-5 sm:px-8 sm:py-6 bg-emerald-50/40 dark:bg-emerald-950/10">
+              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-emerald-600 mb-3 sm:mb-4">Avec Synthèse</p>
+              <ul className="space-y-2.5 sm:space-y-3">
                 {[
                   "Les emails sont triés, classés et résumés chaque matin automatiquement",
                   "Le planning se génère en 30 secondes à partir des commandes du jour",
                   "Les factures PDF alimentent Excel sans qu'on touche à rien",
                   "Les photos WhatsApp deviennent des rapports d'intervention archivés",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-400">
+                  <li key={item} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                     <span className="text-emerald-500 mt-0.5 shrink-0">✓</span>
                     {item}
                   </li>
@@ -874,28 +901,28 @@ export default function HomeView() {
             </div>
           </div>
 
-          <div className="px-8 py-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800">
-            <p className="text-xs text-gray-400 dark:text-gray-500 text-center italic">
+          <div className="px-5 py-4 sm:px-8 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800">
+            <p className="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 text-center italic leading-relaxed">
               Cet exemple est fictif mais représentatif de ce qu'on construit. Chaque Synthèse est différent — le vôtre sera construit autour de votre réalité.
             </p>
           </div>
         </div>
 
         {/* Notre process */}
-        <div className="text-center mb-10">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <div className="text-center mb-8 sm:mb-10 px-2">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Notre façon de travailler ensemble
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             On ne livre pas un logiciel. On construit quelque chose avec vous.
           </p>
         </div>
 
         <div className="relative">
-          {/* Ligne de connexion desktop */}
+          {/* Ligne de connexion desktop uniquement */}
           <div className="absolute top-8 left-[10%] right-[10%] h-px bg-gradient-to-r from-violet-200 via-blue-200 to-violet-200 dark:from-violet-800/50 dark:via-blue-800/50 dark:to-violet-800/50 hidden md:block" />
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-6 relative">
             {[
               {
                 num: "1",
@@ -933,11 +960,11 @@ export default function HomeView() {
                 color: "from-emerald-500 to-emerald-600",
               },
             ].map((step) => (
-              <div key={step.num} className="flex flex-col items-center text-center gap-3">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex flex-col items-center justify-center shadow-md shrink-0 z-10`}>
-                  <span className="text-2xl">{step.emoji}</span>
+              <div key={step.num} className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-3">
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md shrink-0 z-10`}>
+                  <span className="text-xl sm:text-2xl">{step.emoji}</span>
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-gray-900 dark:text-white mb-1">{step.title}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{step.desc}</p>
                 </div>
@@ -947,9 +974,9 @@ export default function HomeView() {
         </div>
 
         {/* Objectif final */}
-        <div className="mt-14 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 p-8 text-white text-center">
-          <p className="text-lg font-semibold mb-2">L'objectif, au fond, c'est simple.</p>
-          <p className="text-base text-white/80 max-w-xl mx-auto leading-relaxed">
+        <div className="mt-10 sm:mt-14 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 p-6 sm:p-8 text-white text-center">
+          <p className="text-base sm:text-lg font-semibold mb-2">L'objectif, au fond, c'est simple.</p>
+          <p className="text-sm sm:text-base text-white/80 max-w-xl mx-auto leading-relaxed">
             Profiter des nouvelles technologies pour vous aider dans votre travail.
             Vous faire gagner du temps sur ce qui est répétitif, vous libérer la tête pour ce qui compte vraiment,
             et vous permettre de mieux travailler — sans changer votre façon de fonctionner.
@@ -964,7 +991,7 @@ export default function HomeView() {
         <IntegrationHero />
 
         {/* INTEGRATION CARDS — gradient cards, clickable, open detail modal */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {INTEGRATIONS_APPS.map((app) => (
             <GradientCard
               key={app.name}
@@ -982,19 +1009,19 @@ export default function HomeView() {
       </div>
 
       {/* CTA FINAL */}
-      <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 dark:from-violet-900/20 dark:via-blue-900/20 dark:to-violet-900/20 rounded-3xl p-10 text-center">
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+      <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 dark:from-violet-900/20 dark:via-blue-900/20 dark:to-violet-900/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 leading-tight">
           Prêt à découvrir Synthèse en action ?
         </h2>
-        <p className="text-base text-gray-700 dark:text-gray-300 mb-8 max-w-xl mx-auto">
+        <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
           Explorez librement la plateforme, ou prenons un moment ensemble pour
           parler de votre activité.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
           <StarButton
             lightColor="#7C3AED"
-            className="rounded-xl h-12 px-6"
+            className="rounded-xl h-12 px-6 touch-manipulation"
             onClick={() => alert("Modal de réservation à connecter (démo)")}
           >
             ✨ Réserver une démo
@@ -1004,14 +1031,14 @@ export default function HomeView() {
             onClick={() =>
               alert("Naviguez librement dans la sidebar pour explorer")
             }
-            className="inline-flex items-center gap-2 px-6 py-3.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-base font-semibold rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm sm:text-base font-semibold rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all touch-manipulation"
           >
             <Search className="h-5 w-5" />
             Explorer la plateforme
           </button>
         </div>
 
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-6">
+        <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 mt-5 sm:mt-6 leading-relaxed">
           Compte de démonstration — toutes les fonctionnalités sont accessibles
           dans la sidebar
         </p>

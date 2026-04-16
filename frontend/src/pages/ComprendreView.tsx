@@ -10,19 +10,19 @@ import RadialOrbitalTimeline, { type OrbitalNode } from "@/components/ui/radial-
 
 export default function ComprendreView() {
   return (
-    <div className="max-w-4xl mx-auto py-10 px-6">
+    <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4 sm:px-6 pb-24">
 
       {/* ============================================ */}
       {/* HERO */}
       {/* ============================================ */}
-      <div className="text-center mb-20 max-w-3xl mx-auto">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-50 mb-5">
-          <Lightbulb className="h-7 w-7 text-violet-500" />
+      <div className="text-center mb-12 sm:mb-20 max-w-3xl mx-auto">
+        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 mb-4 sm:mb-5">
+          <Lightbulb className="h-6 w-6 sm:h-7 sm:w-7 text-violet-500" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-5 tracking-tight leading-tight">
           Comprendre Synthèse en 5 minutes
         </h1>
-        <p className="text-lg text-gray-600 leading-relaxed">
+        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
           Avant de vous montrer ce que Synthèse fait, on aimerait vous
           expliquer <strong>pourquoi</strong> ça marche et{" "}
           <strong>comment</strong> les possibilités sont aussi grandes.
@@ -34,17 +34,17 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 1 — LES BOÎTES SÉPARÉES */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             1
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Aujourd'hui, vos outils ne se parlent pas.
           </h2>
         </div>
 
-        <p className="text-base text-gray-700 leading-relaxed mb-8">
+        <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6 sm:mb-8">
           Vous avez un CRM pour vos clients. Une boîte mail pour vos
           échanges. Un Drive pour vos documents. Un Excel pour vos
           chiffres. Un logiciel de compta. Un outil de planning.
@@ -87,12 +87,12 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 2 — LE CERVEAU + LES BRAS */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             2
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Puis une nouvelle technologie est arrivée.
           </h2>
         </div>
@@ -150,26 +150,26 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 3 — SCHÉMA INTERACTIF */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             3
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Voici comment Synthèse fonctionne.
           </h2>
         </div>
 
-        <p className="text-base text-gray-700 leading-relaxed mb-8">
+        <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6 sm:mb-8">
           Le cerveau au centre, connecté à tous vos outils. Vous lui
           parlez, il va chercher pour vous.
         </p>
 
-        <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-sm">
+        <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-200 shadow-sm">
           <RadialOrbitalTimeline nodes={ORBITAL_NODES} />
         </div>
 
-        <p className="text-center text-sm text-gray-500 italic mt-6">
+        <p className="text-center text-xs sm:text-sm text-gray-500 italic mt-5 sm:mt-6 px-4">
           Cliquez sur chaque application pour voir ce que Synthèse fait avec.
         </p>
       </div>
@@ -178,12 +178,12 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 4 — FONCTIONNALITÉS / AGENTS / AUTO */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             4
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Ce que vous voyez dans la démo, en clair.
           </h2>
         </div>
@@ -258,29 +258,29 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 5 — POURQUOI C'EST INFINI */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             5
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Pourquoi les possibilités sont aussi grandes.
           </h2>
         </div>
 
-        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-3xl border border-violet-100 px-8 md:px-10 py-8">
-          <p className="text-base text-gray-800 leading-relaxed mb-4">
+        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-2xl sm:rounded-3xl border border-violet-100 px-5 py-6 sm:px-8 sm:py-8 md:px-10">
+          <p className="text-sm sm:text-base text-gray-800 leading-relaxed mb-4">
             On ne vous vend pas un logiciel avec 50 boutons dont vous
             utiliserez 10. On vous construit un outil sur-mesure en
             assemblant : le cerveau (l'IA), les bras (les connexions à
             vos outils), et une interface pensée pour vous.
           </p>
-          <p className="text-base text-gray-800 leading-relaxed mb-4">
+          <p className="text-sm sm:text-base text-gray-800 leading-relaxed mb-4">
             Vous avez une nouvelle idée ? On ajoute un nouveau bras.
             Vous changez de process ? On reconfigure le cerveau. Votre
             activité évolue ? L'outil évolue avec vous.
           </p>
-          <p className="text-lg text-gray-900 font-semibold">
+          <p className="text-base sm:text-lg text-gray-900 font-semibold leading-relaxed">
             La seule limite, c'est ce que vous pouvez décrire. Si vous
             pouvez expliquer comment vous travaillez aujourd'hui, on peut
             construire l'outil qui le fait mieux, plus vite, sans erreur.
@@ -292,31 +292,31 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 6 — EXEMPLE CONCRET : PRÉCISION MÉTAL */}
       {/* ============================================ */}
-      <div className="mb-20">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-14 sm:mb-20">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             6
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Exemple concret : comment ça se passe.
           </h2>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mb-5 sm:mb-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0">
               <Building2 className="h-5 w-5 text-gray-700" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h3 className="text-base font-semibold text-gray-900">
                 Précision Métal
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-[11px] sm:text-xs text-gray-500 leading-snug">
                 Usine de pièces mécaniques · 25 employés · Vaucluse
               </p>
             </div>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-[13px] sm:text-sm text-gray-600 leading-relaxed">
             Précision Métal fabrique des pièces mécaniques sur-mesure
             pour l'industrie. Leur quotidien : 60 emails par jour de
             fournisseurs et clients, des devis à faire dans Excel, un
@@ -325,28 +325,28 @@ export default function ComprendreView() {
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {PROCESS_STEPS.map((step) => {
             return (
-              <div key={step.number} className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center shrink-0 mt-1">
+              <div key={step.number} className="flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-violet-50 flex items-center justify-center shrink-0 mt-1">
                   <span className="text-sm font-bold text-violet-600">
                     {step.number}
                   </span>
                 </div>
-                <div className="flex-1 bg-white border border-gray-200 rounded-xl p-5">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-2">
+                <div className="flex-1 min-w-0 bg-white border border-gray-200 rounded-xl p-4 sm:p-5">
+                  <h4 className="text-sm font-semibold text-gray-900 mb-1.5 sm:mb-2">
                     {step.title}
                   </h4>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-[13px] sm:text-sm text-gray-600 leading-relaxed">
                     {step.description}
                   </p>
                   {step.details && (
-                    <div className="mt-3 space-y-1">
+                    <div className="mt-3 space-y-1.5">
                       {step.details.map((detail, i) => (
                         <div key={i} className="flex items-start gap-2">
                           <CheckCircle2 className="h-3.5 w-3.5 text-violet-500 mt-0.5 shrink-0" />
-                          <span className="text-xs text-gray-600">{detail}</span>
+                          <span className="text-[12px] sm:text-xs text-gray-600 leading-relaxed">{detail}</span>
                         </div>
                       ))}
                     </div>
@@ -362,38 +362,38 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* SECTION 7 — POURQUOI PASSER À CETTE TECHNO */}
       {/* ============================================ */}
-      <div className="mb-16">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+      <div className="mb-12 sm:mb-16">
+        <div className="flex items-start sm:items-center gap-3 mb-5 sm:mb-6">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 mt-0.5 sm:mt-0">
             7
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 leading-tight">
             Mais alors, pourquoi changer ?
           </h2>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
-          <p className="text-base text-gray-700 leading-relaxed mb-4">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mb-6">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
             Parce que cette technologie vous débloque une autre manière
             de travailler.
           </p>
-          <p className="text-base text-gray-700 leading-relaxed mb-4">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
             Avant, vos applications c'étaient des <strong>boîtes fermées</strong>.
             Chacune dans son coin. Pour trouver une info, vous deviez
             ouvrir la bonne boîte, chercher dedans, et refermer.
           </p>
-          <p className="text-base text-gray-700 leading-relaxed mb-4">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
             L'IA est arrivée — un <strong>cerveau</strong> capable de
             comprendre, analyser, rédiger. Puis les API sont arrivées —
             des <strong>bras</strong> qui permettent au cerveau d'aller
             chercher dans toutes vos boîtes en même temps.
           </p>
-          <p className="text-base text-gray-900 font-semibold leading-relaxed mb-4">
+          <p className="text-sm sm:text-base text-gray-900 font-semibold leading-relaxed mb-3 sm:mb-4">
             Résultat : vous parlez au cerveau, il va chercher pour vous.
             Vous n'avez plus à ouvrir 5 outils. Vous posez une question,
             vous donnez une instruction, et le cerveau fait le reste.
           </p>
-          <p className="text-base text-gray-700 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
             Et parce que vous n'utilisez qu'une petite partie de chacune
             de ces boîtes, on peut les recréer en <strong>une seule
             grande boîte</strong> — centralisée, simplifiée, adaptée à
@@ -406,17 +406,17 @@ export default function ComprendreView() {
       {/* ============================================ */}
       {/* CTA */}
       {/* ============================================ */}
-      <div className="text-center py-8 bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-3xl border border-violet-100 px-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+      <div className="text-center py-7 sm:py-8 bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-2xl sm:rounded-3xl border border-violet-100 px-5 sm:px-8">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 leading-tight">
           Maintenant que vous avez compris le « comment »...
         </h2>
-        <p className="text-base text-gray-700 mb-6 max-w-xl mx-auto">
+        <p className="text-sm sm:text-base text-gray-700 mb-6 max-w-xl mx-auto leading-relaxed">
           Explorez les fonctionnalités dans la barre de gauche, ou
           prenons un moment ensemble pour parler de votre activité.
         </p>
         <button
           onClick={() => alert("Modal de contact à connecter (démo)")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm touch-manipulation"
         >
           <Sparkles className="h-4 w-4" />
           Parlons de votre activité
