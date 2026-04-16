@@ -14,6 +14,9 @@ import { MeetingTranscriberView } from "./components/MeetingTranscriber";
 import { ChatAssistantView } from "./components/ChatAssistant";
 import { AgentsIaView } from "./components/AgentsIa";
 import HomeView from "./pages/HomeView";
+import RgpdView from "./pages/RgpdView";
+import FeaturesView from "./pages/FeaturesView";
+import AgentRapportDemo from "./components/AgentRapportDemo";
 import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
 import type { Feature } from "./types";
@@ -29,6 +32,9 @@ const PAGE_TITLES: Record<string, string> = {
   emails: "Emails",
   automations: "Automatisations",
   "agents-ia": "Mes agents IA",
+  "agent-rapport": "Agent Rapport client",
+  rgpd: "RGPD",
+  features: "Fonctionnalités par secteur",
   classic: "Synthèse",
 };
 
@@ -36,13 +42,13 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features">("home");
 
   // Mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Dark mode
-  const [dark, setDark] = useState(() => {
+  const [dark] = useState(() => {
     const stored = localStorage.getItem("synthese-dark");
     if (stored !== null) return stored === "true";
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -127,6 +133,24 @@ export default function App() {
     setActiveMode("agents-ia");
   }
 
+  function handleAgentRapportClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("agent-rapport");
+  }
+
+  function handleRgpdClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("rgpd");
+  }
+
+  function handleFeaturesClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("features");
+  }
+
   function handleHomeClick() {
     reset();
     setSelected(null);
@@ -180,9 +204,13 @@ export default function App() {
         automationsModeActive={activeMode === "automations"}
         onAgentsIaClick={() => { handleAgentsIaClick(); setSidebarOpen(false); }}
         agentsIaModeActive={activeMode === "agents-ia"}
+        onAgentRapportClick={() => { handleAgentRapportClick(); setSidebarOpen(false); }}
+        agentRapportModeActive={activeMode === "agent-rapport"}
+        onRgpdClick={() => { handleRgpdClick(); setSidebarOpen(false); }}
+        rgpdModeActive={activeMode === "rgpd"}
+        onFeaturesClick={() => { handleFeaturesClick(); setSidebarOpen(false); }}
+        featuresModeActive={activeMode === "features"}
         onHomeClick={() => { handleHomeClick(); setSidebarOpen(false); }}
-        dark={dark}
-        onToggleDark={() => setDark((d) => !d)}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
@@ -195,6 +223,10 @@ export default function App() {
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
           {activeMode === "home" && <HomeView />}
+
+          {activeMode === "rgpd" && <RgpdView />}
+
+          {activeMode === "features" && <FeaturesView />}
 
           {activeMode === "chat-assistant" && (
             <ChatAssistantView onExit={() => setActiveMode("classic")} />
@@ -216,6 +248,10 @@ export default function App() {
 
           {activeMode === "agents-ia" && (
             <AgentsIaView />
+          )}
+
+          {activeMode === "agent-rapport" && (
+            <AgentRapportDemo onBack={() => setActiveMode("agents-ia")} />
           )}
 
           {activeMode === "emails" && (

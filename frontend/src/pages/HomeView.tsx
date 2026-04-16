@@ -1,124 +1,34 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  Sparkles, Calendar, Search,
-  Target, Wallet, Wrench, HandHeart, Bot,
-  Mail, MessageSquare, FolderOpen, Sheet, Users,
+  Search,
+  Wallet, Wrench, HandHeart,
   X, CheckCircle2, CalendarCheck,
+  Shield,
+  Smartphone, CloudSun, FileSpreadsheet, Camera,
+  TrendingUp, RefreshCw, Leaf,
 } from "lucide-react";
+import { StarButton } from "@/components/ui/star-button";
+import { GlobeInteractive } from "@/components/ui/cobe-globe-interactive";
+import { HeroSection } from "@/components/ui/hero-section";
+import { FeatureCard, AnimatedContainer } from "@/components/ui/grid-feature-cards";
 import {
   GmailLogo, OutlookLogo, TeamsLogo, SlackLogo,
   GoogleDriveLogo, ExcelLogo,
 } from "@/components/IntegrationLogos";
+import IntegrationHero from "@/components/ui/integration-hero";
+import { GradientCard } from "@/components/ui/gradient-card";
+import { BentoGridShowcase } from "@/components/ui/bento-product-features";
+import { Switch } from "@/components/ui/switch";
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   DATA — "Pourquoi choisir Synthèse" cards
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-const argumentsList = [
-  {
-    iconName: "Target",
-    title: "Sur-mesure, configuré avec vous",
-    description:
-      "Synthèse n'arrive pas avec un mode d'emploi rigide. On commence par comprendre votre activité, vos outils existants, votre façon de travailler. Ensuite seulement, on configure Synthèse autour de vous — pas l'inverse.",
-  },
-  {
-    iconName: "Wallet",
-    title: "Un seul outil au lieu de 10",
-    description:
-      "Vous payez aujourd'hui un abonnement pour la facture, un autre pour la planification, un autre pour l'extraction PDF, un autre pour les emails, un autre pour la transcription. Synthèse fait tout ça. Vous arrêtez les abonnements éparpillés et vous concentrez votre budget sur un seul outil cohérent.",
-  },
-  {
-    iconName: "Wrench",
-    title: "Flexible, évolutif, modulable",
-    description:
-      "Votre activité change ? Synthèse change avec vous. On ajoute une nouvelle automatisation, un nouvel agent IA, une nouvelle source de données quand vous en avez besoin. Pas besoin de migrer vers un autre logiciel quand vous grandissez.",
-  },
-  {
-    iconName: "HandHeart",
-    title: "Vous n'êtes jamais seul",
-    description:
-      "Pas de chatbot anonyme ni de support qui ne répond jamais. Une vraie personne vous accompagne au démarrage, reste joignable, comprend votre métier, et fait évoluer Synthèse avec vous. Comme un collègue technique, mais en mieux.",
-  },
-  {
-    iconName: "Bot",
-    title: "L'IA qui travaille pour vous",
-    description:
-      "Smart Extract, transcription audio, agents conversationnels : l'intelligence artificielle est intégrée partout dans Synthèse, pas comme un gadget marketing, mais comme un vrai outil qui vous fait gagner des heures chaque semaine. Sans que vous ayez besoin de comprendre comment ça marche.",
-  },
-  {
-    iconName: "Sparkles",
-    title: "Votre seule limite, c'est votre imagination",
-    description:
-      "Vous nous décrivez ce que vous voulez, on vous le construit. Une automatisation sur-mesure, un tableau de bord spécifique, un agent qui fait exactement ce dont vous avez besoin — si vous pouvez l'expliquer, Synthèse peut le faire.",
-  },
-];
-
-const ICON_MAP: Record<string, React.ElementType> = {
-  Target,
-  Wallet,
-  Wrench,
-  HandHeart,
-  Bot,
-  Sparkles,
+const INTEGRATION_GRADIENT_MAP: Record<string, "orange" | "blue" | "purple" | "gray" | "green" | "teal"> = {
+  "Gmail":            "orange",
+  "Outlook":          "blue",
+  "Microsoft Teams":  "purple",
+  "Slack":            "gray",
+  "Google Drive":     "green",
+  "Microsoft Excel":  "teal",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   DATA — Integration example cards (below the banner)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-const INTEGRATION_ICON_MAP: Record<string, React.ElementType> = {
-  Mail,
-  MessageSquare,
-  FolderOpen,
-  Sheet,
-  Wallet,
-  Users,
-};
-
-const INTEGRATION_EXAMPLES = [
-  {
-    iconName: "Mail",
-    apps: "Gmail · Outlook",
-    title: "Votre boîte mail enfin maîtrisée",
-    description:
-      "Connectez votre boîte mail. Synthèse lit les emails entrants, identifie les factures, classe les messages par priorité, prépare des brouillons de réponse, et vous fait un briefing chaque matin. Votre boîte mail devient un outil de pilotage, pas une source de stress.",
-  },
-  {
-    iconName: "Sheet",
-    apps: "Excel · Google Sheets",
-    title: "Vos tableaux deviennent conversationnels",
-    description:
-      "Vos tableaux Excel et Sheets sont au cœur de votre activité ? Synthèse les lit, les met à jour, et permet de les interroger en langage naturel. « Quel est mon top 5 clients ce mois ? » devient une simple question, plus une recherche fastidieuse.",
-  },
-  {
-    iconName: "MessageSquare",
-    apps: "Teams · Slack",
-    title: "Vos canaux deviennent intelligents",
-    description:
-      "Synthèse écoute vos canaux Teams ou Slack, capture les documents importants pour qu'ils ne se perdent pas dans le flow, résume les réunions enregistrées, et répond à vos collaborateurs quand vous les mentionnez avec @Synthèse.",
-  },
-  {
-    iconName: "FolderOpen",
-    apps: "Drive · OneDrive · Dropbox",
-    title: "Vos documents enfin organisés",
-    description:
-      "Vos documents sont éparpillés sur plusieurs espaces de stockage ? Synthèse les surveille, les analyse, les renomme intelligemment, et les range dans la bonne arborescence. Vous retrouvez n'importe quel fichier en posant simplement la question.",
-  },
-  {
-    iconName: "Wallet",
-    apps: "Qonto · Pennylane · Sage",
-    title: "Votre comptabilité sous contrôle",
-    description:
-      "Connectez votre banque ou votre logiciel comptable. Synthèse rapproche automatiquement vos factures et vos paiements, alerte sur les anomalies, prépare votre déclaration TVA, et vous donne une vision claire de votre trésorerie en temps réel.",
-  },
-  {
-    iconName: "Users",
-    apps: "HubSpot · Salesforce · Notion",
-    title: "Toutes vos données réunies",
-    description:
-      "Votre CRM, vos bases de données projet, votre wiki interne : Synthèse les interroge tous d'un coup. Préparer un point client, retrouver un historique de relation, croiser des données entre systèmes — tout devient une conversation simple.",
-  },
-];
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DATA — 6 apps for the scrolling banner + modal
@@ -264,6 +174,170 @@ const INTEGRATIONS_APPS: IntegrationApp[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   BENTO CARD COMPONENTS — "Et comme si ça ne suffisait pas..."
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function BentoSupportCard() {
+  return (
+    <div className="flex h-full flex-col bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-violet-100">
+        <HandHeart className="h-6 w-6 text-violet-600" />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-3">Vous n'êtes jamais seul</h3>
+      <p className="text-sm text-gray-600 leading-relaxed flex-1">
+        Pas de chatbot anonyme ni de support qui ne répond jamais. Une vraie personne vous accompagne au démarrage, reste joignable, comprend votre métier, et fait évoluer Synthèse avec vous. Comme un collègue technique, mais en mieux.
+      </p>
+      <div className="mt-auto pt-6 flex items-center justify-between">
+        <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <CalendarCheck className="h-4 w-4" />
+          Parler à un expert
+        </button>
+        <Switch defaultChecked aria-label="Support actif" />
+      </div>
+    </div>
+  )
+}
+
+function BentoPricingCard() {
+  return (
+    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col justify-between gap-3">
+      <div>
+        <h3 className="text-base font-semibold text-gray-900 mb-2">Payez pour ce que vous utilisez vraiment</h3>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Avec un logiciel classique, vous payez 100% du prix pour utiliser 20% des fonctionnalités. Avec Synthèse, on construit ensemble exactement ce dont vous avez besoin. Vous payez pour ce que vous utilisez, pas pour les 80% de fonctions qui prennent la poussière.
+        </p>
+      </div>
+      <div className="flex items-baseline gap-2">
+        <Wallet className="h-5 w-5 text-violet-500 shrink-0 mb-1" />
+        <span className="text-2xl font-bold text-gray-900">1 outil</span>
+        <span className="text-sm text-gray-500">construit pour vous</span>
+      </div>
+    </div>
+  )
+}
+
+function BentoStatCard() {
+  return (
+    <div className="relative h-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{ backgroundImage: "radial-gradient(#7c3aed 1px, transparent 1px)", backgroundSize: "16px 16px" }}
+      />
+      <div className="relative z-10 flex h-full flex-col justify-between p-6">
+        <div>
+          <h3 className="text-base font-semibold text-gray-900 mb-2">On évolue avec vous</h3>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Synthèse n'est pas un achat ponctuel. C'est une relation sur le long terme. Vous grandissez, votre logiciel grandit avec vous. Vos besoins changent en mars ? On adapte en mars. Vous avez une nouvelle idée en juin ? On la construit en juin.
+          </p>
+        </div>
+        <div className="flex items-end gap-2">
+          <TrendingUp className="h-5 w-5 text-violet-500 shrink-0 mb-1" />
+          <span className="text-4xl font-bold text-gray-900/90">On avance ensemble.</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function BentoEvolveCard() {
+  return (
+    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col justify-between gap-3">
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="text-base font-semibold text-gray-900">Flexible, évolutif, modulable</h3>
+        <span className="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200 uppercase tracking-wider shrink-0">
+          Sur-mesure
+        </span>
+      </div>
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Votre activité change ? Synthèse change avec vous. On ajoute une nouvelle automatisation, un nouvel agent IA, une nouvelle source de données quand vous en avez besoin. Pas besoin de migrer vers un autre logiciel quand vous grandissez.
+      </p>
+      <div className="flex justify-between text-xs text-gray-400 border-t border-gray-100 pt-3">
+        <span>personnalisable</span>
+        <span>évolutif</span>
+        <span>modulable</span>
+      </div>
+    </div>
+  )
+}
+
+function BentoImprovementCard() {
+  return (
+    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-3">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 shrink-0">
+        <RefreshCw className="h-5 w-5 text-amber-600" />
+      </div>
+      <h3 className="text-base font-semibold text-gray-900">Rien n'est parfait, même pas nous</h3>
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Le premier mois, il y a toujours des choses auxquelles on n'avait pas pensé. C'est normal. C'est pour ça qu'on fait des audits réguliers : on prend du recul, on regarde ce qui marche et ce qui marche moins, on ajuste. L'objectif, c'est de faire évoluer Synthèse chaque semaine pour qu'il vous corresponde parfaitement. Et la chance qu'on a, c'est qu'on peut tout modifier à 100%.
+      </p>
+    </div>
+  )
+}
+
+function BentoSecurityCard() {
+  return (
+    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-wrap items-center justify-between gap-6">
+      <div className="flex items-start gap-4 min-w-0 flex-1">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 shrink-0 mt-0.5">
+          <Shield className="h-5 w-5 text-green-600" />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-base font-semibold text-gray-900 mb-1">RGPD et sécurité, c'est non-négociable</h3>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Données hébergées en France, chiffrées, jamais partagées, jamais exploitées. Conforme RGPD. Serveurs certifiés ISO 27001. Vos fichiers ne quittent jamais le territoire français. On utilise les mêmes standards de sécurité que les banques et les hôpitaux.
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex h-8 items-center gap-1.5 px-3 rounded-lg border border-gray-200 bg-gray-50 text-xs font-medium text-gray-600">
+          <Leaf className="h-3.5 w-3.5 text-green-500" />
+          Éco-responsable
+        </div>
+        <div className="flex h-8 items-center gap-1.5 px-3 rounded-lg border border-gray-200 bg-gray-50 text-xs font-medium text-gray-600">
+          <Shield className="h-3.5 w-3.5 text-green-500" />
+          ISO 27001
+        </div>
+        <div className="flex h-8 items-center gap-1.5 px-3 rounded-lg border border-gray-200 bg-gray-50 text-xs font-medium text-gray-600">
+          <Wrench className="h-3.5 w-3.5 text-violet-500" />
+          Flexible
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DATA — Personalisation examples
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const PERSONALIZATION_ICON_MAP: Record<string, any> = {
+  Smartphone, CloudSun, FileSpreadsheet, Camera,
+}
+
+const PERSONALIZATION_EXAMPLES = [
+  {
+    iconName: "Smartphone",
+    title: "Vos commandes arrivent par WhatsApp ?",
+    description: "On configure Synthèse pour les capter et les transformer en bons de commande. Chaque message devient une ligne dans votre suivi, sans rien retaper."
+  },
+  {
+    iconName: "CloudSun",
+    title: "Votre planning dépend de la météo ?",
+    description: "On intègre la météo dans le planificateur pour anticiper les reports. Synthèse décale automatiquement les tâches extérieures quand la pluie est annoncée."
+  },
+  {
+    iconName: "FileSpreadsheet",
+    title: "Vous avez un Excel que vous remplissez depuis 10 ans ?",
+    description: "On connecte Synthèse dessus. Vous continuez de l'utiliser comme avant, mais il devient intelligent : il se met à jour tout seul, répond à vos questions, et vous alerte quand quelque chose cloche."
+  },
+  {
+    iconName: "Camera",
+    title: "Vos techniciens prennent des photos sur le terrain ?",
+    description: "On les transforme automatiquement en rapports d'intervention classés par client. La photo arrive, le rapport se génère, le dossier se range. Sans intervention de votre part."
+  }
+]
+
+/* ═══════════════════════════════════════════════════════════════════════════
    IntegrationModal
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -398,48 +472,6 @@ function IntegrationModal({
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   IntegrationsGrid — 6 apps as static clickable cards
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-function IntegrationsGrid({
-  onSelect,
-}: {
-  onSelect: (app: IntegrationApp) => void;
-}) {
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-      {INTEGRATIONS_APPS.map((app) => {
-        const Logo = app.Logo;
-        return (
-          <button
-            key={app.name}
-            onClick={() => onSelect(app)}
-            className="flex flex-col items-center gap-3 px-4 py-5 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm cursor-pointer
-                       hover:shadow-lg hover:border-violet-300 dark:hover:border-violet-600 hover:scale-[1.03]
-                       transition-all duration-200"
-          >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-              style={{ backgroundColor: app.color + "18" }}
-            >
-              <Logo className="w-7 h-7" />
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                {app.name}
-              </span>
-              <span className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium mt-0.5">
-                {app.category}
-              </span>
-            </div>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
    HomeView
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -447,106 +479,141 @@ export default function HomeView() {
   const [selectedApp, setSelectedApp] = useState<IntegrationApp | null>(null);
 
   return (
-    <div className="max-w-5xl mx-auto py-12 px-6">
-      {/* HERO */}
-      <div className="text-center mb-20 max-w-3xl mx-auto">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 mb-6 shadow-lg">
-          <Sparkles className="h-8 w-8 text-white" />
+    <div>
+      <HeroSection />
+
+      {/* CARTES PERSONNALISATION */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto w-full max-w-5xl space-y-8 px-4">
+          <AnimatedContainer className="mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold">
+              Synthèse s'adapte à votre activité, quelle qu'elle soit
+            </h2>
+            <p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base">
+              Les fonctionnalités que vous explorez ici sont des exemples généraux,
+              conçus pour montrer ce qui est possible. Dans la réalité, chaque
+              élément de Synthèse est configuré autour de votre activité : vos
+              documents, vos outils, vos règles, votre vocabulaire métier. Que
+              vous gériez une équipe de 3 personnes ou de 50, que vous soyez
+              dans le BTP, la restauration, le conseil ou l'industrie — à partir
+              du moment où vous travaillez avec un ordinateur, Synthèse peut
+              s'adapter à ce que vous faites au quotidien.
+            </p>
+          </AnimatedContainer>
+
+          <AnimatedContainer
+            delay={0.4}
+            className="grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed sm:grid-cols-2 md:grid-cols-2"
+          >
+            {PERSONALIZATION_EXAMPLES.map((example, i) => {
+              const Icon = PERSONALIZATION_ICON_MAP[example.iconName]
+              return (
+                <FeatureCard
+                  key={i}
+                  feature={{ title: example.title, icon: Icon, description: example.description }}
+                />
+              )
+            })}
+          </AnimatedContainer>
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-5 tracking-tight">
-          Bienvenue chez Synthèse
-        </h1>
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-          Une plateforme unique qui regroupe tout ce dont vous avez besoin pour
-          gérer votre activité au quotidien : extraction de documents, gestion
-          des emails, planification, transcription de réunions, automatisations,
-          agents IA.
-        </p>
-        <p className="text-base text-violet-600 dark:text-violet-400 italic font-medium">
-          Configurée avec vous. Pour vous. Selon votre façon de travailler.
-        </p>
+      </section>
+
+      <div className="max-w-5xl mx-auto py-12 px-6">
+      {/* SECTION 2 — ACCROCHE ÉMOTIONNELLE "JARVIS" */}
+      <div className="mb-20">
+        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-3xl border border-violet-100 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+
+            {/* LEFT — Globe interactif */}
+            <div className="flex items-center justify-center p-8 md:p-10 border-b md:border-b-0 md:border-r border-violet-100">
+              <GlobeInteractive className="w-full max-w-xs" />
+            </div>
+
+            {/* RIGHT — Contenu "Jarvis" */}
+            <div className="flex flex-col justify-center px-8 md:px-12 py-10">
+              <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-8">
+                Synthèse, c'est cette petite voix que vous avez tous les jours.
+              </h2>
+
+              <div className="space-y-4 mb-8">
+                <p className="text-base text-gray-700 italic">
+                  « Si seulement mes emails pouvaient se trier tout seuls. »
+                </p>
+                <p className="text-base text-gray-700 italic">
+                  « Si seulement mes fichiers se rangeaient dans le bon dossier. »
+                </p>
+                <p className="text-base text-gray-700 italic">
+                  « Si seulement quelqu'un pouvait me faire un résumé en arrivant au bureau. »
+                </p>
+                <p className="text-base text-gray-700 italic">
+                  « Si seulement j'avais un assistant qui connaît mes dossiers par cœur. »
+                </p>
+              </div>
+
+              <p className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+                C'est exactement ce que fait Synthèse.
+              </p>
+
+              <p className="text-base text-gray-700 leading-relaxed">
+                Et ce ne sont que des exemples. Si vous pouvez le décrire, on peut
+                le construire. La seule limite, c'est votre imagination.
+              </p>
+            </div>
+
+          </div>
+        </div>
       </div>
 
-      {/* SECTION ARGUMENTS */}
+      {/* SECTION 3 — "ET COMME SI ÇA NE SUFFISAIT PAS..." */}
       <div className="mb-20">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
-            Pourquoi choisir Synthèse
+            Et comme si ça ne suffisait pas...
           </h2>
           <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Synthèse n'est pas un outil de plus dans votre arsenal. C'est
-            l'outil qui remplace votre arsenal.
+            Quelques raisons de plus de nous faire confiance.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {argumentsList.map((arg) => {
-            const Icon = ICON_MAP[arg.iconName] || Sparkles;
-            return (
-              <div
-                key={arg.title}
-                className="bg-white dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg hover:border-violet-200 dark:hover:border-violet-700 transition-all"
-              >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-50 to-blue-50 dark:from-violet-900/30 dark:to-blue-900/30 flex items-center justify-center mb-4">
-                  <Icon className="h-6 w-6 text-violet-500" />
-                </div>
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-3">
-                  {arg.title}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {arg.description}
-                </p>
-              </div>
-            );
-          })}
+        <BentoGridShowcase
+          integration={<BentoSupportCard />}
+          trackers={<BentoPricingCard />}
+          statistic={<BentoStatCard />}
+          focus={<BentoEvolveCard />}
+          productivity={<BentoImprovementCard />}
+          shortcuts={<BentoSecurityCard />}
+        />
+
+        <div className="text-center mt-10">
+          <p className="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Et si vous avez encore des interrogations sur la RGPD, la maintenance
+            ou les aspects techniques, on vous explique tout en détail un peu plus
+            bas sur cette page — pour ceux qui aiment bien les détails.
+          </p>
         </div>
       </div>
 
       {/* SECTION INTÉGRATIONS */}
       <div className="mb-20">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
-            Se connecte à tous vos outils du quotidien
-          </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Synthèse ne vous demande pas de changer vos habitudes. Il s'intègre
-            à ce que vous utilisez déjà — emails, messagerie, stockage,
-            comptabilité, CRM — pour travailler avec vos données existantes, là
-            où elles sont.
-          </p>
+        {/* Animated carousel hero */}
+        <IntegrationHero />
+
+        {/* INTEGRATION CARDS — gradient cards, clickable, open detail modal */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {INTEGRATIONS_APPS.map((app) => (
+            <GradientCard
+              key={app.name}
+              badgeText={app.category}
+              badgeColor={app.color}
+              title={app.name}
+              description={app.tagline}
+              onClick={() => setSelectedApp(app)}
+              Logo={app.Logo}
+              gradient={INTEGRATION_GRADIENT_MAP[app.name] ?? "gray"}
+            />
+          ))}
         </div>
 
-        {/* INTEGRATION CARDS */}
-        <IntegrationsGrid onSelect={setSelectedApp} />
-
-        {/* 6 EXAMPLE CARDS */}
-        <div className="mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {INTEGRATION_EXAMPLES.map((example) => {
-              const Icon =
-                INTEGRATION_ICON_MAP[example.iconName] || Mail;
-              return (
-                <div
-                  key={example.title}
-                  className="bg-white dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg hover:border-violet-200 dark:hover:border-violet-700 transition-all"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-50 to-blue-50 dark:from-violet-900/30 dark:to-blue-900/30 flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-violet-500" />
-                  </div>
-                  <div className="text-xs font-semibold text-violet-600 dark:text-violet-400 uppercase tracking-widest mb-2">
-                    {example.apps}
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-3">
-                    {example.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    {example.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
       {/* CTA FINAL */}
@@ -560,13 +627,13 @@ export default function HomeView() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button
+          <StarButton
+            lightColor="#7C3AED"
+            className="rounded-xl h-12 px-6"
             onClick={() => alert("Modal de réservation à connecter (démo)")}
-            className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-base font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg"
           >
-            <Calendar className="h-5 w-5" />
-            Réserver une démo
-          </button>
+            ✨ Réserver une démo
+          </StarButton>
 
           <button
             onClick={() =>
@@ -592,6 +659,7 @@ export default function HomeView() {
           onClose={() => setSelectedApp(null)}
         />
       )}
+      </div>
     </div>
   );
 }

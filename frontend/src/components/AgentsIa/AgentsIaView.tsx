@@ -1,9 +1,10 @@
 import { useState } from "react"
 import {
   Bot, Zap, Target, FileText, BarChart3, Headphones,
-  X, Sparkles, AlertTriangle, Lightbulb
+  X, Sparkles, AlertTriangle, Lightbulb, Eye
 } from "lucide-react"
 import { AVAILABLE_AGENTS, COMPARISON_DATA, type Agent } from "@/data/agentsIaDemoData"
+import AgentRapportDemo from "@/components/AgentRapportDemo"
 
 const ICON_MAP: Record<string, any> = {
   Target, FileText, BarChart3, Headphones, Bot, Zap
@@ -11,6 +12,7 @@ const ICON_MAP: Record<string, any> = {
 
 export default function AgentsIaView() {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
+  const [showRapportDemo, setShowRapportDemo] = useState(false)
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-6">
@@ -128,7 +130,15 @@ export default function AgentsIaView() {
         <AgentModal
           agent={selectedAgent}
           onClose={() => setSelectedAgent(null)}
+          onDemo={() => { setSelectedAgent(null); setShowRapportDemo(true) }}
         />
+      )}
+
+      {/* INLINE DEMO */}
+      {showRapportDemo && (
+        <div className="mt-10">
+          <AgentRapportDemo onBack={() => setShowRapportDemo(false)} />
+        </div>
       )}
     </div>
   )
@@ -147,9 +157,17 @@ function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
         <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
           <Icon className="h-6 w-6 text-violet-500" />
         </div>
-        <span className="inline-flex items-center text-[10px] font-medium px-2 py-1 rounded-md bg-gray-100 text-gray-600 uppercase tracking-wider">
-          {agent.category}
-        </span>
+        <div className="flex flex-col items-end gap-1.5">
+          <span className="inline-flex items-center text-[10px] font-medium px-2 py-1 rounded-md bg-gray-100 text-gray-600 uppercase tracking-wider">
+            {agent.category}
+          </span>
+          {agent.id === "rapport-client" && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md bg-blue-100 text-blue-700 uppercase tracking-wider">
+              <Eye className="h-2.5 w-2.5" />
+              Démo
+            </span>
+          )}
+        </div>
       </div>
 
       <h3 className="text-base font-semibold text-gray-900 mb-2">
@@ -169,7 +187,7 @@ function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
   )
 }
 
-function AgentModal({ agent, onClose }: { agent: Agent; onClose: () => void }) {
+function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => void; onDemo: () => void }) {
   if (!agent.modal) return null
 
   return (
@@ -248,7 +266,16 @@ function AgentModal({ agent, onClose }: { agent: Agent; onClose: () => void }) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between gap-3">
+        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between gap-3 flex-wrap">
+          {agent.id === "rapport-client" && (
+            <button
+              onClick={onDemo}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-blue-50 text-blue-700 text-sm font-semibold rounded-xl hover:bg-blue-100 transition-colors border border-blue-200"
+            >
+              <Eye className="h-4 w-4" />
+              Voir la d&#233;mo en action
+            </button>
+          )}
           <button
             onClick={() => alert("Demande envoy\u00e9e \u2014 un membre de l'\u00e9quipe vous contactera (d\u00e9mo)")}
             className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"

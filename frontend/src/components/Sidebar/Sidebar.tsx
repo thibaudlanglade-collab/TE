@@ -1,4 +1,4 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Sun, Moon, Camera } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3 } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
@@ -21,9 +21,13 @@ interface Props {
   automationsModeActive?: boolean;
   onAgentsIaClick?: () => void;
   agentsIaModeActive?: boolean;
+  onAgentRapportClick?: () => void;
+  agentRapportModeActive?: boolean;
+  onRgpdClick?: () => void;
+  rgpdModeActive?: boolean;
+  onFeaturesClick?: () => void;
+  featuresModeActive?: boolean;
   onHomeClick?: () => void;
-  dark?: boolean;
-  onToggleDark?: () => void;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -36,12 +40,14 @@ function NavItem({
   isActive,
   onClick,
   badge,
+  demo,
 }: {
   icon: React.ElementType;
   label: string;
   isActive: boolean;
   onClick?: () => void;
   badge?: number;
+  demo?: boolean;
 }) {
   return (
     <button
@@ -61,6 +67,11 @@ function NavItem({
         )}
       />
       <span className="flex-1 truncate">{label}</span>
+      {demo && (
+        <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-600 uppercase tracking-wide">
+          Démo
+        </span>
+      )}
       {badge != null && badge > 0 && (
         <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-[10px] font-bold px-1.5">
           {badge}
@@ -90,9 +101,13 @@ export function Sidebar({
   automationsModeActive,
   onAgentsIaClick,
   agentsIaModeActive,
+  onAgentRapportClick,
+  agentRapportModeActive,
+  onRgpdClick,
+  rgpdModeActive,
+  onFeaturesClick,
+  featuresModeActive,
   onHomeClick,
-  dark,
-  onToggleDark,
   mobileOpen,
   onMobileClose,
 }: Props) {
@@ -189,28 +204,35 @@ export function Sidebar({
           isActive={agentsIaModeActive ?? false}
           onClick={onAgentsIaClick}
         />
+        <NavItem
+          icon={BarChart3}
+          label="Agent Rapport client"
+          isActive={agentRapportModeActive ?? false}
+          onClick={onAgentRapportClick}
+          demo
+        />
+
+        {/* ── Section ET encore plus ─────────────────────── */}
+        <div className="pt-5 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            ET encore plus
+          </span>
+        </div>
+        <NavItem
+          icon={ShieldCheck}
+          label="RGPD"
+          isActive={rgpdModeActive ?? false}
+          onClick={onRgpdClick}
+        />
+        <NavItem
+          icon={LayoutGrid}
+          label="Fonctionnalités par secteur"
+          isActive={featuresModeActive ?? false}
+          onClick={onFeaturesClick}
+        />
 
       </nav>
 
-      {/* Bottom: dark mode toggle */}
-      <div className="p-3 border-t border-violet-100/60 dark:border-gray-800">
-        <button
-          onClick={onToggleDark}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-white/60 dark:hover:bg-white/5 transition-colors"
-        >
-          {dark ? (
-            <>
-              <Sun className="h-4 w-4 text-amber-500" />
-              <span>Mode clair</span>
-            </>
-          ) : (
-            <>
-              <Moon className="h-4 w-4 text-violet-500" />
-              <span>Mode sombre</span>
-            </>
-          )}
-        </button>
-      </div>
     </aside>
     </>
   );

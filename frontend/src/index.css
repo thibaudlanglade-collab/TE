@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* Class-based dark mode — parent div carries .dark, same as the reference UI */
@@ -38,6 +38,8 @@
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
   --radius:    0.5rem;
+
+  --shadow-dashboard: 0 25px 80px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
 .dark {
@@ -100,6 +102,10 @@
   --radius-md:                       var(--radius-md);
   --radius-lg:                       var(--radius-lg);
   --radius-xl:                       var(--radius-xl);
+
+  /* Font families */
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Inter', sans-serif;
 
   /* Primary blue palette for @theme */
   --color-primary-50:  #EFF6FF;
@@ -211,4 +217,37 @@ body {
 
 .animate-scroll-banner:hover {
   animation-play-state: paused;
+}
+
+/* ─── Integration hero dual-row carousel ───────────────────────────────────── */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 80s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 30s linear infinite;
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
+
+@keyframes star-btn {
+  0%   { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+.animate-star-btn {
+  animation: star-btn calc(var(--duration) * 1s) linear infinite;
 }
