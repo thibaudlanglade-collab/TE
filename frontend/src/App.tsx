@@ -49,6 +49,13 @@ export default function App() {
   // Mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Scroll container ref — reset scroll on page change
+  const mainRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }, [activeMode]);
+
   // Dark mode
   const [dark] = useState(() => {
     const stored = localStorage.getItem("synthese-dark");
@@ -231,7 +238,7 @@ export default function App() {
         <Topbar pageTitle={pageTitle} onMenuClick={() => setSidebarOpen(true)} />
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main ref={mainRef} className="flex-1 overflow-y-auto">
           {activeMode === "home" && <HomeView onComprendreClick={handleComprendreClick} onRgpdClick={handleRgpdClick} />}
 
           {activeMode === "comprendre" && <ComprendreView />}
