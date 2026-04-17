@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -28,11 +28,11 @@ class Employee(Base):
     unavailable_dates: Mapped[str] = mapped_column(
         String, nullable=False, default="[]"
     )
-    email: Mapped[str | None] = mapped_column(String, nullable=True)
-    phone: Mapped[str | None] = mapped_column(String, nullable=True)
-    position: Mapped[str | None] = mapped_column(String, nullable=True)
-    hire_date: Mapped[str | None] = mapped_column(String, nullable=True)
-    notes: Mapped[str | None] = mapped_column(String, nullable=True)
+    email: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    phone: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    position: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    hire_date: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    notes: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
@@ -100,8 +100,8 @@ class GmailConnection(Base):
     connected_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
-    last_sync_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
-    history_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    last_sync_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    history_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -126,13 +126,13 @@ class Email(Base):
     )
 
     from_email: Mapped[str] = mapped_column(String, nullable=False)
-    from_name: Mapped[str | None] = mapped_column(String, nullable=True)
+    from_name: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     to_emails: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
-    cc_emails: Mapped[str | None] = mapped_column(Text, nullable=True)
-    subject: Mapped[str | None] = mapped_column(String, nullable=True)
-    snippet: Mapped[str | None] = mapped_column(Text, nullable=True)
-    body_plain: Mapped[str | None] = mapped_column(Text, nullable=True)
-    body_html: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cc_emails: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    subject: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    snippet: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    body_plain: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    body_html: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     received_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, index=True)
     is_read: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -140,10 +140,10 @@ class Email(Base):
     is_archived: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     labels: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
 
-    priority: Mapped[str | None] = mapped_column(String, nullable=True)
-    topic: Mapped[str | None] = mapped_column(String, nullable=True)
-    ai_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
-    classified_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    priority: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    topic: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    ai_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    classified_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
@@ -199,8 +199,8 @@ class EmailAttachment(Base):
     mime_type: Mapped[str] = mapped_column(String, nullable=False)
     size_bytes: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     is_downloaded: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    local_path: Mapped[str | None] = mapped_column(String, nullable=True)
-    downloaded_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    local_path: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    downloaded_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
@@ -227,7 +227,7 @@ class EmailTopic(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     color: Mapped[str] = mapped_column(String, nullable=False, default="#6b7280")
     display_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     is_default: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -256,8 +256,8 @@ class Automation(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    template_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    template_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     trigger_type: Mapped[str] = mapped_column(String, nullable=False)
     trigger_config: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
@@ -265,8 +265,8 @@ class Automation(Base):
     on_error: Mapped[str] = mapped_column(String, nullable=False, default="stop")
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
-    last_run_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
-    last_run_status: Mapped[str | None] = mapped_column(String, nullable=True)
+    last_run_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    last_run_status: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -294,11 +294,11 @@ class AutomationRun(Base):
         Integer, ForeignKey("automations.id"), nullable=False, index=True
     )
     started_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    finished_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     status: Mapped[str] = mapped_column(String, nullable=False, default="running")
     trigger_context: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
     steps_log: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
-    output_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
+    output_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     def to_dict(self) -> dict[str, Any]:
         return {

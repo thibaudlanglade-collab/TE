@@ -1,4 +1,4 @@
-import { Menu, Plus, User } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 
 interface Props {
   pageTitle: string;
@@ -38,9 +38,6 @@ export function Topbar({ pageTitle, subtitle, primaryAction, onMenuClick }: Prop
             {primaryAction.label}
           </button>
         )}
-        <button className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-100 to-blue-100 dark:from-violet-800/30 dark:to-blue-800/30 flex items-center justify-center hover:from-violet-200 hover:to-blue-200 dark:hover:from-violet-700/30 dark:hover:to-blue-700/30 transition-all">
-          <User className="h-4 w-4 text-violet-600 dark:text-violet-400" />
-        </button>
       </div>
     </header>
   );

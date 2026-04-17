@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -169,10 +169,10 @@ class TriggerManager:
 
 # ── Global singleton ──────────────────────────────────────────────────────────
 
-_trigger_manager: TriggerManager | None = None
+_trigger_manager: Optional[TriggerManager] = None
 
 
-def get_trigger_manager() -> TriggerManager | None:
+def get_trigger_manager() -> Optional[TriggerManager]:
     return _trigger_manager
 
 

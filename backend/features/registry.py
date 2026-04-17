@@ -6,6 +6,7 @@ Adding a new feature = create a new file in features/ with a FEATURE dict.
 Zero changes required anywhere else in the app.
 """
 from __future__ import annotations
+from typing import Optional
 
 import importlib
 import pkgutil
@@ -34,6 +35,6 @@ def get_all() -> list[dict]:
     ]
 
 
-def get(feature_id: str) -> dict | None:
+def get(feature_id: str) -> Optional[dict]:
     """Return a full feature dict (including pipeline) by ID, or None."""
     return _REGISTRY.get(feature_id)

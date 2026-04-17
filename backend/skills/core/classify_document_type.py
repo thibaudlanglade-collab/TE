@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import re
 from datetime import date as _date
-from typing import Any
+from typing import Any, Optional
 
 from skills.base import SkillResult
 
@@ -105,10 +105,10 @@ def _sanitize_filename(name: str) -> str:
 
 def _build_fallback_filename(
     doc_type: str,
-    vendor: str | None,
-    doc_date: str | None,
-    amount: float | None,
-    currency: str | None,
+    vendor: Optional[str],
+    doc_date: Optional[str],
+    amount: Optional[float],
+    currency: Optional[str],
     text_content: str,
 ) -> str:
     """Build a clean filename when the LLM-suggested one contains 'null'."""
@@ -160,7 +160,7 @@ async def execute(input_data: dict, context: Any) -> SkillResult:
         import config
 
         text_content: str = (input_data.get("text_content") or "")[:4000]
-        filename: str | None = input_data.get("filename") or None
+        filename: Optional[str] = input_data.get("filename") or None
 
         if not text_content.strip():
             return SkillResult(

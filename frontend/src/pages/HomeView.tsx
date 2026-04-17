@@ -180,7 +180,7 @@ const INTEGRATIONS_APPS: IntegrationApp[] = [
 
 function BentoSupportCard() {
   return (
-    <div className="flex h-full flex-col bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+    <div className="flex h-full flex-col bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 rounded-2xl border border-violet-300/50 shadow-md shadow-violet-500/10 p-6">
       <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-violet-100">
         <HandHeart className="h-6 w-6 text-violet-600" />
       </div>
@@ -201,7 +201,7 @@ function BentoSupportCard() {
 
 function BentoPricingCard() {
   return (
-    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col justify-between gap-3">
+    <div className="h-full bg-gradient-to-br from-pink-100 via-rose-50 to-orange-100 rounded-2xl border border-pink-300/50 shadow-md shadow-pink-500/10 p-6 flex flex-col justify-between gap-3">
       <div>
         <h3 className="text-base font-semibold text-gray-900 mb-2">Payez pour ce que vous utilisez vraiment</h3>
         <p className="text-sm text-gray-600 leading-relaxed">
@@ -219,7 +219,7 @@ function BentoPricingCard() {
 
 function BentoStatCard() {
   return (
-    <div className="relative h-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="relative h-full bg-gradient-to-br from-fuchsia-100 via-violet-100 to-pink-100 rounded-2xl border border-fuchsia-300/50 shadow-md shadow-fuchsia-500/10 overflow-hidden">
       <div
         className="absolute inset-0 opacity-[0.06]"
         style={{ backgroundImage: "radial-gradient(#7c3aed 1px, transparent 1px)", backgroundSize: "16px 16px" }}
@@ -242,7 +242,7 @@ function BentoStatCard() {
 
 function BentoEvolveCard() {
   return (
-    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col justify-between gap-3">
+    <div className="h-full bg-gradient-to-br from-indigo-100 via-violet-100 to-purple-100 rounded-2xl border border-indigo-300/50 shadow-md shadow-indigo-500/10 p-6 flex flex-col justify-between gap-3">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-base font-semibold text-gray-900">Flexible, évolutif, modulable</h3>
         <span className="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200 uppercase tracking-wider shrink-0">
@@ -263,7 +263,7 @@ function BentoEvolveCard() {
 
 function BentoImprovementCard() {
   return (
-    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-3">
+    <div className="h-full bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 rounded-2xl border border-amber-300/50 shadow-md shadow-amber-500/10 p-6 flex flex-col gap-3">
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 shrink-0">
         <RefreshCw className="h-5 w-5 text-amber-600" />
       </div>
@@ -277,7 +277,7 @@ function BentoImprovementCard() {
 
 function BentoSecurityCard() {
   return (
-    <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-wrap items-center justify-between gap-6">
+    <div className="h-full bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-2xl border border-emerald-300/50 shadow-md shadow-emerald-500/10 p-6 flex flex-wrap items-center justify-between gap-6">
       <div className="flex items-start gap-4 min-w-0 flex-1">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 shrink-0 mt-0.5">
           <Shield className="h-5 w-5 text-green-600" />
@@ -487,75 +487,106 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
       <section className="py-16 md:py-24">
         <div className="mx-auto w-full max-w-5xl space-y-8 px-4">
           <AnimatedContainer className="mx-auto max-w-3xl text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold leading-tight">
-              Synthèse s'adapte à votre activité, quelle qu'elle soit
+            <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
+              Concrètement, on fait quoi
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl tracking-tight text-balance md:text-5xl lg:text-6xl leading-tight text-gray-900">
+              Tout le travail que vous ne devriez plus faire à la main.
             </h2>
             <p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base leading-relaxed">
-              Les fonctionnalités que vous explorez ici sont des exemples généraux,
-              conçus pour montrer ce qui est possible. Dans la réalité, chaque
-              élément de Synthèse est configuré autour de votre activité : vos
-              documents, vos outils, vos règles, votre vocabulaire métier. Que
-              vous gériez une équipe de 3 personnes ou de 50, que vous soyez
-              dans le BTP, la restauration, le conseil ou l'industrie — à partir
-              du moment où vous travaillez avec un ordinateur, Synthèse peut
-              s'adapter à ce que vous faites au quotidien.
+              Synthèse est un assistant IA qui travaille <strong>dans vos outils du
+              quotidien</strong> — Gmail, Excel, Drive, WhatsApp, votre CRM,
+              votre compta. Il lit vos emails, classe vos documents, extrait les
+              données de vos PDF, met à jour vos tableaux, rédige vos réponses,
+              génère vos plannings, transcrit vos réunions, surveille vos
+              factures. Tout ce qui vous prend du temps aujourd'hui devient
+              automatique demain — sans changer vos habitudes, sans migration,
+              sans nouveau logiciel à apprendre.
+            </p>
+          </AnimatedContainer>
+
+          <AnimatedContainer delay={0.35} className="text-center pt-4">
+            <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">
+              Quelques scénarios
+            </span>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+              Quatre situations typiques — entre beaucoup d'autres.
             </p>
           </AnimatedContainer>
 
           <AnimatedContainer
             delay={0.4}
-            className="grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed sm:grid-cols-2 md:grid-cols-2"
+            className="grid grid-cols-1 rounded-2xl overflow-hidden sm:grid-cols-2 md:grid-cols-2 gap-3"
           >
             {PERSONALIZATION_EXAMPLES.map((example, i) => {
               const Icon = PERSONALIZATION_ICON_MAP[example.iconName]
+              const tints = [
+                "bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 border border-violet-200/70 [&_h3]:text-violet-950 [&_svg]:!text-violet-600",
+                "bg-gradient-to-br from-pink-100 via-rose-50 to-orange-100 border border-pink-200/70 [&_h3]:text-pink-950 [&_svg]:!text-pink-600",
+                "bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 border border-emerald-200/70 [&_h3]:text-emerald-950 [&_svg]:!text-emerald-600",
+                "bg-gradient-to-br from-indigo-100 via-violet-50 to-fuchsia-100 border border-indigo-200/70 [&_h3]:text-indigo-950 [&_svg]:!text-indigo-600",
+              ]
               return (
                 <FeatureCard
                   key={i}
+                  className={`rounded-2xl ${tints[i % tints.length]}`}
                   feature={{ title: example.title, icon: Icon, description: example.description }}
                 />
               )
             })}
           </AnimatedContainer>
 
-          <AnimatedContainer delay={0.5} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-            {[
-              { label: "Un email reçu déclenche une mise à jour dans votre Excel" },
-              { label: "Une photo de chantier devient un rapport d'intervention classé" },
-              { label: "Votre planning se réorganise quand un client annule" },
-              { label: "Vos devis PDF se transforment en tableau comparatif" },
-              { label: "Chaque matin, un briefing de vos priorités du jour" },
-              { label: "Un bon de commande WhatsApp devient une ligne de suivi" },
-              { label: "Vos factures se saisissent toutes seules dans votre logiciel" },
-              { label: "Vos réunions se transcrivent et s'archivent automatiquement" },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-dashed border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 px-4 py-3"
-              >
-                <p className="text-[13px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{item.label}</p>
-              </div>
-            ))}
-          </AnimatedContainer>
-          <p className="text-center text-xs sm:text-sm text-gray-400 dark:text-gray-500">
-            Et des centaines d'autres combinaisons possibles, selon votre activité.
+          <p className="text-center text-base sm:text-lg font-semibold text-violet-600 dark:text-violet-400">
+            Et bien plus encore…
           </p>
+
+          <AnimatedContainer delay={0.5} className="relative">
+            {/* Fade edges */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-24 bg-gradient-to-r from-background to-transparent z-10" aria-hidden />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-24 bg-gradient-to-l from-background to-transparent z-10" aria-hidden />
+
+            <div className="overflow-hidden">
+              <div
+                className="flex gap-3 w-max py-2"
+                style={{ animation: "scroll-left 50s linear infinite" }}
+              >
+                {(() => {
+                  const items = [
+                    "Un email reçu déclenche une mise à jour dans votre Excel",
+                    "Une photo de chantier devient un rapport d'intervention classé",
+                    "Votre planning se réorganise quand un client annule",
+                    "Vos devis PDF se transforment en tableau comparatif",
+                    "Chaque matin, un briefing de vos priorités du jour",
+                    "Un bon de commande WhatsApp devient une ligne de suivi",
+                    "Vos factures se saisissent toutes seules dans votre logiciel",
+                    "Vos réunions se transcrivent et s'archivent automatiquement",
+                  ];
+                  return [...items, ...items].map((label, i) => (
+                    <div
+                      key={i}
+                      className="w-64 sm:w-72 shrink-0 rounded-xl border border-dashed border-violet-200 bg-violet-50/50 dark:border-violet-800/50 dark:bg-violet-950/20 px-4 py-3"
+                    >
+                      <p className="text-[13px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {label}
+                      </p>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+          </AnimatedContainer>
         </div>
       </section>
 
       <div className="max-w-5xl mx-auto py-8 sm:py-12 px-4 sm:px-6">
       {/* SECTION 2 — ACCROCHE ÉMOTIONNELLE "JARVIS" */}
       <div className="mb-14 sm:mb-20">
-        <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-2xl sm:rounded-3xl border border-violet-100 overflow-hidden">
+        <div className="bg-gradient-to-br from-violet-100/80 via-pink-50 to-fuchsia-100/70 rounded-2xl sm:rounded-3xl border border-violet-200/60 overflow-hidden shadow-lg shadow-violet-500/5">
           <div className="grid grid-cols-1 md:grid-cols-2">
 
-            {/* LEFT — Globe interactif */}
-            <div className="flex items-center justify-center p-6 sm:p-8 md:p-10 border-b md:border-b-0 md:border-r border-violet-100">
-              <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
-            </div>
-
-            {/* RIGHT — Contenu "Jarvis" */}
-            <div className="flex flex-col justify-center px-5 py-7 sm:px-8 sm:py-10 md:px-12">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-display text-gray-900 mb-5 sm:mb-8 leading-tight">
+            {/* LEFT — Contenu "Jarvis" */}
+            <div className="flex flex-col justify-center px-5 py-7 sm:px-8 sm:py-10 md:px-12 md:border-r border-violet-200/60 order-2 md:order-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-gray-900 mb-5 sm:mb-8 leading-tight">
                 Synthèse, c'est cette petite voix que vous avez tous les jours.
               </h2>
 
@@ -584,6 +615,11 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
               </p>
             </div>
 
+            {/* RIGHT — Globe interactif */}
+            <div className="flex items-center justify-center p-6 sm:p-8 md:p-10 border-b md:border-b-0 border-violet-200/60 order-1 md:order-2">
+              <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
+            </div>
+
           </div>
         </div>
       </div>
@@ -599,7 +635,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
           <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
             Une opportunité historique
           </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight tracking-tight">
             Pourquoi Synthèse n'existait pas il y a 5 ans
           </h2>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
@@ -612,8 +648,8 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
           {[
             {
               era: "Avant",
-              color: "border-gray-200 bg-gray-50 dark:bg-gray-900/40",
-              badge: "text-gray-500 bg-gray-100",
+              color: "border-rose-200 bg-gradient-to-br from-rose-50 to-pink-50/60 dark:bg-gray-900/40",
+              badge: "text-rose-700 bg-rose-100",
               items: [
                 "Un outil IA sur-mesure = 200 000 € minimum",
                 "Une équipe de 10 développeurs pendant 6 mois",
@@ -623,7 +659,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
             },
             {
               era: "Le tournant",
-              color: "border-violet-200 bg-violet-50 dark:bg-violet-900/20",
+              color: "border-violet-200 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 dark:bg-violet-900/20",
               badge: "text-violet-700 bg-violet-100",
               items: [
                 "GPT-4 rend l'IA accessible via API en 2023",
@@ -634,7 +670,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
             },
             {
               era: "Aujourd'hui",
-              color: "border-emerald-200 bg-emerald-50 dark:bg-emerald-900/20",
+              color: "border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 dark:bg-emerald-900/20",
               badge: "text-emerald-700 bg-emerald-100",
               items: [
                 "Un outil sur-mesure accessible à toutes les entreprises",
@@ -664,12 +700,13 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
         <div className="rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50 overflow-hidden">
           <div className="px-5 py-6 sm:px-8 sm:py-8 border-b border-gray-100 dark:border-gray-800">
             <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
-              Les mêmes briques que Notion, Stripe, Shopify, Slack…
+              Pour que vous profitiez au mieux de cette révolution, on a sélectionné les meilleurs outils du marché
             </h3>
             <p className="text-[13px] sm:text-sm text-gray-500 dark:text-gray-400 max-w-2xl leading-relaxed">
-              Construire quelque chose de solide, ça commence par de bons matériaux. Pour chaque élément de
-              Synthèse — le moteur IA, l'agent, la base de données, l'hébergement — on a sélectionné la brique
-              la plus robuste du marché, déjà éprouvée à grande échelle. On les assemble pour vous.
+              Pour chaque élément de Synthèse — le moteur IA, l'agent, la base de données,
+              l'hébergement — on a choisi la brique la plus robuste et la plus avancée, déjà éprouvée à
+              grande échelle par les plus grandes entreprises. On les assemble pour vous, pour que vous
+              bénéficiiez du meilleur de l'IA sans avoir à chercher.
             </p>
           </div>
 
@@ -787,7 +824,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
                     Conformité & sécurité
                   </span>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1.5">
-                    Vos données, votre propriété
+                    Parce que quand on vous parle de logiciel et de données, on parle aussi de RGPD
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
                     Chiffrées, hébergées en Europe, jamais revendues ni utilisées pour entraîner des modèles
@@ -814,7 +851,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
       {/* SECTION — "ET COMME SI ÇA NE SUFFISAIT PAS..." */}
       <div className="mb-16 sm:mb-20">
         <div className="text-center mb-8 sm:mb-12 px-2">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight tracking-tight">
             Et comme si ça ne suffisait pas...
           </h2>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
@@ -838,151 +875,6 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
             bas sur cette page — pour ceux qui aiment bien les détails.
           </p>
         </div>
-      </div>
-
-      {/* SECTION — EXEMPLE CONCRET */}
-      <div className="mb-16 sm:mb-20">
-
-        {/* Exemple concret — Vauclaire Industrie */}
-        <div className="rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-800 overflow-hidden mb-10 sm:mb-14">
-
-          {/* Header entreprise */}
-          <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-5 py-5 sm:px-8 sm:py-6 flex flex-col gap-4">
-            <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
-                <span className="text-xl sm:text-2xl">🏭</span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mb-0.5">Exemple concret</p>
-                <p className="text-base sm:text-lg font-semibold text-white">Vauclaire Industrie</p>
-                <p className="text-xs sm:text-sm text-slate-400 leading-snug">Fabrication de pièces métalliques · 28 employés · Normandie</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {["Outlook", "Excel", "WhatsApp", "PDF fournisseurs"].map((t) => (
-                <span key={t} className="text-[11px] sm:text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-300 font-medium">{t}</span>
-              ))}
-            </div>
-          </div>
-
-          {/* Situation initiale */}
-          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-gray-800">
-            <div className="px-5 py-5 sm:px-8 sm:py-6 bg-red-50/40 dark:bg-red-950/10">
-              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-red-500 mb-3 sm:mb-4">Avant Synthèse</p>
-              <ul className="space-y-2.5 sm:space-y-3">
-                {[
-                  "2h par jour à trier des emails de commandes et fournisseurs",
-                  "Le planning de production refait manuellement chaque lundi matin",
-                  "Les factures PDF re-saisies à la main dans Excel",
-                  "Les techniciens envoient des photos sur WhatsApp, les rapports se perdent",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    <span className="text-red-400 mt-0.5 shrink-0">✗</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="px-5 py-5 sm:px-8 sm:py-6 bg-emerald-50/40 dark:bg-emerald-950/10">
-              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-emerald-600 mb-3 sm:mb-4">Avec Synthèse</p>
-              <ul className="space-y-2.5 sm:space-y-3">
-                {[
-                  "Les emails sont triés, classés et résumés chaque matin automatiquement",
-                  "Le planning se génère en 30 secondes à partir des commandes du jour",
-                  "Les factures PDF alimentent Excel sans qu'on touche à rien",
-                  "Les photos WhatsApp deviennent des rapports d'intervention archivés",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[13px] sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    <span className="text-emerald-500 mt-0.5 shrink-0">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="px-5 py-4 sm:px-8 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800">
-            <p className="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 text-center italic leading-relaxed">
-              Cet exemple est fictif mais représentatif de ce qu'on construit. Chaque Synthèse est différent — le vôtre sera construit autour de votre réalité.
-            </p>
-          </div>
-        </div>
-
-        {/* Notre process */}
-        <div className="text-center mb-8 sm:mb-10 px-2">
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            Notre façon de travailler ensemble
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-            On ne livre pas un logiciel. On construit quelque chose avec vous.
-          </p>
-        </div>
-
-        <div className="relative">
-          {/* Ligne de connexion desktop uniquement */}
-          <div className="absolute top-8 left-[10%] right-[10%] h-px bg-gradient-to-r from-violet-200 via-blue-200 to-violet-200 dark:from-violet-800/50 dark:via-blue-800/50 dark:to-violet-800/50 hidden md:block" />
-
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-6 relative">
-            {[
-              {
-                num: "1",
-                emoji: "🗣️",
-                title: "On écoute",
-                desc: "Un rendez-vous pour comprendre votre activité, vos outils, vos douleurs quotidiennes. On pose les bonnes questions.",
-                color: "from-violet-500 to-violet-600",
-              },
-              {
-                num: "2",
-                emoji: "🔍",
-                title: "On décortique",
-                desc: "On analyse votre façon de travailler. On identifie ce qui vous coûte du temps et ce dont vous avez vraiment besoin — pas juste ce que vous pensez.",
-                color: "from-blue-500 to-blue-600",
-              },
-              {
-                num: "3",
-                emoji: "🏗️",
-                title: "On construit",
-                desc: "On développe une V1 en quelques semaines. Pas un prototype vague — quelque chose que vous pouvez utiliser dès le départ.",
-                color: "from-indigo-500 to-indigo-600",
-              },
-              {
-                num: "4",
-                emoji: "🧪",
-                title: "Vous testez",
-                desc: "Vous utilisez, vous faites vos retours. Ce qui marche, ce qui manque, ce qu'on n'avait pas anticipé. Tout est noté.",
-                color: "from-teal-500 to-teal-600",
-              },
-              {
-                num: "5",
-                emoji: "🔄",
-                title: "On améliore",
-                desc: "On itère chaque semaine. Synthèse évolue avec vous, indéfiniment. Votre activité change ? Synthèse change aussi.",
-                color: "from-emerald-500 to-emerald-600",
-              },
-            ].map((step) => (
-              <div key={step.num} className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-3">
-                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md shrink-0 z-10`}>
-                  <span className="text-xl sm:text-2xl">{step.emoji}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-gray-900 dark:text-white mb-1">{step.title}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Objectif final */}
-        <div className="mt-10 sm:mt-14 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 p-6 sm:p-8 text-white text-center">
-          <p className="text-base sm:text-lg font-semibold mb-2">L'objectif, au fond, c'est simple.</p>
-          <p className="text-sm sm:text-base text-white/80 max-w-xl mx-auto leading-relaxed">
-            Profiter des nouvelles technologies pour vous aider dans votre travail.
-            Vous faire gagner du temps sur ce qui est répétitif, vous libérer la tête pour ce qui compte vraiment,
-            et vous permettre de mieux travailler — sans changer votre façon de fonctionner.
-          </p>
-        </div>
-
       </div>
 
       {/* SECTION INTÉGRATIONS */}
@@ -1009,8 +901,8 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
       </div>
 
       {/* CTA FINAL */}
-      <div className="bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 dark:from-violet-900/20 dark:via-blue-900/20 dark:to-violet-900/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3 leading-tight">
+      <div className="bg-gradient-to-br from-violet-100 via-pink-50 to-fuchsia-100 dark:from-violet-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center border border-violet-200/50 shadow-lg shadow-violet-500/5">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-gray-900 dark:text-white mb-3 leading-tight tracking-tight">
           Prêt à découvrir Synthèse en action ?
         </h2>
         <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">

@@ -1,4 +1,4 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3 } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +28,8 @@ interface Props {
   onFeaturesClick?: () => void;
   featuresModeActive?: boolean;
   onHomeClick?: () => void;
+  onComprendreClick?: () => void;
+  comprenderModeActive?: boolean;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -108,6 +110,8 @@ export function Sidebar({
   onFeaturesClick,
   featuresModeActive,
   onHomeClick,
+  onComprendreClick,
+  comprenderModeActive,
   mobileOpen,
   onMobileClose,
 }: Props) {
@@ -142,6 +146,28 @@ export function Sidebar({
 
       {/* Main navigation */}
       <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+        {/* ── "Start here" featured item ───────────────────── */}
+        <div className="pt-2 pb-1">
+          <button
+            onClick={onComprendreClick}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium w-full text-left transition-all duration-150",
+              comprenderModeActive
+                ? "bg-violet-100 text-violet-700"
+                : "bg-violet-50 text-violet-600 hover:bg-violet-100 hover:text-violet-700"
+            )}
+          >
+            <Lightbulb className="h-5 w-5 shrink-0 text-violet-500" />
+            <span className="flex-1 truncate">Comprendre Synthèse</span>
+          </button>
+        </div>
+
+        {/* ── Section Fonctionnalités ──────────────────────── */}
+        <div className="pt-3 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            Fonctionnalités
+          </span>
+        </div>
         <NavItem
           icon={MessageSquare}
           label="Discuter avec Synthèse"

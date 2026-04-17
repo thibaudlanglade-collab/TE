@@ -1,9 +1,9 @@
 import { motion } from "framer-motion"
 import {
-  Play, ChevronRight, Search, Bell, Home,
+  ChevronRight, Search, Bell, Home,
   ArrowUpDown, CreditCard, Building, Wallet,
   Settings, Zap, Plus, MoreHorizontal, CheckCircle2,
-  Sparkles, Shield, Server, Lightbulb, ArrowRight,
+  Sparkles, Shield, Server,
 } from "lucide-react"
 
 const fadeUp = (delay = 0, duration = 0.6) => ({
@@ -12,7 +12,7 @@ const fadeUp = (delay = 0, duration = 0.6) => ({
   transition: { duration, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
 })
 
-export function HeroSection({ onComprendreClick }: { onComprendreClick?: () => void } = {}) {
+export function HeroSection(_: { onComprendreClick?: () => void } = {}) {
   return (
     <section
       className="relative flex flex-col items-center overflow-hidden bg-background"
@@ -67,22 +67,8 @@ export function HeroSection({ onComprendreClick }: { onComprendreClick?: () => v
           Configurée avec vous. Pour vous. Selon votre façon de travailler.
         </motion.p>
 
-        {/* Comprendre link */}
-        {onComprendreClick && (
-          <motion.div {...fadeUp(0.28)} className="mt-4 mb-2">
-            <button
-              onClick={onComprendreClick}
-              className="inline-flex items-center gap-1.5 text-sm text-violet-600 hover:text-violet-700 font-medium transition-colors"
-            >
-              <Lightbulb className="h-4 w-4" />
-              Comprendre comment ça marche en 5 minutes
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          </motion.div>
-        )}
-
-        {/* Badges + CTA */}
-        <motion.div {...fadeUp(0.3)} className="mt-5 flex flex-col items-center gap-4 w-full">
+        {/* Badges */}
+        <motion.div {...fadeUp(0.3)} className="mt-6 flex flex-col items-center gap-4 w-full">
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center px-2">
             <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200">
               <Sparkles className="h-3 w-3" />
@@ -96,14 +82,6 @@ export function HeroSection({ onComprendreClick }: { onComprendreClick?: () => v
               <Server className="h-3 w-3" />
               Hébergé en France
             </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="rounded-full px-5 sm:px-6 py-3 sm:py-2.5 text-sm font-medium font-body bg-gradient-to-r from-violet-500 to-blue-500 text-white hover:opacity-90 transition-opacity shadow-md touch-manipulation">
-              Réserver une démo
-            </button>
-            <button className="h-11 w-11 rounded-full flex items-center justify-center bg-background shadow-[0_2px_12px_rgba(0,0,0,0.08)] hover:bg-background/80 transition-colors touch-manipulation">
-              <Play className="h-4 w-4 text-foreground fill-foreground" />
-            </button>
           </div>
         </motion.div>
 

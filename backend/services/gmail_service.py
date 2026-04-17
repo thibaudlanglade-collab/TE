@@ -2,6 +2,7 @@
 Gmail API service: OAuth2 flow, token management, message fetch/parse.
 """
 from __future__ import annotations
+from typing import Optional
 
 import base64
 import json
@@ -38,7 +39,7 @@ class GmailServiceError(Exception):
     """Raised for recoverable Gmail API or OAuth errors."""
 
 
-def build_oauth_flow(state: str | None = None) -> Flow:
+def build_oauth_flow(state: Optional[str] = None) -> Flow:
     """Build a Google OAuth2 Flow with the correct scopes and redirect URI."""
     client_config = {
         "web": {
@@ -58,7 +59,7 @@ def build_oauth_flow(state: str | None = None) -> Flow:
     return flow
 
 
-def exchange_code_for_tokens(code: str, code_verifier: str | None = None) -> dict:
+def exchange_code_for_tokens(code: str, code_verifier: Optional[str] = None) -> dict:
     """Exchange authorization code for access + refresh tokens.
 
     Returns dict with keys:
@@ -150,7 +151,7 @@ def get_gmail_service(connection: GmailConnection):
 def list_message_ids(
     service,
     max_results: int = 50,
-    history_id: str | None = None,
+    history_id: Optional[str] = None,
 ) -> tuple[list[str], str]:
     """List recent message IDs.
 
@@ -205,7 +206,7 @@ def _decode_body(data: str) -> str:
         return ""
 
 
-def _extract_parts(payload: dict) -> tuple[str | None, str | None]:
+def _extract_parts(payload: dict) -> Optional[tuple[str], Optional[str]]:
     """Recursively extract plain and HTML body parts from a Gmail payload."""
     mime_type: str = payload.get("mimeType", "")
     body = payload.get("body", {})
@@ -219,8 +220,8 @@ def _extract_parts(payload: dict) -> tuple[str | None, str | None]:
         data = body.get("data", "")
         return None, _decode_body(data) if data else None
 
-    plain: str | None = None
-    html: str | None = None
+    plain: Optional[str] = None
+    html: Optional[str] = None
     for part in parts:
         p, h = _extract_parts(part)
         if p and not plain:
@@ -290,7 +291,7 @@ def download_attachment_bytes(service, message_id: str, attachment_id: str) -> b
     return base64.urlsafe_b64decode(padded)
 
 
-def fetch_message_full(service, message_id: str) -> dict | None:
+def fetch_message_full(service, message_id: str) -> Optional[dict]:
     """Fetch and parse a full Gmail message.
 
     Returns a dict with keys:
@@ -330,7 +331,7 @@ def fetch_message_full(service, message_id: str) -> dict | None:
 
     # Cc
     cc_raw = headers.get("cc", "")
-    cc_emails: list[str] | None = None
+    cc_emails: Optional[list[str]] = None
     if cc_raw.strip():
         cc_emails = [
             addr

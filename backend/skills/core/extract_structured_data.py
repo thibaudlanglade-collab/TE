@@ -8,7 +8,7 @@ from __future__ import annotations
 import base64
 import json
 import re
-from typing import Any
+from typing import Any, Optional
 
 from skills.base import SkillResult
 
@@ -81,7 +81,7 @@ def _extract_json(raw: str) -> Any:
     return None
 
 
-def _build_system_prompt(target_schema: dict, context_hint: str | None) -> str:
+def _build_system_prompt(target_schema: dict, context_hint: Optional[str]) -> str:
     hint_section = (
         f"\nADDITIONAL CONTEXT: {context_hint}\n" if context_hint else ""
     )
@@ -109,7 +109,7 @@ async def execute(input_data: dict, context: Any) -> SkillResult:
         content: Any = input_data.get("content_ref")
         content_type: str = input_data.get("content_type", "text")
         target_schema: dict = input_data.get("target_schema", {})
-        context_hint: str | None = input_data.get("context_hint")
+        context_hint: Optional[str] = input_data.get("context_hint")
 
         # Tolerant input handling: if content is a dict wrapper from another
         # skill (e.g. extract_file_content), unwrap the relevant inner field.

@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 import re
 from datetime import date, datetime, timedelta
-from typing import Any
+from typing import Any, Optional
 
 from skills.base import SkillResult
 
@@ -173,7 +173,7 @@ def _build_system_prompt(
     )
 
 
-def _extract_json(raw: str) -> dict | None:
+def _extract_json(raw: str) -> Optional[dict]:
     cleaned = re.sub(r"```(?:json)?\s*", "", raw).strip().rstrip("`").strip()
     try:
         parsed = json.loads(cleaned)
@@ -356,7 +356,7 @@ async def execute(input_data: dict, context: Any) -> SkillResult:
         first_violations_count = len(first_violations)
 
         schedule: dict
-        second_violations_count: int | None = None
+        second_violations_count: Optional[int] = None
         correction_applied: bool = False
 
         if first_violations_count == 0:

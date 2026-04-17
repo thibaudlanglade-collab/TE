@@ -9,7 +9,7 @@ import base64
 import io
 import json
 import re
-from typing import Any
+from typing import Any, Optional
 
 from skills.base import SkillResult
 
@@ -84,7 +84,7 @@ def _detect_file_type(data: bytes) -> str:
     return "text"
 
 
-def _extract_json_array(raw: str) -> list | None:
+def _extract_json_array(raw: str) -> Optional[list]:
     cleaned = re.sub(r"```(?:json)?\s*", "", raw).strip().rstrip("`").strip()
     try:
         parsed = json.loads(cleaned)

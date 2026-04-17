@@ -9,7 +9,7 @@ import os
 import re
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
@@ -131,8 +131,8 @@ async def list_emails(
     starred_only: bool = Query(default=False),
     search: str = Query(default=""),
     sort: str = Query(default="received_desc"),
-    priority: str | None = Query(default=None),
-    topic: str | None = Query(default=None),
+    priority: Optional[str] = Query(default=None),
+    topic: Optional[str] = Query(default=None),
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
     """List emails with pagination and optional filters."""
@@ -342,7 +342,7 @@ async def classify_now(
 @emails_router.post("/{email_id}/generate-draft")
 async def generate_draft(
     email_id: int,
-    body: dict[str, Any] | None = None,
+    body: Optional[dict[str, Any]] = None,
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, str]:
     """Generate an AI reply draft for the given email."""

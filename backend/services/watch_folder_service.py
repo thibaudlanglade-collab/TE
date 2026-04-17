@@ -10,7 +10,7 @@ import asyncio
 import logging
 import threading
 from pathlib import Path
-from typing import Callable, Coroutine, Any
+from typing import Callable, Coroutine, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class FolderWatcher:
         self,
         folder_path: str,
         callback: Callable[[str], Coroutine[Any, Any, None]],
-        file_extensions: list[str] | None = None,
+        file_extensions: Optional[list[str]] = None,
         debounce_seconds: float = 2.0,
     ):
         """
@@ -49,7 +49,7 @@ class FolderWatcher:
         )
         self._debounce = debounce_seconds
         self._observer = None
-        self._loop: asyncio.AbstractEventLoop | None = None
+        self._loop: asyncio.Optional[AbstractEventLoop] = None
         self._seen: set[str] = set()
         self._pending_timers: dict[str, threading.Timer] = {}
         self._lock = threading.Lock()

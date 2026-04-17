@@ -10,6 +10,7 @@ For each table:
 LLM is only called for tables where headers are ambiguous.
 """
 from __future__ import annotations
+from typing import Optional
 
 import json
 import re
@@ -72,7 +73,7 @@ def _safe_key(raw: str, index: int, seen: dict[str, int]) -> str:
     return key
 
 
-def _rows_to_dicts(rows: list[list[str]]) -> list[dict] | None:
+def _rows_to_dicts(rows: list[list[str]]) -> Optional[list[dict]]:
     """
     Attempt direct conversion using first row as header.
     Returns None if the header looks ambiguous (triggers LLM fallback).

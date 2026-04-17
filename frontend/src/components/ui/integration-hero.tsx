@@ -35,7 +35,7 @@ export default function IntegrationHero() {
           Intégrations
         </span>
         <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
-          Se connecte à tous vos outils du quotidien
+          Bien sûr, on peut se connecter à toutes les applications que vous utilisez déjà
         </h2>
         <p className="text-base text-gray-600 max-w-2xl mx-auto">
           Synthèse ne vous demande pas de changer vos habitudes. Il s'intègre

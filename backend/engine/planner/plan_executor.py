@@ -11,11 +11,11 @@ Event types emitted (superset of pipeline.py for frontend compatibility):
     step_done     {"event": "step_done",     "step": str, "index": int, "output_key": str, "debug": dict}
     step_error    {"event": "step_error",    "step": str, "index": int, "error": str}
     replanning    {"event": "replanning",    "reason": str}
-    pipeline_done {"event": "pipeline_done", "output_key": str | None}
+    pipeline_done {"event": "pipeline_done", "output_key": Optional[str]}
 """
 from __future__ import annotations
 
-from typing import Any, AsyncIterator
+from typing import Any, AsyncIterator, Optional
 
 from engine.planner.state import PlannerState
 from engine.planner import skill_registry
@@ -97,8 +97,8 @@ async def execute_plan(
         return
 
     # ── Step-by-step execution ────────────────────────────────────────────────
-    failed_skill: str | None = None
-    failure_error: str | None = None
+    failed_skill: Optional[str] = None
+    failure_error: Optional[str] = None
     recoverable: bool = False
 
     for i, step in enumerate(steps):

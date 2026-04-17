@@ -3,6 +3,7 @@ Gmail sync scheduler: polls all connected Gmail accounts every 5 minutes,
 classifies pending emails every 10 minutes, and generates morning briefings at 08:00.
 """
 from __future__ import annotations
+from typing import Optional
 
 import logging
 from datetime import datetime, timezone
@@ -22,7 +23,7 @@ from services.gmail_service import (
 
 logger = logging.getLogger(__name__)
 
-_scheduler: AsyncIOScheduler | None = None
+_scheduler: Optional[AsyncIOScheduler] = None
 
 
 async def sync_connection(connection_id: int, db: AsyncSession) -> dict:

@@ -7,7 +7,7 @@ import base64
 import logging
 from datetime import datetime, timedelta, timezone
 from email.mime.text import MIMEText
-from typing import Any
+from typing import Any, Optional
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -176,7 +176,7 @@ async def _get_sent_samples(connection: GmailConnection) -> list[dict]:
         return []
 
 
-def _extract_plain_body(payload: dict) -> str | None:
+def _extract_plain_body(payload: dict) -> Optional[str]:
     """Minimal plain-text body extractor (no import cycle)."""
     import base64 as _b64
 
@@ -324,8 +324,8 @@ def build_reply_raw(
     subject: str,
     body: str,
     thread_id: str,
-    in_reply_to: str | None = None,
-    references: str | None = None,
+    in_reply_to: Optional[str] = None,
+    references: Optional[str] = None,
 ) -> str:
     """Construct a base64url-encoded RFC 2822 reply message."""
     msg = MIMEText(body, "plain", "utf-8")

@@ -12,7 +12,7 @@ Event format matches backend/api/execute.py exactly.
 from __future__ import annotations
 
 import json
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import StreamingResponse
@@ -68,7 +68,7 @@ def _build_final_result_event(final_output: Any) -> dict:
 
 # ── Event stream ──────────────────────────────────────────────────────────────
 
-async def _event_stream(user_request: str, file_bytes: bytes | None, context: PipelineContext):
+async def _event_stream(user_request: str, file_bytes: Optional[bytes], context: PipelineContext):
     try:
         # Lazy imports to avoid potential circular issues at module load time
         from engine.planner.planner import create_plan
@@ -111,9 +111,9 @@ async def _event_stream(user_request: str, file_bytes: bytes | None, context: Pi
 @router.post("/execute_planner")
 async def execute_planner(
     user_request: str = Form(...),
-    file: UploadFile | None = File(default=None),
+    file: Optional[UploadFile] = File(default=None),
 ):
-    file_bytes: bytes | None = None
+    file_bytes: Optional[bytes] = None
     metadata: dict = {}
 
     if file is not None:

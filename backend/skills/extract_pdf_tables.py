@@ -2,12 +2,13 @@
 Skill: extract_pdf_tables
 Input:  bytes   (raw PDF file content)
 Output: dict    {
-    "tables":         list[list[list[str|None]]]  — flat list of raw tables
+    "tables":         Optional[list[list[list[str]]]]  — flat list of raw tables
     "pages_text":     list[str]                   — one entry per page (for rescue fallback)
     "tables_per_page":list[int]                   — index-aligned with pages_text
 }
 """
 from __future__ import annotations
+from typing import Optional
 
 import io
 

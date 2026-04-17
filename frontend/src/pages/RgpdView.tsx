@@ -114,10 +114,10 @@ export default function RgpdView() {
 
       {/* HERO */}
       <div className="text-center mb-16">
-        <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-5">
-          <Shield className="h-7 w-7 text-green-600" />
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 border border-emerald-200/60 flex items-center justify-center mx-auto mb-5 shadow-sm shadow-emerald-500/10">
+          <Shield className="h-7 w-7 text-emerald-600" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
+        <h1 className="text-4xl md:text-5xl font-display text-gray-900 mb-4 tracking-tight leading-tight">
           Sécurité, RGPD et confiance
         </h1>
         <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -126,30 +126,30 @@ export default function RgpdView() {
         </p>
       </div>
 
-      {/* SECTION 1 — Le RGPD en 30 secondes */}
+      {/* SECTION 1 — Le RGPD en 30 secondes (aligné à gauche) */}
       <div className="mb-20">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
           Le RGPD, c'est quoi en 30 secondes ?
         </h2>
         <p className="text-sm text-gray-600 mb-6 max-w-3xl">
           Le Règlement Général sur la Protection des Données (RGPD) est une loi européenne qui impose aux entreprises de traiter les données personnelles de façon transparente, sécurisée, et avec le consentement des personnes concernées.
         </p>
 
-        <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-8">
-          <p className="text-sm text-blue-800 leading-relaxed">
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 border border-blue-200/60 rounded-2xl p-5 mb-8 shadow-sm shadow-blue-500/5">
+          <p className="text-sm text-blue-900 leading-relaxed">
             <span className="font-semibold">En clair :</span> vous avez le droit de savoir quelles données on collecte, pourquoi, comment elles sont protégées, et de demander leur suppression à tout moment. Synthèse respecte tout ça — par conception, pas juste sur le papier.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            { title: "Droit d'accès", desc: "Vous pouvez demander à tout moment la liste complète des données que nous détenons sur vous." },
-            { title: "Droit de rectification", desc: "Vous pouvez corriger ou mettre à jour vos données à tout moment, directement depuis la plateforme." },
-            { title: "Droit à l'effacement", desc: "Vous pouvez demander la suppression totale de votre compte et de vos données. On l'exécute sous 72h." },
-            { title: "Droit à la portabilité", desc: "Vos données vous appartiennent. Vous pouvez les exporter dans un format standard à tout moment." },
+            { title: "Droit d'accès", desc: "Vous pouvez demander à tout moment la liste complète des données que nous détenons sur vous.", tint: "from-violet-50 to-fuchsia-50 border-violet-200/60" },
+            { title: "Droit de rectification", desc: "Vous pouvez corriger ou mettre à jour vos données à tout moment, directement depuis la plateforme.", tint: "from-pink-50 to-rose-50 border-pink-200/60" },
+            { title: "Droit à l'effacement", desc: "Vous pouvez demander la suppression totale de votre compte et de vos données. On l'exécute sous 72h.", tint: "from-fuchsia-50 to-violet-50 border-fuchsia-200/60" },
+            { title: "Droit à la portabilité", desc: "Vos données vous appartiennent. Vous pouvez les exporter dans un format standard à tout moment.", tint: "from-rose-50 to-pink-50 border-rose-200/60" },
           ].map((item) => (
-            <div key={item.title} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-5">
-              <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+            <div key={item.title} className={`flex items-start gap-3 bg-gradient-to-br ${item.tint} border rounded-xl p-5 shadow-sm`}>
+              <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">{item.title}</p>
                 <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
@@ -159,20 +159,22 @@ export default function RgpdView() {
         </div>
       </div>
 
-      {/* SECTION 2 — Stack certifiée */}
+      {/* SECTION 2 — Stack certifiée (alignée à droite) */}
       <div className="mb-20">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Une stack 100% certifiée, vérifiable publiquement
-        </h2>
-        <p className="text-sm text-gray-600 mb-8 max-w-3xl">
-          Chaque brique technique de Synthèse est choisie pour ses certifications de sécurité reconnues. Rien n'est laissé au hasard : hébergement, base de données, IA — tout est audité et documenté. Vous pouvez vérifier chaque certification directement sur les sites officiels.
-        </p>
+        <div className="md:text-right md:ml-auto md:max-w-3xl mb-8">
+          <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
+            Une stack 100% certifiée, vérifiable publiquement
+          </h2>
+          <p className="text-sm text-gray-600">
+            Chaque brique technique de Synthèse est choisie pour ses certifications de sécurité reconnues. Rien n'est laissé au hasard : hébergement, base de données, IA — tout est audité et documenté. Vous pouvez vérifier chaque certification directement sur les sites officiels.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {STACK_CERTIFICATIONS.map((tool) => {
             const IconComp = STACK_ICON_MAP[tool.name];
             return (
-              <div key={tool.name} className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-gray-300 transition-all">
+              <div key={tool.name} className="bg-gradient-to-br from-white via-violet-50/30 to-pink-50/40 border border-violet-200/50 rounded-2xl p-6 hover:shadow-md hover:shadow-violet-500/10 hover:border-violet-300/60 transition-all">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
@@ -203,9 +205,9 @@ export default function RgpdView() {
         </div>
       </div>
 
-      {/* SECTION 3 — Dispositif de sécurité */}
+      {/* SECTION 3 — Dispositif de sécurité (aligné à gauche) */}
       <div className="mb-20">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
           Notre dispositif de sécurité
         </h2>
         <p className="text-sm text-gray-600 mb-8 max-w-3xl">
@@ -213,12 +215,26 @@ export default function RgpdView() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {HACKING_CARDS.map((card) => {
+          {HACKING_CARDS.map((card, i) => {
             const Icon = card.icon;
+            const tints = [
+              "from-violet-50 to-fuchsia-50 border-violet-200/60 hover:border-violet-300/70 hover:shadow-violet-500/10",
+              "from-pink-50 to-rose-50 border-pink-200/60 hover:border-pink-300/70 hover:shadow-pink-500/10",
+              "from-fuchsia-50 to-pink-50 border-fuchsia-200/60 hover:border-fuchsia-300/70 hover:shadow-fuchsia-500/10",
+              "from-rose-50 to-pink-50 border-rose-200/60 hover:border-rose-300/70 hover:shadow-rose-500/10",
+              "from-indigo-50 to-violet-50 border-indigo-200/60 hover:border-indigo-300/70 hover:shadow-indigo-500/10",
+            ];
+            const iconColors = [
+              "bg-violet-100 text-violet-600",
+              "bg-pink-100 text-pink-600",
+              "bg-fuchsia-100 text-fuchsia-600",
+              "bg-rose-100 text-rose-600",
+              "bg-indigo-100 text-indigo-600",
+            ];
             return (
-              <div key={card.title} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-blue-200 hover:shadow-sm transition-all">
-                <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
-                  <Icon className="h-4 w-4 text-blue-600" />
+              <div key={card.title} className={`bg-gradient-to-br ${tints[i % tints.length]} border rounded-xl p-5 hover:shadow-md transition-all`}>
+                <div className={`w-9 h-9 rounded-lg ${iconColors[i % iconColors.length]} flex items-center justify-center mb-3`}>
+                  <Icon className="h-4 w-4" />
                 </div>
                 <p className="text-sm font-semibold text-gray-900 mb-2">{card.title}</p>
                 <p className="text-xs text-gray-600 leading-relaxed">{card.desc}</p>
@@ -229,19 +245,21 @@ export default function RgpdView() {
 
       </div>
 
-      {/* SECTION — LA PREUVE PAR L'AUDIT */}
+      {/* SECTION — LA PREUVE PAR L'AUDIT (alignée à droite) */}
       <div className="mb-16 sm:mb-20">
-        <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-violet-600 mb-3">
-          Transparence absolue
-        </span>
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 leading-tight">
-          La preuve par l'audit — pas juste des promesses
-        </h2>
-        <p className="text-sm text-gray-600 mb-6 sm:mb-8 max-w-3xl leading-relaxed">
-          À la livraison de votre Synthèse, on ne se contente pas de vous dire qu'il est sécurisé.
-          On le prouve. Chaque instance passe par <span className="font-semibold text-gray-900">4 scanners de sécurité indépendants</span>,
-          et vous recevez les rapports publics — consultables par n'importe qui, daté du jour de la livraison.
-        </p>
+        <div className="md:text-right md:ml-auto md:max-w-3xl mb-6 sm:mb-8">
+          <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-violet-600 mb-3">
+            Transparence absolue
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
+            La preuve par l'audit — pas juste des promesses
+          </h2>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            À la livraison de votre Synthèse, on ne se contente pas de vous dire qu'il est sécurisé.
+            On le prouve. Chaque instance passe par <span className="font-semibold text-gray-900">4 scanners de sécurité indépendants</span>,
+            et vous recevez les rapports publics — consultables par n'importe qui, daté du jour de la livraison.
+          </p>
+        </div>
 
         {/* Process en 3 étapes */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10">
@@ -270,7 +288,7 @@ export default function RgpdView() {
           ].map((step) => {
             const Icon = step.icon;
             return (
-              <div key={step.num} className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
+              <div key={step.num} className="rounded-2xl border border-violet-200/50 bg-gradient-to-br from-white via-violet-50/40 to-pink-50/40 p-5 sm:p-6 shadow-sm shadow-violet-500/5">
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shrink-0`}>
                     <Icon className="h-5 w-5 text-white" />
@@ -342,7 +360,7 @@ export default function RgpdView() {
             return (
               <div
                 key={auditor.name}
-                className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-gray-300 transition-all"
+                className="bg-gradient-to-br from-white via-violet-50/20 to-pink-50/30 border border-violet-200/50 rounded-2xl overflow-hidden hover:shadow-md hover:shadow-violet-500/10 hover:border-violet-300/60 transition-all"
               >
                 {/* Top stripe avec couleur de l'auditeur */}
                 <div className="h-1.5 w-full" style={{ backgroundColor: auditor.color }} />
@@ -400,14 +418,16 @@ export default function RgpdView() {
         </div>
       </div>
 
-      {/* SECTION 4 — CRM et données clients */}
+      {/* SECTION 4 — CRM et données clients (alignée à droite) */}
       <div className="mb-20">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Traitement et gouvernance de vos données clients
-        </h2>
-        <p className="text-sm text-gray-600 mb-8 max-w-3xl">
-          Si vous utilisez Synthèse comme CRM ou pour gérer vos contacts clients, voici exactement comment on traite ces données.
-        </p>
+        <div className="md:text-right md:ml-auto md:max-w-3xl mb-8">
+          <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
+            Traitement et gouvernance de vos données clients
+          </h2>
+          <p className="text-sm text-gray-600">
+            Si vous utilisez Synthèse comme CRM ou pour gérer vos contacts clients, voici exactement comment on traite ces données.
+          </p>
+        </div>
 
         <div className="space-y-4">
           {[
@@ -415,21 +435,27 @@ export default function RgpdView() {
               num: "1",
               title: "Vos données clients vous appartiennent",
               desc: "Les noms, emails, numéros de téléphone et historiques que vous importez dans Synthèse restent votre propriété. On ne les utilise jamais à d'autres fins que vous les afficher et vous aider à les gérer.",
+              tint: "from-violet-50 via-white to-fuchsia-50 border-violet-200/50",
+              badge: "bg-violet-100 text-violet-700",
             },
             {
               num: "2",
               title: "Aucun partage avec des tiers",
               desc: "Vos données clients ne sont jamais vendues, partagées ou transmises à des tiers — ni à des partenaires commerciaux, ni à des régies publicitaires, ni à des data brokers. Jamais.",
+              tint: "from-pink-50 via-white to-rose-50 border-pink-200/50",
+              badge: "bg-pink-100 text-pink-700",
             },
             {
               num: "3",
               title: "Suppression propre à la résiliation",
               desc: "Si vous résiliez votre abonnement, l'intégralité de vos données (y compris celles de vos clients) est supprimée de nos serveurs dans un délai de 30 jours. Vous pouvez en exporter une copie avant.",
+              tint: "from-fuchsia-50 via-white to-violet-50 border-fuchsia-200/50",
+              badge: "bg-fuchsia-100 text-fuchsia-700",
             },
           ].map((step) => (
-            <div key={step.num} className="flex items-start gap-5 bg-white border border-gray-200 rounded-xl p-6">
-              <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-xs font-bold text-violet-700">{step.num}</span>
+            <div key={step.num} className={`flex items-start gap-5 bg-gradient-to-br ${step.tint} border rounded-xl p-6 shadow-sm`}>
+              <div className={`w-8 h-8 rounded-full ${step.badge} flex items-center justify-center shrink-0 mt-0.5`}>
+                <span className="text-xs font-bold">{step.num}</span>
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">{step.title}</p>
@@ -440,9 +466,9 @@ export default function RgpdView() {
         </div>
       </div>
 
-      {/* SECTION 5 — Trust Center links */}
+      {/* SECTION 5 — Trust Center links (aligné à gauche) */}
       <div className="mb-16">
-        <h2 className="text-lg font-semibold text-gray-900 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
           Vérifiez par vous-même
         </h2>
         <p className="text-sm text-gray-600 mb-6">
@@ -456,7 +482,7 @@ export default function RgpdView() {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-gray-300 hover:shadow-sm transition-all group"
+              className="flex items-center gap-3 bg-gradient-to-br from-white via-violet-50/30 to-pink-50/30 border border-violet-200/50 rounded-xl px-5 py-4 hover:border-violet-300/70 hover:shadow-sm hover:shadow-violet-500/10 transition-all group"
             >
               <span
                 className="w-2.5 h-2.5 rounded-full shrink-0"
@@ -472,8 +498,8 @@ export default function RgpdView() {
       </div>
 
       {/* CTA */}
-      <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100 rounded-2xl p-8 text-center">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      <div className="bg-gradient-to-br from-violet-100 via-pink-50 to-fuchsia-100 border border-violet-200/60 rounded-2xl p-8 text-center shadow-lg shadow-violet-500/5">
+        <h3 className="text-2xl sm:text-3xl font-display text-gray-900 mb-2 tracking-tight leading-tight">
           Vous avez encore des questions sur la sécurité ?
         </h3>
         <p className="text-sm text-gray-600 mb-6 max-w-xl mx-auto">

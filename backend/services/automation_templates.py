@@ -2,6 +2,7 @@
 Phase G — Pre-configured automation templates.
 """
 from __future__ import annotations
+from typing import Optional
 
 TEMPLATES: dict[str, dict] = {
     "doc_inbox": {
@@ -96,7 +97,7 @@ TEMPLATES: dict[str, dict] = {
 }
 
 
-def get_template(template_id: str) -> dict | None:
+def get_template(template_id: str) -> Optional[dict]:
     return TEMPLATES.get(template_id)
 
 

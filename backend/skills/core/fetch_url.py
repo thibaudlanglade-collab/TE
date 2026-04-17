@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 from skills.base import SkillResult
 
@@ -60,7 +60,7 @@ TOOL_SCHEMA = {
 }
 
 
-def _extract_title(html: str) -> str | None:
+def _extract_title(html: str) -> Optional[str]:
     """Extract <title> content from HTML."""
     match = re.search(r"<title[^>]*>([^<]+)</title>", html, re.IGNORECASE)
     return match.group(1).strip() if match else None
@@ -117,7 +117,7 @@ async def execute(input_data: dict, context: Any) -> SkillResult:
         content_type = resp.headers.get("content-type", "").lower()
         raw_text = resp.text
 
-        title: str | None = None
+        title: Optional[str] = None
 
         if "html" in content_type and extract_main:
             title = _extract_title(raw_text)

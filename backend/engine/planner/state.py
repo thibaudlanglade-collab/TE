@@ -6,15 +6,15 @@ raw binary data — only the describe() metadata preview.
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 
 class PlannerState:
     def __init__(
         self,
         user_request: str = "",
-        uploaded_file: bytes | None = None,
-        uploaded_file_meta: dict | None = None,
+        uploaded_file: Optional[bytes] = None,
+        uploaded_file_meta: Optional[dict] = None,
     ) -> None:
         self._store: dict[str, Any] = {}
 

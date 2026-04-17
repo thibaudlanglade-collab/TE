@@ -16,6 +16,7 @@ import { AgentsIaView } from "./components/AgentsIa";
 import HomeView from "./pages/HomeView";
 import RgpdView from "./pages/RgpdView";
 import FeaturesView from "./pages/FeaturesView";
+import ComprendreView from "./pages/ComprendreView";
 import AgentRapportDemo from "./components/AgentRapportDemo";
 import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
@@ -35,6 +36,7 @@ const PAGE_TITLES: Record<string, string> = {
   "agent-rapport": "Agent Rapport client",
   rgpd: "RGPD",
   features: "Fonctionnalités par secteur",
+  comprendre: "Comprendre Synthèse",
   classic: "Synthèse",
 };
 
@@ -42,7 +44,7 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre">("home");
 
   // Mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -157,6 +159,12 @@ export default function App() {
     setActiveMode("home");
   }
 
+  function handleComprendreClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("comprendre");
+  }
+
   const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
 
   const BOOKING_LINK = "#";
@@ -211,6 +219,8 @@ export default function App() {
         onFeaturesClick={() => { handleFeaturesClick(); setSidebarOpen(false); }}
         featuresModeActive={activeMode === "features"}
         onHomeClick={() => { handleHomeClick(); setSidebarOpen(false); }}
+        onComprendreClick={() => { handleHomeClick(); setSidebarOpen(false); }}
+        comprenderModeActive={activeMode === "home"}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
@@ -222,7 +232,9 @@ export default function App() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
-          {activeMode === "home" && <HomeView />}
+          {activeMode === "home" && <HomeView onComprendreClick={handleComprendreClick} onRgpdClick={handleRgpdClick} />}
+
+          {activeMode === "comprendre" && <ComprendreView />}
 
           {activeMode === "rgpd" && <RgpdView />}
 

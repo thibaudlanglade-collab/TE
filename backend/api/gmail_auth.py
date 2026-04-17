@@ -8,7 +8,7 @@ import json
 import logging
 import secrets
 import time
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import HTMLResponse
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 gmail_auth_router = APIRouter(prefix="/gmail")
 
-# In-memory state store: {state_token: {"expiry": float, "code_verifier": str|None}}
+# In-memory state store: {state_token: {"expiry": float, "code_verifier": Optional[str]}}
 _oauth_states: dict[str, dict] = {}
 _STATE_TTL_SECONDS = 600  # 10 minutes
 
@@ -39,7 +39,7 @@ def _generate_state() -> str:
     return token
 
 
-def _validate_and_pop_state(state: str) -> dict | None:
+def _validate_and_pop_state(state: str) -> Optional[dict]:
     """Remove and return the state entry if valid, else None."""
     entry = _oauth_states.pop(state, None)
     if entry is None:

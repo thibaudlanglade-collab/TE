@@ -8,7 +8,7 @@ import io
 import json
 import re
 import unicodedata
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
@@ -70,7 +70,7 @@ def _normalise_col(raw: str) -> str:
     return _strip_accents(raw.strip().lower()).replace(" ", "_").replace("-", "_")
 
 
-def _map_col(raw: str) -> str | None:
+def _map_col(raw: str) -> Optional[str]:
     return _COL_ALIASES.get(_normalise_col(raw))
 
 

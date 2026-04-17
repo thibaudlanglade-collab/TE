@@ -83,7 +83,7 @@ async def health():
 
 # ---------- Serve frontend static files in production ----------
 _frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
-if _frontend_dist.is_dir():
+if (_frontend_dist / "assets").is_dir():
     from fastapi.responses import FileResponse
 
     # Serve static assets (JS, CSS, images)

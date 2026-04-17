@@ -18,7 +18,7 @@ executed directly, bypassing parse_employee_list.
 from __future__ import annotations
 
 import json
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
@@ -76,7 +76,7 @@ async def _event_stream(
     tasks_meta: dict,
     employees_bytes: bytes,
     employees_meta: dict,
-    week_start: str | None,
+    week_start: Optional[str],
     context: PipelineContext,
 ):
     try:
@@ -118,7 +118,7 @@ async def _event_stream_db_employees(
     tasks_bytes: bytes,
     tasks_meta: dict,
     employees_list: list[dict],
-    week_start: str | None,
+    week_start: Optional[str],
     context: PipelineContext,
 ):
     """
@@ -192,9 +192,9 @@ async def _event_stream_db_employees(
 async def execute_team_planner(
     user_request: str = Form(default=""),
     tasks_file: UploadFile = File(...),
-    employees_file: UploadFile | None = File(default=None),
-    employee_ids: str | None = Form(default=None),
-    week_start: str | None = Form(default=None),
+    employees_file: Optional[UploadFile] = File(default=None),
+    employee_ids: Optional[str] = Form(default=None),
+    week_start: Optional[str] = Form(default=None),
 ):
     tasks_bytes = await tasks_file.read()
     tasks_meta = {
