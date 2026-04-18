@@ -1,4 +1,4 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,10 @@ interface Props {
   rgpdModeActive?: boolean;
   onFeaturesClick?: () => void;
   featuresModeActive?: boolean;
+  onQuiSommesNousClick?: () => void;
+  quiSommesNousModeActive?: boolean;
+  onTarificationClick?: () => void;
+  tarificationModeActive?: boolean;
   onHomeClick?: () => void;
   onComprendreClick?: () => void;
   comprenderModeActive?: boolean;
@@ -109,6 +113,10 @@ export function Sidebar({
   rgpdModeActive,
   onFeaturesClick,
   featuresModeActive,
+  onQuiSommesNousClick,
+  quiSommesNousModeActive,
+  onTarificationClick,
+  tarificationModeActive,
   onHomeClick,
   onComprendreClick,
   comprenderModeActive,
@@ -170,7 +178,7 @@ export function Sidebar({
         </div>
         <NavItem
           icon={MessageSquare}
-          label="Discuter avec Synthèse"
+          label="Assistant Synthèse"
           isActive={chatAssistantModeActive ?? false}
           onClick={onChatAssistantClick}
         />
@@ -188,7 +196,7 @@ export function Sidebar({
         />
         <NavItem
           icon={Mic}
-          label="Transcripteur de réunions"
+          label="Transcripteur"
           isActive={meetingTranscriberModeActive ?? false}
           onClick={onMeetingTranscriberClick}
         />
@@ -232,7 +240,7 @@ export function Sidebar({
         />
         <NavItem
           icon={BarChart3}
-          label="Agent Rapport client"
+          label="Rapport client"
           isActive={agentRapportModeActive ?? false}
           onClick={onAgentRapportClick}
           demo
@@ -252,9 +260,21 @@ export function Sidebar({
         />
         <NavItem
           icon={LayoutGrid}
-          label="Fonctionnalités par secteur"
+          label="Par secteur"
           isActive={featuresModeActive ?? false}
           onClick={onFeaturesClick}
+        />
+        <NavItem
+          icon={Building2}
+          label="Qui sommes-nous"
+          isActive={quiSommesNousModeActive ?? false}
+          onClick={onQuiSommesNousClick}
+        />
+        <NavItem
+          icon={Sparkles}
+          label="Tarification"
+          isActive={tarificationModeActive ?? false}
+          onClick={onTarificationClick}
         />
 
       </nav>

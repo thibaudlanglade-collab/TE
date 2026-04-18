@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, CalendarCheck } from "lucide-react";
+import { Sparkles, MessageSquare } from "lucide-react";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Topbar } from "./components/Topbar/Topbar";
 import WorkflowLauncher from "./components/WorkflowLauncher/WorkflowLauncher";
@@ -17,26 +17,34 @@ import HomeView from "./pages/HomeView";
 import RgpdView from "./pages/RgpdView";
 import FeaturesView from "./pages/FeaturesView";
 import ComprendreView from "./pages/ComprendreView";
+import ContactView from "./pages/ContactView";
+import QuiSommesNousView from "./pages/QuiSommesNousView";
+import TarificationView from "./pages/TarificationView";
 import AgentRapportDemo from "./components/AgentRapportDemo";
+import Footer from "./components/Footer";
 import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
+import { useNavigate, NAVIGATE_EVENT } from "./lib/navigate";
 import type { Feature } from "./types";
 import { getTodayBriefing } from "./api/emailsClient";
 
 const PAGE_TITLES: Record<string, string> = {
   home: "Synthèse",
-  "chat-assistant": "Discuter avec Synthèse",
+  "chat-assistant": "Assistant Synthèse",
   smart: "Smart Extract",
   "photo-to-document": "Photo → PDF/Excel",
-  "meeting-transcriber": "Transcripteur de réunions",
+  "meeting-transcriber": "Transcripteur",
   planner: "Planificateur",
   emails: "Emails",
   automations: "Automatisations",
   "agents-ia": "Mes agents IA",
-  "agent-rapport": "Agent Rapport client",
+  "agent-rapport": "Rapport client",
   rgpd: "RGPD",
-  features: "Fonctionnalités par secteur",
+  features: "Par secteur",
   comprendre: "Comprendre Synthèse",
+  contact: "Contact",
+  "qui-sommes-nous": "Qui sommes-nous",
+  tarification: "Tarification",
   classic: "Synthèse",
 };
 
@@ -44,7 +52,8 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification">("home");
+  const navigate = useNavigate();
 
   // Mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -61,6 +70,19 @@ export default function App() {
     document.documentElement.classList.remove("dark");
     localStorage.setItem("synthese-dark", "false");
   }, []);
+
+  // Listen for navigate("/path") calls from anywhere in the tree
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const mode = (e as CustomEvent<string>).detail;
+      reset();
+      setSelected(null);
+      setActiveMode(mode as typeof activeMode);
+      setSidebarOpen(false);
+    };
+    window.addEventListener(NAVIGATE_EVENT, handler);
+    return () => window.removeEventListener(NAVIGATE_EVENT, handler);
+  }, [reset]);
 
   // Briefing badge: poll every 5 minutes at the App level
   const [briefingBadgeCount, setBriefingBadgeCount] = useState(0);
@@ -166,33 +188,48 @@ export default function App() {
     setActiveMode("comprendre");
   }
 
-  const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
+  function handleQuiSommesNousClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("qui-sommes-nous");
+  }
 
-  const BOOKING_LINK = "#";
+  function handleTarificationClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("tarification");
+  }
+
+  const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      {/* Demo banner */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-blue-50 dark:bg-blue-900/30 border-b border-blue-100 dark:border-blue-800 px-3 sm:px-6 py-2 sm:py-2.5 text-center">
-        <span className="text-[10px] sm:text-xs text-blue-700 dark:text-blue-300">
+      {/* Welcome banner */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-violet-500 to-blue-500 px-3 sm:px-6 py-2 sm:py-2.5 text-center shadow-sm">
+        <span className="text-[10px] sm:text-xs text-white">
           <Sparkles className="inline h-3 w-3 mr-1 sm:mr-1.5" />
-          <span className="hidden sm:inline">Mode démo — vous explorez une version exemple de Synthèse.</span>
-          <span className="sm:hidden">Mode démo</span>
-          <a href={BOOKING_LINK} className="underline font-medium ml-1 hover:text-blue-900 dark:hover:text-blue-100 transition-colors">
-            Parlons de votre activité
-          </a>
+          <span className="hidden sm:inline">
+            Bienvenue sur Synthèse — explorez librement nos fonctionnalités.
+          </span>
+          <span className="sm:hidden">Bienvenue sur Synthèse</span>
+          <button
+            onClick={() => navigate("/contact")}
+            className="underline font-medium ml-1 hover:text-white/90 transition-colors"
+          >
+            Une question&nbsp;? Contactez-nous
+          </button>
         </span>
       </div>
 
       {/* Floating CTA */}
-      <a
-        href={BOOKING_LINK}
+      <button
+        onClick={() => navigate("/contact")}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-xs sm:text-sm font-medium rounded-full hover:from-violet-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl"
       >
-        <CalendarCheck className="h-4 w-4" />
-        <span className="hidden sm:inline">Réserver une démo</span>
-        <span className="sm:hidden">Démo</span>
-      </a>
+        <MessageSquare className="h-4 w-4" />
+        <span className="hidden sm:inline">Prendre contact</span>
+        <span className="sm:hidden">Contact</span>
+      </button>
 
       {/* Sidebar */}
       <Sidebar
@@ -219,6 +256,10 @@ export default function App() {
         rgpdModeActive={activeMode === "rgpd"}
         onFeaturesClick={() => { handleFeaturesClick(); setSidebarOpen(false); }}
         featuresModeActive={activeMode === "features"}
+        onQuiSommesNousClick={() => { handleQuiSommesNousClick(); setSidebarOpen(false); }}
+        quiSommesNousModeActive={activeMode === "qui-sommes-nous"}
+        onTarificationClick={() => { handleTarificationClick(); setSidebarOpen(false); }}
+        tarificationModeActive={activeMode === "tarification"}
         onHomeClick={() => { handleHomeClick(); setSidebarOpen(false); }}
         onComprendreClick={() => { handleHomeClick(); setSidebarOpen(false); }}
         comprenderModeActive={activeMode === "home"}
@@ -240,6 +281,12 @@ export default function App() {
           {activeMode === "rgpd" && <RgpdView />}
 
           {activeMode === "features" && <FeaturesView />}
+
+          {activeMode === "contact" && <ContactView />}
+
+          {activeMode === "qui-sommes-nous" && <QuiSommesNousView />}
+
+          {activeMode === "tarification" && <TarificationView />}
 
           {activeMode === "chat-assistant" && (
             <ChatAssistantView onExit={() => setActiveMode("classic")} />
@@ -344,6 +391,8 @@ export default function App() {
               )}
             </>
           )}
+
+          <Footer />
         </main>
       </div>
     </div>

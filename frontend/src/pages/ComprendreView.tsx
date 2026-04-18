@@ -7,8 +7,10 @@ import {
   Sheet
 } from "lucide-react"
 import RadialOrbitalTimeline, { type OrbitalNode } from "@/components/ui/radial-orbital-timeline"
+import { useNavigate } from "../lib/navigate"
 
 export default function ComprendreView() {
+  const navigate = useNavigate();
   return (
     <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4 sm:px-6 pb-24">
 
@@ -620,7 +622,7 @@ export default function ComprendreView() {
           prenons un moment ensemble pour parler de votre activité.
         </p>
         <button
-          onClick={() => alert("Modal de contact à connecter (démo)")}
+          onClick={() => navigate("/contact")}
           className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm touch-manipulation"
         >
           <Sparkles className="h-4 w-4" />

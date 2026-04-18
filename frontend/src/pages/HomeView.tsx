@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "../lib/navigate";
 import {
   Search,
   Wallet, Wrench, HandHeart,
@@ -6,6 +7,7 @@ import {
   Shield,
   Smartphone, CloudSun, FileSpreadsheet, Camera,
   TrendingUp, RefreshCw, Leaf,
+  Building2, Sparkles,
 } from "lucide-react";
 import { StarButton } from "@/components/ui/star-button";
 import { GlobeInteractive } from "@/components/ui/cobe-globe-interactive";
@@ -349,6 +351,7 @@ function IntegrationModal({
   app: IntegrationApp;
   onClose: () => void;
 }) {
+  const navigate = useNavigate();
   // Close on Escape
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -460,7 +463,7 @@ function IntegrationModal({
             Fermer
           </button>
           <button
-            onClick={() => alert("Modal de réservation à connecter (démo)")}
+            onClick={() => { onClose(); navigate("/contact"); }}
             className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg"
           >
             <CalendarCheck className="w-4 h-4" />
@@ -478,6 +481,7 @@ function IntegrationModal({
 
 export default function HomeView({ onComprendreClick, onRgpdClick }: { onComprendreClick?: () => void; onRgpdClick?: () => void }) {
   const [selectedApp, setSelectedApp] = useState<IntegrationApp | null>(null);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -620,6 +624,186 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
               <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
             </div>
 
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION CHIFFRES */}
+      <div className="mb-20">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+            Ce que Synthèse fait gagner, en chiffres.
+          </h2>
+          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+            En moyenne, voici ce que nos configurations apportent aux
+            entreprises qui les utilisent.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center hover:shadow-md hover:border-violet-200 transition-all">
+            <p className="text-4xl font-bold text-violet-600 mb-2">12h</p>
+            <p className="text-sm text-gray-600">gagnées par semaine sur les tâches administratives</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center hover:shadow-md hover:border-violet-200 transition-all">
+            <p className="text-4xl font-bold text-violet-600 mb-2">5 min</p>
+            <p className="text-sm text-gray-600">au lieu de 90 pour préparer un devis</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center hover:shadow-md hover:border-violet-200 transition-all">
+            <p className="text-4xl font-bold text-violet-600 mb-2">15 min</p>
+            <p className="text-sm text-gray-600">de briefing au lieu de 3h de tri d'emails</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center hover:shadow-md hover:border-violet-200 transition-all">
+            <p className="text-4xl font-bold text-violet-600 mb-2">2 min</p>
+            <p className="text-sm text-gray-600">pour un rapport client au lieu d'1 heure</p>
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION PREUVE SOCIALE */}
+      <div className="mb-20">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+            Ils utilisent Synthèse au quotidien
+          </h2>
+          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+            Trois entreprises, trois métiers différents, un même résultat :
+            du temps récupéré et une activité mieux organisée.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          {/* CAS 1 — Durand BTP */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-violet-200 transition-all flex flex-col">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                <span className="text-lg">🔨</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">Durand BTP</h3>
+                <p className="text-xs text-gray-500">14 employés · Avignon</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed mb-4 flex-1">
+              Jean-Michel passait 8h par semaine sur ses devis et 5h à
+              replanifier ses équipes chaque lundi. Les rapports de chantier
+              traînaient 2 semaines.
+            </p>
+
+            <div className="space-y-2 mb-4 pt-3 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Devis</span>
+                <span className="text-xs font-semibold text-violet-600">5 min au lieu de 90</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Planning</span>
+                <span className="text-xs font-semibold text-violet-600">Automatique chaque lundi</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Temps récupéré</span>
+                <span className="text-xs font-bold text-green-600">13h / semaine</span>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-3 mt-auto">
+              <p className="text-xs text-gray-700 italic leading-relaxed">
+                « On a récupéré presque 2 jours par semaine. Je rentre chez
+                moi à 18h maintenant. »
+              </p>
+              <p className="text-[10px] text-gray-500 mt-1 font-medium">
+                — Jean-Michel D., gérant
+              </p>
+            </div>
+          </div>
+
+          {/* CAS 2 — Précision Métal */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-violet-200 transition-all flex flex-col">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                <span className="text-lg">🏭</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">Précision Métal</h3>
+                <p className="text-xs text-gray-500">25 employés · Vaucluse</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed mb-4 flex-1">
+              60 emails par jour à trier manuellement, des factures
+              fournisseurs à ressaisir dans Excel, un suivi qualité
+              sur papier.
+            </p>
+
+            <div className="space-y-2 mb-4 pt-3 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Emails</span>
+                <span className="text-xs font-semibold text-violet-600">Triés automatiquement</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Factures</span>
+                <span className="text-xs font-semibold text-violet-600">Extraites en 3 secondes</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Temps récupéré</span>
+                <span className="text-xs font-bold text-green-600">10h / semaine</span>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-3 mt-auto">
+              <p className="text-xs text-gray-700 italic leading-relaxed">
+                « Avant, je cherchais l'info dans 4 outils différents.
+                Maintenant je pose la question et j'ai la réponse. »
+              </p>
+              <p className="text-[10px] text-gray-500 mt-1 font-medium">
+                — Marc R., directeur de production
+              </p>
+            </div>
+          </div>
+
+          {/* CAS 3 — Le Comptoir d'Émile */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-violet-200 transition-all flex flex-col">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+                <span className="text-lg">🍽️</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">Le Comptoir d'Émile</h3>
+                <p className="text-xs text-gray-500">8 employés · Nîmes</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed mb-4 flex-1">
+              Commandes fournisseurs par SMS et WhatsApp, un planning qui
+              changeait 3 fois par semaine, des factures en retard qui
+              s'empilaient.
+            </p>
+
+            <div className="space-y-2 mb-4 pt-3 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Commandes</span>
+                <span className="text-xs font-semibold text-violet-600">WhatsApp → bons auto</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Planning</span>
+                <span className="text-xs font-semibold text-violet-600">Généré en 1 minute</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">Temps récupéré</span>
+                <span className="text-xs font-bold text-green-600">6h / semaine</span>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-3 mt-auto">
+              <p className="text-xs text-gray-700 italic leading-relaxed">
+                « Je gère un restaurant, pas de la paperasse. Synthèse a
+                compris ça. »
+              </p>
+              <p className="text-[10px] text-gray-500 mt-1 font-medium">
+                — Émile T., restaurateur
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -877,6 +1061,63 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
         </div>
       </div>
 
+      {/* SYNTHÈSE C'EST QUI + TARIFICATION — DUO */}
+      <div className="mb-20">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+
+          {/* Qui sommes-nous */}
+          <div
+            onClick={() => navigate("/qui-sommes-nous")}
+            className="group relative overflow-hidden bg-gradient-to-br from-violet-50 via-white to-blue-50 border border-violet-100 rounded-2xl p-7 cursor-pointer hover:shadow-xl hover:shadow-violet-500/10 hover:border-violet-200 hover:-translate-y-0.5 transition-all duration-300"
+          >
+            <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-violet-200/30 blur-3xl group-hover:bg-violet-300/40 transition-colors" aria-hidden />
+
+            <div className="relative">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center mb-5 shadow-md shadow-violet-500/20">
+                <Building2 className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">
+                Synthèse, c'est qui ?
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed mb-5">
+                Une entreprise basée à Avignon qui se calque à votre activité.
+                On écoute, on comprend votre métier, et on construit ensemble.
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-600 group-hover:gap-2.5 transition-all">
+                En savoir plus
+                <span aria-hidden>→</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Tarification */}
+          <div
+            onClick={() => navigate("/tarification")}
+            className="group relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-violet-50 border border-blue-100 rounded-2xl p-7 cursor-pointer hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300"
+          >
+            <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-blue-200/30 blur-3xl group-hover:bg-blue-300/40 transition-colors" aria-hidden />
+
+            <div className="relative">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-5 shadow-md shadow-blue-500/20">
+                <Sparkles className="h-6 w-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">
+                Un budget adapté à votre réalité
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed mb-5">
+                Sur-mesure aussi pour le budget. Vous payez uniquement ce
+                que vous utilisez, adapté à votre taille et vos besoins.
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 group-hover:gap-2.5 transition-all">
+                Voir les formules
+                <span aria-hidden>→</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       {/* SECTION INTÉGRATIONS */}
       <div className="mb-20">
         {/* Animated carousel hero */}
@@ -914,7 +1155,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
           <StarButton
             lightColor="#7C3AED"
             className="rounded-xl h-12 px-6 touch-manipulation"
-            onClick={() => alert("Modal de réservation à connecter (démo)")}
+            onClick={() => navigate("/contact")}
           >
             ✨ Réserver une démo
           </StarButton>

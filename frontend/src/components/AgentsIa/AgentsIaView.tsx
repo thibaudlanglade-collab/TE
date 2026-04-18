@@ -5,6 +5,7 @@ import {
 } from "lucide-react"
 import { AVAILABLE_AGENTS, COMPARISON_DATA, type Agent } from "@/data/agentsIaDemoData"
 import AgentRapportDemo from "@/components/AgentRapportDemo"
+import { useNavigate } from "../../lib/navigate"
 
 const ICON_MAP: Record<string, any> = {
   Target, FileText, BarChart3, Headphones, Bot, Zap
@@ -188,6 +189,7 @@ function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
 }
 
 function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => void; onDemo: () => void }) {
+  const navigate = useNavigate()
   if (!agent.modal) return null
 
   return (
@@ -277,7 +279,7 @@ function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => v
             </button>
           )}
           <button
-            onClick={() => alert("Demande envoy\u00e9e \u2014 un membre de l'\u00e9quipe vous contactera (d\u00e9mo)")}
+            onClick={() => { onClose(); navigate("/contact") }}
             className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
           >
             <Sparkles className="h-4 w-4" />
