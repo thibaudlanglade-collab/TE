@@ -17,14 +17,14 @@ export default function QuiSommesNousView() {
           <Building2 className="h-7 w-7 text-violet-500" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 tracking-tight">
-          Qui sommes-nous
+          À l'origine de Synthèse
         </h1>
         <p className="text-lg text-gray-600 leading-relaxed">
-          Tout est parti d'un constat, à Avignon : les pros passent trop
-          d'heures à dompter des logiciels pensés pour quelqu'un d'autre.
-          Alors on a pris la feuille blanche. Depuis, on construit
-          chaque Synthèse comme un costume sur-mesure — avec vous, pour
-          votre métier, à votre rythme. Pas un outil de plus. Le vôtre.
+          Une idée née à Avignon, d'un constat simple : les pros passent
+          trop d'heures à dompter des logiciels pensés pour quelqu'un
+          d'autre. Alors on a pris la feuille blanche. Depuis, chaque
+          Synthèse se construit comme un costume sur-mesure — avec vous,
+          pour votre métier, à votre rythme. Pas un outil de plus. Le vôtre.
         </p>
       </div>
 

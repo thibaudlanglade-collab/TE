@@ -897,7 +897,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
                 <Building2 className="h-6 w-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">
-                Synthèse, c'est qui ?
+                À l'origine de Synthèse
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed mb-5">
                 Une entreprise basée à Avignon qui se calque à votre activité.
