@@ -33,42 +33,44 @@ export default function ContactView() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!form.nom.trim() || !form.email.trim()) return;
     setSubmitting(true);
+    setError(null);
 
-    const subject = `Nouveau contact — ${form.nom}${form.entreprise ? ` (${form.entreprise})` : ""}`;
-    const bodyLines = [
-      `Nom : ${form.nom}`,
-      `Entreprise : ${form.entreprise || "—"}`,
-      `Email : ${form.email}`,
-      `Téléphone : ${form.telephone || "—"}`,
-      "",
-      "Message :",
-      form.message || "—",
-    ];
-    const mailto =
-      "mailto:contact@synthèse.fr" +
-      `?subject=${encodeURIComponent(subject)}` +
-      `&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-    window.location.href = mailto;
-
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        throw new Error(detail || `HTTP ${res.status}`);
+      }
       setSubmitted(true);
-    }, 600);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Impossible d'envoyer le message. Réessayez dans un instant."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function resetForm() {
     setForm(INITIAL);
     setSubmitted(false);
+    setError(null);
   }
 
   return (
@@ -159,6 +161,12 @@ export default function ContactView() {
                     className="px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 transition-all resize-none"
                   />
                 </div>
+
+                {error && (
+                  <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+                    {error}
+                  </div>
+                )}
 
                 <button
                   type="submit"

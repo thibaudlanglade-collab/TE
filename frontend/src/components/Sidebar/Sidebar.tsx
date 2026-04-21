@@ -1,4 +1,4 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles, Rocket } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,8 @@ interface Props {
   onHomeClick?: () => void;
   onComprendreClick?: () => void;
   comprenderModeActive?: boolean;
+  onDemoClick?: () => void;
+  demoModeActive?: boolean;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -120,6 +122,8 @@ export function Sidebar({
   onHomeClick,
   onComprendreClick,
   comprenderModeActive,
+  onDemoClick,
+  demoModeActive,
   mobileOpen,
   onMobileClose,
 }: Props) {
@@ -167,6 +171,22 @@ export function Sidebar({
           >
             <Lightbulb className="h-5 w-5 shrink-0 text-violet-500" />
             <span className="flex-1 truncate">Comprendre Synthèse</span>
+          </button>
+        </div>
+
+        {/* ── Obtenir une démo — primary CTA ──────────────── */}
+        <div className="pb-1">
+          <button
+            onClick={onDemoClick}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold w-full text-left transition-all duration-150 shadow-sm",
+              demoModeActive
+                ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white"
+                : "bg-gradient-to-r from-violet-500 to-blue-500 text-white hover:from-violet-600 hover:to-blue-600 hover:shadow-md"
+            )}
+          >
+            <Rocket className="h-5 w-5 shrink-0 text-white" />
+            <span className="flex-1 truncate">Obtenir un aperçu</span>
           </button>
         </div>
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, MessageSquare } from "lucide-react";
+import { Sparkles, MessageSquare, Info, X } from "lucide-react";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Topbar } from "./components/Topbar/Topbar";
 import WorkflowLauncher from "./components/WorkflowLauncher/WorkflowLauncher";
@@ -20,6 +20,7 @@ import ComprendreView from "./pages/ComprendreView";
 import ContactView from "./pages/ContactView";
 import QuiSommesNousView from "./pages/QuiSommesNousView";
 import TarificationView from "./pages/TarificationView";
+import DemoView from "./pages/DemoView";
 import AgentRapportDemo from "./components/AgentRapportDemo";
 import Footer from "./components/Footer";
 import { useFeatures } from "./hooks/useFeatures";
@@ -45,6 +46,7 @@ const PAGE_TITLES: Record<string, string> = {
   contact: "Contact",
   "qui-sommes-nous": "Qui sommes-nous",
   tarification: "Tarification",
+  demo: "Obtenez votre aperçu",
   classic: "Synthèse",
 };
 
@@ -52,11 +54,29 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo">("home");
   const navigate = useNavigate();
 
   // Mobile sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // First-feature-click hint: explain examples are customizable
+  const [showCustomizationHint, setShowCustomizationHint] = useState(false);
+  function maybeShowCustomizationHint() {
+    try {
+      if (sessionStorage.getItem("synthese-customization-hint-shown") === "1") return;
+      sessionStorage.setItem("synthese-customization-hint-shown", "1");
+    } catch {
+      // sessionStorage unavailable — still show once per mount
+    }
+    setShowCustomizationHint(true);
+  }
+
+  useEffect(() => {
+    if (!showCustomizationHint) return;
+    const timer = setTimeout(() => setShowCustomizationHint(false), 9000);
+    return () => clearTimeout(timer);
+  }, [showCustomizationHint]);
 
   // Scroll container ref — reset scroll on page change
   const mainRef = useRef<HTMLElement | null>(null);
@@ -120,48 +140,56 @@ export default function App() {
     reset();
     setSelected(null);
     setActiveMode("chat-assistant");
+    maybeShowCustomizationHint();
   }
 
   function handleSmartExtractClick() {
     reset();
     setSelected(null);
     setActiveMode("smart");
+    maybeShowCustomizationHint();
   }
 
   function handleMeetingTranscriberClick() {
     reset();
     setSelected(null);
     setActiveMode("meeting-transcriber");
+    maybeShowCustomizationHint();
   }
 
   function handlePlannerClick() {
     reset();
     setSelected(null);
     setActiveMode("planner");
+    maybeShowCustomizationHint();
   }
 
   function handleEmailsClick() {
     reset();
     setSelected(null);
     setActiveMode("emails");
+    maybeShowCustomizationHint();
   }
 
   function handleAutomationsClick() {
     reset();
     setSelected(null);
     setActiveMode("automations");
+    maybeShowCustomizationHint();
   }
 
   function handleAgentsIaClick() {
     reset();
     setSelected(null);
     setActiveMode("agents-ia");
+    maybeShowCustomizationHint();
   }
 
   function handleAgentRapportClick() {
     reset();
     setSelected(null);
     setActiveMode("agent-rapport");
+    maybeShowCustomizationHint();
   }
 
   function handleRgpdClick() {
@@ -200,26 +228,34 @@ export default function App() {
     setActiveMode("tarification");
   }
 
+  function handleDemoClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("demo");
+  }
+
   const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      {/* Welcome banner */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-violet-500 to-blue-500 px-3 sm:px-6 py-2 sm:py-2.5 text-center shadow-sm">
-        <span className="text-[10px] sm:text-xs text-white">
-          <Sparkles className="inline h-3 w-3 mr-1 sm:mr-1.5" />
-          <span className="hidden sm:inline">
-            Bienvenue sur Synthèse — explorez librement nos fonctionnalités.
+      {/* Welcome banner — hidden on /demo (action-oriented page) */}
+      {activeMode !== "demo" && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-violet-500 to-blue-500 px-3 sm:px-6 py-2 sm:py-2.5 text-center shadow-sm">
+          <span className="text-[10px] sm:text-xs text-white">
+            <Sparkles className="inline h-3 w-3 mr-1 sm:mr-1.5" />
+            <span className="hidden sm:inline">
+              Bienvenue sur Synthèse — explorez librement nos fonctionnalités.
+            </span>
+            <span className="sm:hidden">Bienvenue sur Synthèse</span>
+            <button
+              onClick={() => navigate("/contact")}
+              className="underline font-medium ml-1 hover:text-white/90 transition-colors"
+            >
+              Une question&nbsp;? Contactez-nous
+            </button>
           </span>
-          <span className="sm:hidden">Bienvenue sur Synthèse</span>
-          <button
-            onClick={() => navigate("/contact")}
-            className="underline font-medium ml-1 hover:text-white/90 transition-colors"
-          >
-            Une question&nbsp;? Contactez-nous
-          </button>
-        </span>
-      </div>
+        </div>
+      )}
 
       {/* Floating CTA */}
       <button
@@ -231,13 +267,43 @@ export default function App() {
         <span className="sm:hidden">Contact</span>
       </button>
 
+      {/* First-visit customization hint */}
+      {showCustomizationHint && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed top-[52px] sm:top-[56px] left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-1.5rem)] sm:w-auto sm:max-w-md"
+        >
+          <div className="flex items-start gap-3 rounded-xl border border-violet-200 bg-white px-4 py-3 shadow-lg animate-step-enter">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-100 to-blue-100">
+              <Info className="h-4 w-4 text-violet-600" />
+            </div>
+            <div className="flex-1 pt-0.5">
+              <p className="text-sm font-semibold text-gray-900">
+                Les données affichées sont des exemples
+              </p>
+              <p className="mt-0.5 text-xs leading-relaxed text-gray-600">
+                Tout est entièrement personnalisable selon vos besoins, vos données et vos workflows.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowCustomizationHint(false)}
+              aria-label="Fermer"
+              className="shrink-0 rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Sidebar */}
       <Sidebar
         onChatAssistantClick={() => { handleChatAssistantClick(); setSidebarOpen(false); }}
         chatAssistantModeActive={activeMode === "chat-assistant"}
         onSmartExtractClick={() => { handleSmartExtractClick(); setSidebarOpen(false); }}
         smartModeActive={activeMode === "smart"}
-        onPhotoToDocumentClick={() => { reset(); setSelected(null); setActiveMode("photo-to-document"); setSidebarOpen(false); }}
+        onPhotoToDocumentClick={() => { reset(); setSelected(null); setActiveMode("photo-to-document"); setSidebarOpen(false); maybeShowCustomizationHint(); }}
         photoToDocumentModeActive={activeMode === "photo-to-document"}
         onMeetingTranscriberClick={() => { handleMeetingTranscriberClick(); setSidebarOpen(false); }}
         meetingTranscriberModeActive={activeMode === "meeting-transcriber"}
@@ -263,12 +329,14 @@ export default function App() {
         onHomeClick={() => { handleHomeClick(); setSidebarOpen(false); }}
         onComprendreClick={() => { handleHomeClick(); setSidebarOpen(false); }}
         comprenderModeActive={activeMode === "home"}
+        onDemoClick={() => { handleDemoClick(); setSidebarOpen(false); }}
+        demoModeActive={activeMode === "demo"}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
 
       {/* Main area offset by sidebar + demo banner */}
-      <div className="lg:ml-60 flex flex-col h-screen pt-[41px]">
+      <div className={`lg:ml-60 flex flex-col h-screen ${activeMode !== "demo" ? "pt-[41px]" : ""}`}>
         {/* Topbar */}
         <Topbar pageTitle={pageTitle} onMenuClick={() => setSidebarOpen(true)} />
 
@@ -287,6 +355,8 @@ export default function App() {
           {activeMode === "qui-sommes-nous" && <QuiSommesNousView />}
 
           {activeMode === "tarification" && <TarificationView />}
+
+          {activeMode === "demo" && <DemoView />}
 
           {activeMode === "chat-assistant" && (
             <ChatAssistantView onExit={() => setActiveMode("classic")} />

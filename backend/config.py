@@ -18,3 +18,12 @@ ALLOWED_ORIGINS: list[str] = [
     "http://localhost:3000",
     "http://127.0.0.1:5173",
 ] + [o.strip() for o in _extra_origins.split(",") if o.strip()]
+
+# ---------- Contact form SMTP ----------
+SMTP_HOST: str = os.environ.get("SMTP_HOST", "smtp.ionos.fr")
+SMTP_PORT: int = int(os.environ.get("SMTP_PORT", "465"))
+SMTP_USER: str = os.environ.get("SMTP_USER", "")
+SMTP_PASSWORD: str = os.environ.get("SMTP_PASSWORD", "")
+CONTACT_TO_EMAIL: str = os.environ.get(
+    "CONTACT_TO_EMAIL", "langlade.thibaud@xn--synthse-hya.fr"
+)

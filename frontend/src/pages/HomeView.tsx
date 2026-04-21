@@ -975,9 +975,9 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
           <StarButton
             lightColor="#7C3AED"
             className="rounded-xl h-12 px-6 touch-manipulation"
-            onClick={() => navigate("/contact")}
+            onClick={() => navigate("/demo")}
           >
-            ✨ Réserver une démo
+            ✨ Obtenir un aperçu
           </StarButton>
 
           <button

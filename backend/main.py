@@ -17,6 +17,7 @@ from api.gmail_auth import gmail_auth_router
 from api.emails import emails_router
 from api.email_topics import email_topics_router
 from api.automations import automations_router
+from api.contact import router as contact_router
 from services.gmail_sync import start_scheduler, stop_scheduler
 from db.database import async_session_maker, init_db
 from db.seed_topics import seed_default_topics
@@ -74,6 +75,7 @@ app.include_router(gmail_auth_router, prefix="/api")
 app.include_router(emails_router, prefix="/api")
 app.include_router(email_topics_router, prefix="/api")
 app.include_router(automations_router, prefix="/api")
+app.include_router(contact_router, prefix="/api")
 
 
 @app.get("/api/health")
