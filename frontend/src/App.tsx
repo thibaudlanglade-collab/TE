@@ -74,7 +74,7 @@ export default function App() {
 
   useEffect(() => {
     if (!showCustomizationHint) return;
-    const timer = setTimeout(() => setShowCustomizationHint(false), 5000);
+    const timer = setTimeout(() => setShowCustomizationHint(false), 9000);
     return () => clearTimeout(timer);
   }, [showCustomizationHint]);
 
@@ -267,29 +267,29 @@ export default function App() {
         <span className="sm:hidden">Contact</span>
       </button>
 
-      {/* First-visit customization hint — discrete toast top-right */}
+      {/* First-visit customization hint — amber toast top-right */}
       {showCustomizationHint && (
         <div
           role="status"
           aria-live="polite"
-          className="fixed top-[52px] sm:top-[60px] right-3 sm:right-4 z-[60] w-[calc(100%-1.5rem)] sm:w-auto sm:max-w-xs animate-toast-in"
+          className="fixed top-[52px] sm:top-[60px] right-3 sm:right-4 z-[60] w-[calc(100%-1.5rem)] sm:w-auto sm:max-w-sm animate-toast-in"
         >
-          <div className="flex items-start gap-3 rounded-xl border-l-4 border-l-violet-500 border-y border-r border-violet-100 bg-white px-3.5 py-3 shadow-lg">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-100 to-blue-100">
-              <Info className="h-4 w-4 text-violet-600" />
+          <div className="flex items-start gap-3 rounded-2xl border border-amber-300/60 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 px-4 py-3.5 shadow-lg shadow-amber-500/10">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-50">
+              <Info className="h-5 w-5 text-amber-600" />
             </div>
             <div className="flex-1 pt-0.5 min-w-0">
               <p className="text-sm font-semibold text-gray-900">
-                Données d'exemple
+                Fonctionnalités d'exemple
               </p>
-              <p className="mt-0.5 text-xs leading-relaxed text-gray-600">
+              <p className="mt-0.5 text-xs leading-relaxed text-gray-700">
                 Tout est personnalisable selon vos besoins et vos workflows.
               </p>
             </div>
             <button
               onClick={() => setShowCustomizationHint(false)}
               aria-label="Fermer"
-              className="shrink-0 rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+              className="shrink-0 rounded-md p-1 text-amber-700/60 hover:bg-amber-200/40 hover:text-amber-800 transition-colors"
             >
               <X className="h-3.5 w-3.5" />
             </button>
