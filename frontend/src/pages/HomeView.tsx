@@ -19,6 +19,7 @@ import {
 } from "@/components/IntegrationLogos";
 import IntegrationHero from "@/components/ui/integration-hero";
 import ComprendreView from "@/pages/ComprendreView";
+import BoostedFeaturesSection from "@/components/BoostedFeaturesSection";
 import { GradientCard } from "@/components/ui/gradient-card";
 import { BentoGridShowcase } from "@/components/ui/bento-product-features";
 import { Switch } from "@/components/ui/switch";
@@ -702,6 +703,9 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
 
       {/* SECTION — COMPRENDRE SYNTHÈSE (page complète intégrée) */}
       <ComprendreView />
+
+      {/* SECTION — OUTILS DE BASE DOPÉS À L'IA */}
+      <BoostedFeaturesSection />
 
       {/* SECTION — POURQUOI ÇA N'EXISTAIT PAS AVANT */}
       <div className="mb-16 sm:mb-20">
