@@ -1,4 +1,4 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles, Rocket, Sunrise, Users } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles, Rocket, Users } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
@@ -19,9 +19,6 @@ interface Props {
   emailsBadgeCount?: number;
   onAutomationsClick?: () => void;
   automationsModeActive?: boolean;
-  onBriefingClick?: () => void;
-  briefingModeActive?: boolean;
-  briefingBadgeCount?: number;
   onMonEquipeClick?: () => void;
   monEquipeModeActive?: boolean;
   onAgentsIaClick?: () => void;
@@ -41,6 +38,7 @@ interface Props {
   comprenderModeActive?: boolean;
   onDemoClick?: () => void;
   demoModeActive?: boolean;
+  demoLabel?: string;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -112,9 +110,6 @@ export function Sidebar({
   emailsBadgeCount = 0,
   onAutomationsClick,
   automationsModeActive,
-  onBriefingClick,
-  briefingModeActive,
-  briefingBadgeCount = 0,
   onMonEquipeClick,
   monEquipeModeActive,
   onAgentsIaClick,
@@ -134,6 +129,7 @@ export function Sidebar({
   comprenderModeActive,
   onDemoClick,
   demoModeActive,
+  demoLabel = "Obtenir un aperçu",
   mobileOpen,
   onMobileClose,
 }: Props) {
@@ -196,7 +192,7 @@ export function Sidebar({
             )}
           >
             <Rocket className="h-5 w-5 shrink-0 text-white" />
-            <span className="flex-1 truncate">Obtenir un aperçu</span>
+            <span className="flex-1 truncate">{demoLabel}</span>
           </button>
         </div>
 
@@ -249,13 +245,6 @@ export function Sidebar({
             Outils
           </span>
         </div>
-        <NavItem
-          icon={Sunrise}
-          label="Briefing du jour"
-          isActive={briefingModeActive ?? false}
-          onClick={onBriefingClick}
-          badge={briefingBadgeCount}
-        />
         <NavItem
           icon={Users}
           label="Mon équipe"

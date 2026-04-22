@@ -149,6 +149,15 @@ export default function App() {
   useEffect(() => {
     const handler = (e: Event) => {
       const mode = (e as CustomEvent<string>).detail;
+      // If a returning visitor with an active trial clicks any "demo" CTA,
+      // skip the presentation page and drop them straight into their workspace.
+      if (mode === "demo") {
+        const trial = getTrial();
+        if (trial?.resumeUrl) {
+          window.location.href = trial.resumeUrl;
+          return;
+        }
+      }
       reset();
       setSelected(null);
       setActiveMode(mode as typeof activeMode);
@@ -249,13 +258,6 @@ export default function App() {
     maybeShowCustomizationHint();
   }
 
-  function handleBriefingClick() {
-    reset();
-    setSelected(null);
-    setActiveMode("briefing");
-    maybeShowCustomizationHint();
-  }
-
   function handleMonEquipeClick() {
     reset();
     setSelected(null);
@@ -314,12 +316,19 @@ export default function App() {
   }
 
   function handleDemoClick() {
+    const trial = getTrial();
+    if (trial?.resumeUrl) {
+      window.location.href = trial.resumeUrl;
+      return;
+    }
     reset();
     setSelected(null);
     setActiveMode("demo");
   }
 
   const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
+  const trial = getTrial();
+  const hasResumableTrial = !!trial?.resumeUrl;
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
@@ -328,16 +337,33 @@ export default function App() {
         <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-violet-500 to-blue-500 px-3 sm:px-6 py-2 sm:py-2.5 text-center shadow-sm">
           <span className="text-[10px] sm:text-xs text-white">
             <Sparkles className="inline h-3 w-3 mr-1 sm:mr-1.5" />
-            <span className="hidden sm:inline">
-              Bienvenue sur Synthèse — testez gratuitement pendant 14 jours.
-            </span>
-            <span className="sm:hidden">Bienvenue sur Synthèse</span>
-            <button
-              onClick={() => navigate("/demo")}
-              className="underline font-semibold ml-1 hover:text-white/90 transition-colors"
-            >
-              Obtenir ma démo
-            </button>
+            {hasResumableTrial ? (
+              <>
+                <span className="hidden sm:inline">
+                  Vous avez une démo en cours.
+                </span>
+                <span className="sm:hidden">Démo en cours</span>
+                <button
+                  onClick={() => navigate("/demo")}
+                  className="underline font-semibold ml-1 hover:text-white/90 transition-colors"
+                >
+                  Reprendre ma démo
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="hidden sm:inline">
+                  Bienvenue sur Synthèse — testez gratuitement pendant 14 jours.
+                </span>
+                <span className="sm:hidden">Bienvenue sur Synthèse</span>
+                <button
+                  onClick={() => navigate("/demo")}
+                  className="underline font-semibold ml-1 hover:text-white/90 transition-colors"
+                >
+                  Obtenir ma démo
+                </button>
+              </>
+            )}
           </span>
         </div>
       )}
@@ -431,9 +457,6 @@ export default function App() {
         emailsBadgeCount={briefingBadgeCount}
         onAutomationsClick={() => { handleAutomationsClick(); setSidebarOpen(false); }}
         automationsModeActive={activeMode === "automations"}
-        onBriefingClick={() => { handleBriefingClick(); setSidebarOpen(false); }}
-        briefingModeActive={activeMode === "briefing"}
-        briefingBadgeCount={briefingBadgeCount}
         onMonEquipeClick={() => { handleMonEquipeClick(); setSidebarOpen(false); }}
         monEquipeModeActive={activeMode === "mon-equipe"}
         onAgentsIaClick={() => { handleAgentsIaClick(); setSidebarOpen(false); }}
@@ -453,6 +476,7 @@ export default function App() {
         comprenderModeActive={activeMode === "home"}
         onDemoClick={() => { handleDemoClick(); setSidebarOpen(false); }}
         demoModeActive={activeMode === "demo"}
+        demoLabel={hasResumableTrial ? "Reprendre ma démo" : "Obtenir un aperçu"}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
