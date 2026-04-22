@@ -149,15 +149,6 @@ export default function App() {
   useEffect(() => {
     const handler = (e: Event) => {
       const mode = (e as CustomEvent<string>).detail;
-      // If a returning visitor with an active trial clicks any "demo" CTA,
-      // skip the presentation page and drop them straight into their workspace.
-      if (mode === "demo") {
-        const trial = getTrial();
-        if (trial?.resumeUrl) {
-          window.location.href = trial.resumeUrl;
-          return;
-        }
-      }
       reset();
       setSelected(null);
       setActiveMode(mode as typeof activeMode);
@@ -316,11 +307,6 @@ export default function App() {
   }
 
   function handleDemoClick() {
-    const trial = getTrial();
-    if (trial?.resumeUrl) {
-      window.location.href = trial.resumeUrl;
-      return;
-    }
     reset();
     setSelected(null);
     setActiveMode("demo");

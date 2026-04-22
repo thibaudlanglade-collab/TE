@@ -140,6 +140,12 @@ _EXPIRED_HTML = """<!doctype html>
       margin-top: 16px;
       font-weight: 500;
     }
+    a.cta.secondary {
+      background: transparent;
+      color: #111;
+      border: 1px solid #d0d0d0;
+      margin-left: 8px;
+    }
     .signature {
       color: #555;
       font-size: 14px;
@@ -148,6 +154,12 @@ _EXPIRED_HTML = """<!doctype html>
       border-top: 1px solid #e5e5e5;
     }
   </style>
+  <script>
+    // The visitor arrived here because their token is unknown or past its
+    // expiry. Clear the client-side trial cookie so they can restart cleanly
+    // instead of being bounced here again on every "Reprendre ma démo" click.
+    document.cookie = "synthese_trial=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax";
+  </script>
 </head>
 <body>
   <h1>Votre essai Synthèse est terminé</h1>
@@ -159,6 +171,9 @@ _EXPIRED_HTML = """<!doctype html>
   un simple appel ou une visio, comme vous préférez.</p>
   <a class="cta" href="mailto:contact@synthese.fr?subject=Synthèse%20—%20discussion%20version%20sur-mesure">
     Prendre contact
+  </a>
+  <a class="cta secondary" href="/#demo">
+    Démarrer un nouvel essai
   </a>
   <div class="signature">
     Thibaud Langlade<br>
