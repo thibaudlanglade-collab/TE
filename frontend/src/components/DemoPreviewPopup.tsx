@@ -39,7 +39,7 @@ export default function DemoPreviewPopup() {
       role="dialog"
       aria-live="polite"
       aria-label="Essayer avec vos propres données"
-      className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:bottom-6 sm:max-w-xs z-[55] animate-toast-in"
+      className="fixed top-[52px] sm:top-[60px] left-3 right-3 sm:left-4 sm:right-auto sm:max-w-xs z-[55] animate-toast-in"
     >
       <div className="relative rounded-2xl border border-violet-200/70 bg-gradient-to-br from-violet-50 via-white to-blue-50 shadow-xl shadow-violet-500/10 px-4 py-3.5 pr-9">
         <button

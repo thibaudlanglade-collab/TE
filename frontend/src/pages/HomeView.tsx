@@ -494,7 +494,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
             <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
               Synthèse en 60 secondes
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-tight text-gray-900 leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 leading-tight">
               Regardez ce que Synthèse peut faire pour vous.
             </h2>
           </AnimatedContainer>
