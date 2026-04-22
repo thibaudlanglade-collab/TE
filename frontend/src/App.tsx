@@ -35,7 +35,7 @@ import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
 import { useNavigate, NAVIGATE_EVENT } from "./lib/navigate";
 import { initAnalytics, trackPageView } from "./lib/analytics";
-import { getTrial } from "./lib/trial";
+import { getTrial, daysRemaining } from "./lib/trial";
 import type { Feature } from "./types";
 import { getTodayBriefing } from "./api/emailsClient";
 
@@ -55,6 +55,14 @@ const TRIAL_FEATURE_PAGES = [
   "classic",
   "briefing",
   "mon-equipe",
+] as const;
+
+// Pages that belong to the trial workspace — they get the workspace-flavored
+// sidebar (feature list, dashboard home, "Retour au site"). Everything else
+// falls back to the marketing sidebar.
+const WORKSPACE_PAGES = [
+  ...TRIAL_FEATURE_PAGES,
+  "dashboard",
 ] as const;
 
 const PAGE_TITLES: Record<string, string> = {
@@ -322,9 +330,20 @@ export default function App() {
     setActiveMode("demo");
   }
 
+  function handleDashboardClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("dashboard");
+  }
+
   const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
   const trial = getTrial();
   const hasResumableTrial = !!trial?.resumeUrl;
+  const sidebarVariant: "marketing" | "workspace" =
+    (WORKSPACE_PAGES as readonly string[]).includes(activeMode)
+      ? "workspace"
+      : "marketing";
+  const trialDaysLeft = trial ? daysRemaining(trial) : undefined;
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
@@ -438,6 +457,10 @@ export default function App() {
 
       {/* Sidebar */}
       <Sidebar
+        variant={sidebarVariant}
+        trialDaysLeft={trialDaysLeft}
+        onDashboardClick={() => { handleDashboardClick(); setSidebarOpen(false); }}
+        dashboardModeActive={activeMode === "dashboard"}
         onChatAssistantClick={() => { handleChatAssistantClick(); setSidebarOpen(false); }}
         chatAssistantModeActive={activeMode === "chat-assistant"}
         onSmartExtractClick={() => { handleSmartExtractClick(); setSidebarOpen(false); }}
