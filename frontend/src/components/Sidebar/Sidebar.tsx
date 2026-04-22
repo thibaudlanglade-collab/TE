@@ -1,10 +1,9 @@
-import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles, Rocket, Users, Home, ArrowLeft, Clock } from "lucide-react";
+import { MessageSquare, Zap, Mic, Calendar, Mail, Settings2, Bot, Camera, ShieldCheck, LayoutGrid, BarChart3, Lightbulb, Building2, Sparkles, Rocket, Users } from "lucide-react";
 import logoSynthese from "@/assets/logo-synthese.png";
 import { cn } from "@/lib/utils";
 
 
 interface Props {
-  variant?: "marketing" | "workspace";
   onChatAssistantClick?: () => void;
   chatAssistantModeActive?: boolean;
   onSmartExtractClick?: () => void;
@@ -40,9 +39,6 @@ interface Props {
   onDemoClick?: () => void;
   demoModeActive?: boolean;
   demoLabel?: string;
-  onDashboardClick?: () => void;
-  dashboardModeActive?: boolean;
-  trialDaysLeft?: number;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
@@ -99,7 +95,6 @@ function NavItem({
 /* ── Sidebar ─────────────────────────────────────────────────────────────── */
 
 export function Sidebar({
-  variant = "marketing",
   onChatAssistantClick,
   chatAssistantModeActive,
   onSmartExtractClick,
@@ -135,14 +130,9 @@ export function Sidebar({
   onDemoClick,
   demoModeActive,
   demoLabel = "Obtenir un aperçu",
-  onDashboardClick,
-  dashboardModeActive,
-  trialDaysLeft,
   mobileOpen,
   onMobileClose,
 }: Props) {
-  const isWorkspace = variant === "workspace";
-
   return (
     <>
       {/* Mobile overlay backdrop */}
@@ -153,237 +143,173 @@ export function Sidebar({
         />
       )}
     <aside className={cn(
-      "fixed left-0 top-[41px] bottom-0 w-60 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 dark:bg-gradient-to-b border-r flex flex-col z-50 transition-transform duration-200 ease-in-out",
-      isWorkspace
-        ? "bg-gradient-to-b from-violet-50/60 via-white to-white border-violet-100 dark:border-gray-800"
-        : "bg-white border-gray-200 dark:border-gray-800",
+      "fixed left-0 top-[41px] bottom-0 w-60 bg-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 dark:bg-gradient-to-b border-r border-gray-200 dark:border-gray-800 flex flex-col z-50 transition-transform duration-200 ease-in-out",
       "lg:translate-x-0 lg:z-40",
       mobileOpen ? "translate-x-0" : "-translate-x-full"
     )}>
       {/* Logo / Brand – clickable, navigates to home */}
       <button
-        onClick={isWorkspace ? onDashboardClick : onHomeClick}
-        className={cn(
-          "h-16 px-5 flex items-center gap-3 border-b dark:border-gray-800 w-full text-left cursor-pointer transition-colors",
-          isWorkspace
-            ? "border-violet-200/70 hover:bg-violet-50/60 dark:hover:bg-white/5"
-            : "border-violet-100/60 hover:bg-white/40 dark:hover:bg-white/5"
-        )}
+        onClick={onHomeClick}
+        className="h-16 px-5 flex items-center gap-3 border-b border-violet-100/60 dark:border-gray-800 w-full text-left cursor-pointer hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
       >
         <img
           src={logoSynthese}
           alt="Synthèse"
           className="w-8 h-8 rounded-lg object-contain shrink-0"
         />
-        <div className="flex flex-col min-w-0">
-          <span className="text-lg font-semibold bg-gradient-to-r from-violet-700 to-blue-600 dark:from-violet-400 dark:to-blue-400 bg-clip-text text-transparent tracking-tight leading-none">
-            Synthèse
-          </span>
-          {isWorkspace && (
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-violet-500 mt-1">
-              Mon espace
-            </span>
-          )}
-        </div>
+        <span className="text-lg font-semibold bg-gradient-to-r from-violet-700 to-blue-600 dark:from-violet-400 dark:to-blue-400 bg-clip-text text-transparent tracking-tight">
+          Synthèse
+        </span>
       </button>
-
-      {/* Workspace-only: trial countdown badge */}
-      {isWorkspace && typeof trialDaysLeft === "number" && (
-        <div className="px-3 pt-3">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-violet-50 border border-violet-200/70 text-violet-700">
-            <Clock className="h-3.5 w-3.5 shrink-0" />
-            <span className="text-[11px] font-semibold">
-              {trialDaysLeft > 1
-                ? `${trialDaysLeft} jours d'essai`
-                : trialDaysLeft === 1
-                  ? "Dernier jour d'essai"
-                  : "Essai terminé"}
-            </span>
-          </div>
-        </div>
-      )}
 
       {/* Main navigation */}
       <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
-        {/* ── Marketing variant ─────────────────────────────────────── */}
-        {!isWorkspace && (
-          <>
-            {/* "Comprendre Synthèse" featured item */}
-            <div className="pt-2 pb-1">
-              <button
-                onClick={onComprendreClick}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium w-full text-left transition-all duration-150",
-                  comprenderModeActive
-                    ? "bg-violet-100 text-violet-700"
-                    : "bg-violet-50 text-violet-600 hover:bg-violet-100 hover:text-violet-700"
-                )}
-              >
-                <Lightbulb className="h-5 w-5 shrink-0 text-violet-500" />
-                <span className="flex-1 truncate">Comprendre Synthèse</span>
-              </button>
-            </div>
-
-            {/* Primary CTA — get a demo */}
-            <div className="pb-1">
-              <button
-                onClick={onDemoClick}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold w-full text-left transition-all duration-150 shadow-sm",
-                  demoModeActive
-                    ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white"
-                    : "bg-gradient-to-r from-violet-500 to-blue-500 text-white hover:from-violet-600 hover:to-blue-600 hover:shadow-md"
-                )}
-              >
-                <Rocket className="h-5 w-5 shrink-0 text-white" />
-                <span className="flex-1 truncate">{demoLabel}</span>
-              </button>
-            </div>
-
-            {/* Marketing sections */}
-            <div className="pt-5 pb-2">
-              <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
-                En savoir plus
-              </span>
-            </div>
-            <NavItem
-              icon={ShieldCheck}
-              label="RGPD"
-              isActive={rgpdModeActive ?? false}
-              onClick={onRgpdClick}
-            />
-            <NavItem
-              icon={LayoutGrid}
-              label="Par secteur"
-              isActive={featuresModeActive ?? false}
-              onClick={onFeaturesClick}
-            />
-            <NavItem
-              icon={Building2}
-              label="Qui sommes-nous"
-              isActive={quiSommesNousModeActive ?? false}
-              onClick={onQuiSommesNousClick}
-            />
-            <NavItem
-              icon={Sparkles}
-              label="Tarification"
-              isActive={tarificationModeActive ?? false}
-              onClick={onTarificationClick}
-            />
-          </>
-        )}
-
-        {/* ── Workspace variant ─────────────────────────────────────── */}
-        {isWorkspace && (
-          <>
-            {/* Home of the workspace */}
-            <div className="pt-2 pb-1">
-              <NavItem
-                icon={Home}
-                label="Accueil de l'espace"
-                isActive={dashboardModeActive ?? false}
-                onClick={onDashboardClick}
-              />
-            </div>
-
-            {/* Section Fonctionnalités */}
-            <div className="pt-3 pb-2">
-              <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
-                Fonctionnalités
-              </span>
-            </div>
-            <NavItem
-              icon={MessageSquare}
-              label="Assistant Synthèse"
-              isActive={chatAssistantModeActive ?? false}
-              onClick={onChatAssistantClick}
-            />
-            <NavItem
-              icon={Zap}
-              label="Smart Extract"
-              isActive={smartModeActive ?? false}
-              onClick={onSmartExtractClick}
-            />
-            <NavItem
-              icon={Camera}
-              label="Photo → PDF/Excel"
-              isActive={photoToDocumentModeActive ?? false}
-              onClick={onPhotoToDocumentClick}
-            />
-            <NavItem
-              icon={Mic}
-              label="Transcripteur"
-              isActive={meetingTranscriberModeActive ?? false}
-              onClick={onMeetingTranscriberClick}
-            />
-            <NavItem
-              icon={Calendar}
-              label="Planificateur"
-              isActive={plannerModeActive ?? false}
-              onClick={onPlannerClick}
-            />
-            <NavItem
-              icon={Mail}
-              label="Emails"
-              isActive={emailsModeActive ?? false}
-              onClick={onEmailsClick}
-              badge={emailsBadgeCount}
-            />
-
-            {/* Section Outils */}
-            <div className="pt-5 pb-2">
-              <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
-                Outils
-              </span>
-            </div>
-            <NavItem
-              icon={Users}
-              label="Mon équipe"
-              isActive={monEquipeModeActive ?? false}
-              onClick={onMonEquipeClick}
-            />
-            <NavItem
-              icon={Settings2}
-              label="Automatisations"
-              isActive={automationsModeActive ?? false}
-              onClick={onAutomationsClick}
-            />
-
-            {/* Section Agents IA */}
-            <div className="pt-5 pb-2">
-              <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
-                Agents IA
-              </span>
-            </div>
-            <NavItem
-              icon={Bot}
-              label="Mes agents IA"
-              isActive={agentsIaModeActive ?? false}
-              onClick={onAgentsIaClick}
-            />
-            <NavItem
-              icon={BarChart3}
-              label="Rapport client"
-              isActive={agentRapportModeActive ?? false}
-              onClick={onAgentRapportClick}
-              demo
-            />
-          </>
-        )}
-      </nav>
-
-      {/* Workspace-only: footer link back to marketing site */}
-      {isWorkspace && (
-        <div className="border-t border-violet-100/70 dark:border-gray-800 px-3 py-3">
+        {/* ── "Start here" featured item ───────────────────── */}
+        <div className="pt-2 pb-1">
           <button
-            onClick={onHomeClick}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white/60 dark:hover:bg-white/5 w-full text-left transition-colors"
+            onClick={onComprendreClick}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium w-full text-left transition-all duration-150",
+              comprenderModeActive
+                ? "bg-violet-100 text-violet-700"
+                : "bg-violet-50 text-violet-600 hover:bg-violet-100 hover:text-violet-700"
+            )}
           >
-            <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
-            <span className="flex-1 truncate">Retour au site</span>
+            <Lightbulb className="h-5 w-5 shrink-0 text-violet-500" />
+            <span className="flex-1 truncate">Comprendre Synthèse</span>
           </button>
         </div>
-      )}
+
+        {/* ── Obtenir une démo — primary CTA ──────────────── */}
+        <div className="pb-1">
+          <button
+            onClick={onDemoClick}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold w-full text-left transition-all duration-150 shadow-sm",
+              demoModeActive
+                ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white"
+                : "bg-gradient-to-r from-violet-500 to-blue-500 text-white hover:from-violet-600 hover:to-blue-600 hover:shadow-md"
+            )}
+          >
+            <Rocket className="h-5 w-5 shrink-0 text-white" />
+            <span className="flex-1 truncate">{demoLabel}</span>
+          </button>
+        </div>
+
+        {/* ── Section Fonctionnalités ──────────────────────── */}
+        <div className="pt-3 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            Fonctionnalités
+          </span>
+        </div>
+        <NavItem
+          icon={MessageSquare}
+          label="Assistant Synthèse"
+          isActive={chatAssistantModeActive ?? false}
+          onClick={onChatAssistantClick}
+        />
+        <NavItem
+          icon={Zap}
+          label="Smart Extract"
+          isActive={smartModeActive ?? false}
+          onClick={onSmartExtractClick}
+        />
+        <NavItem
+          icon={Camera}
+          label="Photo → PDF/Excel"
+          isActive={photoToDocumentModeActive ?? false}
+          onClick={onPhotoToDocumentClick}
+        />
+        <NavItem
+          icon={Mic}
+          label="Transcripteur"
+          isActive={meetingTranscriberModeActive ?? false}
+          onClick={onMeetingTranscriberClick}
+        />
+        <NavItem
+          icon={Calendar}
+          label="Planificateur"
+          isActive={plannerModeActive ?? false}
+          onClick={onPlannerClick}
+        />
+        <NavItem
+          icon={Mail}
+          label="Emails"
+          isActive={emailsModeActive ?? false}
+          onClick={onEmailsClick}
+          badge={emailsBadgeCount}
+        />
+        {/* ── Section Outils ──────────────────────────────── */}
+        <div className="pt-5 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            Outils
+          </span>
+        </div>
+        <NavItem
+          icon={Users}
+          label="Mon équipe"
+          isActive={monEquipeModeActive ?? false}
+          onClick={onMonEquipeClick}
+        />
+        <NavItem
+          icon={Settings2}
+          label="Automatisations"
+          isActive={automationsModeActive ?? false}
+          onClick={onAutomationsClick}
+        />
+
+        {/* ── Section Agents IA ──────────────────────────── */}
+        <div className="pt-5 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            Agents IA
+          </span>
+        </div>
+        <NavItem
+          icon={Bot}
+          label="Mes agents IA"
+          isActive={agentsIaModeActive ?? false}
+          onClick={onAgentsIaClick}
+        />
+        <NavItem
+          icon={BarChart3}
+          label="Rapport client"
+          isActive={agentRapportModeActive ?? false}
+          onClick={onAgentRapportClick}
+          demo
+        />
+
+        {/* ── Section ET encore plus ─────────────────────── */}
+        <div className="pt-5 pb-2">
+          <span className="px-3 text-[11px] font-bold text-gray-900 dark:text-gray-200 uppercase tracking-widest">
+            ET encore plus
+          </span>
+        </div>
+        <NavItem
+          icon={ShieldCheck}
+          label="RGPD"
+          isActive={rgpdModeActive ?? false}
+          onClick={onRgpdClick}
+        />
+        <NavItem
+          icon={LayoutGrid}
+          label="Par secteur"
+          isActive={featuresModeActive ?? false}
+          onClick={onFeaturesClick}
+        />
+        <NavItem
+          icon={Building2}
+          label="Qui sommes-nous"
+          isActive={quiSommesNousModeActive ?? false}
+          onClick={onQuiSommesNousClick}
+        />
+        <NavItem
+          icon={Sparkles}
+          label="Tarification"
+          isActive={tarificationModeActive ?? false}
+          onClick={onTarificationClick}
+        />
+
+      </nav>
 
     </aside>
     </>
