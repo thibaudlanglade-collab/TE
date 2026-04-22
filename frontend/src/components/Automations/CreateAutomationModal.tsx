@@ -106,9 +106,9 @@ export default function CreateAutomationModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="bg-white border border-gray-200 rounded-xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-xl">
+      <div className="bg-white border border-gray-200 rounded-xl w-full max-w-2xl max-h-[90vh] sm:max-h-[85vh] flex flex-col overflow-hidden shadow-xl">
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 shrink-0">
+        <div className="flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 shrink-0">
           <Zap className="h-4 w-4 text-violet-500 shrink-0" />
           <h2 className="text-sm font-semibold text-foreground flex-1">
             Nouvelle automatisation
@@ -122,7 +122,7 @@ export default function CreateAutomationModal({
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-100 shrink-0 px-6">
+        <div className="flex border-b border-gray-100 shrink-0 px-4 sm:px-6">
           {(["templates", "nl"] as const).map((t) => (
             <button
               key={t}
@@ -139,7 +139,7 @@ export default function CreateAutomationModal({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto min-h-0 p-6">
+        <div className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6">
           {/* ── Templates tab ─────────────────────────────────────────────── */}
           {tab === "templates" && (
             <div className="flex flex-col gap-4">

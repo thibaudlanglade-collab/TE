@@ -160,19 +160,19 @@ export function PlannerLauncher() {
   // ── Render ──────────────────────────────────────────────────────────────
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <div className="max-w-3xl mx-auto">
         {/* ── HERO SECTION ───────────────────────────────────────────── */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 mb-5">
-            <Sparkles className="h-7 w-7 text-blue-500" />
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 mb-4 sm:mb-5">
+            <Sparkles className="h-6 w-6 sm:h-7 sm:w-7 text-blue-500" />
           </div>
 
-          <h1 className="text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
             Smart Extract
           </h1>
 
-          <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
             Synthèse lit vos documents — emails clients, contrats, notes de
             chantier, factures, devis, relevés bancaires — et en extrait
             exactement ce dont vous avez besoin. Que ce soit du texte libre, un
@@ -189,7 +189,7 @@ export function PlannerLauncher() {
         {/* ── EXAMPLE CARDS ──────────────────────────────────────────── */}
         {status === "idle" && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 rounded-3xl bg-white dark:bg-gray-800/50 p-6 -mx-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 rounded-3xl bg-white dark:bg-gray-800/50 p-4 sm:p-6 -mx-2">
               {EXAMPLES.map((example) => {
                 const Icon = example.icon;
                 const isSelected = selectedExample?.id === example.id;

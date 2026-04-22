@@ -21,11 +21,14 @@ import ContactView from "./pages/ContactView";
 import QuiSommesNousView from "./pages/QuiSommesNousView";
 import TarificationView from "./pages/TarificationView";
 import DemoView from "./pages/DemoView";
+import BriefingView from "./pages/BriefingView";
+import MonEquipeView from "./pages/MonEquipeView";
 import MentionsLegalesView from "./pages/MentionsLegalesView";
 import PolitiqueConfidentialiteView from "./pages/PolitiqueConfidentialiteView";
 import AgentRapportDemo from "./components/AgentRapportDemo";
 import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
+import DemoPreviewPopup from "./components/DemoPreviewPopup";
 import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
 import { useNavigate, NAVIGATE_EVENT } from "./lib/navigate";
@@ -45,6 +48,8 @@ const PAGE_TITLES: Record<string, string> = {
   automations: "Automatisations",
   "agents-ia": "Mes agents IA",
   "agent-rapport": "Rapport client",
+  briefing: "Briefing du jour",
+  "mon-equipe": "Mon équipe",
   rgpd: "RGPD",
   features: "Par secteur",
   comprendre: "Comprendre Synthèse",
@@ -61,7 +66,7 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "mentions-legales" | "politique-confidentialite">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "briefing" | "mon-equipe" | "mentions-legales" | "politique-confidentialite">("home");
   const navigate = useNavigate();
 
   // Mobile sidebar
@@ -244,6 +249,20 @@ export default function App() {
     maybeShowCustomizationHint();
   }
 
+  function handleBriefingClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("briefing");
+    maybeShowCustomizationHint();
+  }
+
+  function handleMonEquipeClick() {
+    reset();
+    setSelected(null);
+    setActiveMode("mon-equipe");
+    maybeShowCustomizationHint();
+  }
+
   function handleAgentsIaClick() {
     reset();
     setSelected(null);
@@ -412,6 +431,11 @@ export default function App() {
         emailsBadgeCount={briefingBadgeCount}
         onAutomationsClick={() => { handleAutomationsClick(); setSidebarOpen(false); }}
         automationsModeActive={activeMode === "automations"}
+        onBriefingClick={() => { handleBriefingClick(); setSidebarOpen(false); }}
+        briefingModeActive={activeMode === "briefing"}
+        briefingBadgeCount={briefingBadgeCount}
+        onMonEquipeClick={() => { handleMonEquipeClick(); setSidebarOpen(false); }}
+        monEquipeModeActive={activeMode === "mon-equipe"}
         onAgentsIaClick={() => { handleAgentsIaClick(); setSidebarOpen(false); }}
         agentsIaModeActive={activeMode === "agents-ia"}
         onAgentRapportClick={() => { handleAgentRapportClick(); setSidebarOpen(false); }}
@@ -453,6 +477,10 @@ export default function App() {
           {activeMode === "qui-sommes-nous" && <QuiSommesNousView />}
 
           {activeMode === "tarification" && <TarificationView />}
+
+          {activeMode === "briefing" && <BriefingView />}
+
+          {activeMode === "mon-equipe" && <MonEquipeView />}
 
           {activeMode === "demo" && <DemoView />}
 
@@ -569,6 +597,22 @@ export default function App() {
       </div>
 
       <CookieConsent />
+
+      {/* Small popup on demo feature pages inviting users to get a real preview */}
+      {[
+        "chat-assistant",
+        "smart",
+        "photo-to-document",
+        "meeting-transcriber",
+        "planner",
+        "emails",
+        "automations",
+        "agents-ia",
+        "agent-rapport",
+        "classic",
+        "briefing",
+        "mon-equipe",
+      ].includes(activeMode) && <DemoPreviewPopup />}
     </div>
   );
 }

@@ -11,7 +11,9 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    // 5175 to avoid collision with TE-main frontend (5173) when both run together.
+    port: 5175,
+    strictPort: true,
     proxy: {
       "/api": {
         target: "http://localhost:8000",

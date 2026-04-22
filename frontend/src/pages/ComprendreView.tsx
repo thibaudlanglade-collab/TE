@@ -209,8 +209,8 @@ export default function ComprendreView() {
           Pour que ce soit clair, on a découpé ce qu'on construit en 3 grandes familles :
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-gradient-to-br from-blue-100 via-cyan-50 to-sky-100 border-2 border-blue-200/70 rounded-2xl p-6 shadow-md shadow-blue-500/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+          <div className="bg-gradient-to-br from-blue-100 via-cyan-50 to-sky-100 border-2 border-blue-200/70 rounded-2xl p-5 sm:p-6 shadow-md shadow-blue-500/10">
             <div className="w-11 h-11 rounded-xl bg-blue-200/70 flex items-center justify-center mb-4">
               <Wrench className="h-5 w-5 text-blue-600" />
             </div>
@@ -227,7 +227,7 @@ export default function ComprendreView() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-100 via-orange-50 to-yellow-100 border-2 border-amber-200/70 rounded-2xl p-6 shadow-md shadow-amber-500/10">
+          <div className="bg-gradient-to-br from-amber-100 via-orange-50 to-yellow-100 border-2 border-amber-200/70 rounded-2xl p-5 sm:p-6 shadow-md shadow-amber-500/10">
             <div className="w-11 h-11 rounded-xl bg-amber-200/70 flex items-center justify-center mb-4">
               <Zap className="h-5 w-5 text-amber-600" />
             </div>
@@ -243,7 +243,7 @@ export default function ComprendreView() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 border-2 border-violet-200/70 rounded-2xl p-6 shadow-md shadow-violet-500/10">
+          <div className="bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 border-2 border-violet-200/70 rounded-2xl p-5 sm:p-6 shadow-md shadow-violet-500/10">
             <div className="w-11 h-11 rounded-xl bg-violet-200/70 flex items-center justify-center mb-4">
               <Bot className="h-5 w-5 text-violet-600" />
             </div>
@@ -313,7 +313,7 @@ export default function ComprendreView() {
         </p>
 
         {/* 5 étapes */}
-        <div className="relative grid grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 mb-10 sm:mb-12">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 sm:gap-8 mb-10 sm:mb-12">
           <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-violet-200 via-blue-200 to-emerald-200" aria-hidden />
 
           {[
@@ -324,8 +324,8 @@ export default function ComprendreView() {
             { icon: "🔄", gradient: "from-emerald-500 to-green-600",  title: "On améliore",   desc: "On itère chaque semaine. Synthèse évolue avec vous, indéfiniment. Votre activité change ? Synthèse change aussi." },
           ].map((step) => (
             <div key={step.title} className="relative flex flex-col items-center text-center">
-              <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg shadow-gray-900/10 mb-4 relative z-10`}>
-                <span className="text-3xl">{step.icon}</span>
+              <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg shadow-gray-900/10 mb-4 relative z-10`}>
+                <span className="text-2xl sm:text-3xl">{step.icon}</span>
               </div>
               <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-2">
                 {step.title}

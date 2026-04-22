@@ -5,17 +5,37 @@ import {
   Rocket,
   Sparkles,
 } from "lucide-react";
-import { useNavigate } from "../lib/navigate";
-import { getTrial, getOrStartTrial, daysRemaining } from "../lib/trial";
+import { getTrial, setTrialResumeUrl, daysRemaining } from "../lib/trial";
+import { startAnonymousTrial } from "../lib/trialApi";
 
 export default function DemoView() {
   const [code, setCode] = useState("");
-  const navigate = useNavigate();
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
   const existingTrial = getTrial();
 
-  function handleStartTrial() {
-    getOrStartTrial();
-    navigate("/comprendre");
+  async function handleStartTrial() {
+    // Returning visitor who already has a minted token — jump straight back
+    // into the same trial. Cheap: no backend call, no new seed.
+    if (existingTrial?.resumeUrl) {
+      window.location.href = existingTrial.resumeUrl;
+      return;
+    }
+
+    setStarting(true);
+    setStartError(null);
+    try {
+      const { access_url } = await startAnonymousTrial();
+      // Preserves existing id + startedAt if any — returning visitors without
+      // a resumeUrl don't get their 14-day counter reset.
+      setTrialResumeUrl(access_url);
+      window.location.href = access_url;
+    } catch (err) {
+      setStartError(
+        err instanceof Error ? err.message : "Impossible de créer votre démo."
+      );
+      setStarting(false);
+    }
   }
 
   function handleCodeSubmit(e: FormEvent<HTMLFormElement>) {
@@ -70,13 +90,26 @@ export default function DemoView() {
 
             <button
               onClick={handleStartTrial}
-              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              disabled={starting}
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-wait disabled:hover:translate-y-0"
             >
-              <Rocket className="h-4 w-4 sm:h-5 sm:w-5" />
-              {existingTrial
-                ? `Reprendre ma démo${remaining !== null ? ` · ${remaining} jour${remaining > 1 ? "s" : ""} restant${remaining > 1 ? "s" : ""}` : ""}`
-                : "Commencer ma démo gratuite"}
+              {starting ? (
+                <span className="inline-block h-4 w-4 sm:h-5 sm:w-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Rocket className="h-4 w-4 sm:h-5 sm:w-5" />
+              )}
+              {starting
+                ? "Création de votre démo…"
+                : existingTrial?.resumeUrl
+                  ? `Reprendre ma démo${remaining !== null ? ` · ${remaining} jour${remaining > 1 ? "s" : ""} restant${remaining > 1 ? "s" : ""}` : ""}`
+                  : "Commencer ma démo gratuite"}
             </button>
+
+            {startError && (
+              <p className="mt-3 text-xs text-red-600">
+                {startError} Réessayez dans un instant.
+              </p>
+            )}
 
             <p className="mt-4 text-[11px] sm:text-xs text-gray-500">
               Accès immédiat · Aucune inscription · Aucune carte bancaire

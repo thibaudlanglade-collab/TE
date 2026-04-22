@@ -30,14 +30,14 @@ export default function IntegrationHero() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.035)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
       {/* Title */}
-      <div className="relative text-center mb-10">
+      <div className="relative text-center mb-8 sm:mb-10 px-4">
         <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold rounded-full border border-violet-200 bg-violet-50 text-violet-700 uppercase tracking-widest">
           Intégrations
         </span>
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-3 sm:mb-4 leading-tight">
           Bien sûr, on peut se connecter à toutes les applications que vous utilisez déjà
         </h2>
-        <p className="text-base text-gray-600 max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
           Synthèse ne vous demande pas de changer vos habitudes. Il s'intègre
           à ce que vous utilisez déjà — emails, messagerie, stockage,
           comptabilité, CRM — pour travailler avec vos données existantes, là
@@ -48,32 +48,32 @@ export default function IntegrationHero() {
       {/* Carousel */}
       <div className="relative overflow-hidden pb-2">
         {/* Row 1 — scrolls left */}
-        <div className="flex gap-6 whitespace-nowrap animate-scroll-left mb-6">
+        <div className="flex gap-4 sm:gap-6 whitespace-nowrap animate-scroll-left mb-4 sm:mb-6">
           {repeatedIcons(ICONS_ROW1, 4).map((src, i) => (
             <div
               key={i}
-              className="h-14 w-14 flex-shrink-0 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center"
+              className="h-12 w-12 sm:h-14 sm:w-14 flex-shrink-0 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center"
             >
-              <img src={src} alt="" className="h-9 w-9 object-contain" />
+              <img src={src} alt="" className="h-8 w-8 sm:h-9 sm:w-9 object-contain" />
             </div>
           ))}
         </div>
 
         {/* Row 2 — scrolls right */}
-        <div className="flex gap-6 whitespace-nowrap animate-scroll-right">
+        <div className="flex gap-4 sm:gap-6 whitespace-nowrap animate-scroll-right">
           {repeatedIcons(ICONS_ROW2, 4).map((src, i) => (
             <div
               key={i}
-              className="h-14 w-14 flex-shrink-0 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center"
+              className="h-12 w-12 sm:h-14 sm:w-14 flex-shrink-0 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center"
             >
-              <img src={src} alt="" className="h-9 w-9 object-contain" />
+              <img src={src} alt="" className="h-8 w-8 sm:h-9 sm:w-9 object-contain" />
             </div>
           ))}
         </div>
 
         {/* Fade masks */}
-        <div className="absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-stone-100 to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-stone-100 to-transparent pointer-events-none" />
+        <div className="absolute left-0 top-0 h-full w-12 sm:w-20 bg-gradient-to-r from-stone-100 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 h-full w-12 sm:w-20 bg-gradient-to-l from-stone-100 to-transparent pointer-events-none" />
       </div>
     </div>
   );

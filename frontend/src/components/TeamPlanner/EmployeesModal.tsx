@@ -131,7 +131,7 @@ function EmployeeForm({
   }
 
   return (
-    <div className="flex flex-col gap-5 p-6">
+    <div className="flex flex-col gap-5 p-4 sm:p-6">
       {formError && (
         <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
           {formError}
@@ -139,7 +139,7 @@ function EmployeeForm({
       )}
 
       {/* Name + Position */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs text-muted-foreground">Nom *</label>
           <input
@@ -255,7 +255,7 @@ function EmployeeForm({
       </div>
 
       {/* Email + Phone */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs text-muted-foreground">Email</label>
           <input
@@ -286,7 +286,7 @@ function EmployeeForm({
         <label className="text-xs text-muted-foreground">Date d'embauche</label>
         <input
           type="date"
-          className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-foreground outline-none focus:border-gray-300 w-48"
+          className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-foreground outline-none focus:border-gray-300 w-full sm:w-48"
           value={form.hire_date ?? ""}
           onChange={(e) =>
             setForm((f) => ({ ...f, hire_date: e.target.value || null }))
@@ -479,7 +479,7 @@ export default function EmployeesModal({
       <div className="bg-white border border-gray-200 rounded-xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden shadow-xl">
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 shrink-0">
           <h2 className="text-xl font-medium text-foreground">Mes employés</h2>
           <button
             onClick={onClose}
@@ -510,7 +510,7 @@ export default function EmployeesModal({
 
         {/* ── Toolbar ────────────────────────────────────────────────────────── */}
         {!formOpen && (
-          <div className="flex items-center gap-3 px-6 py-3 border-b border-gray-100 flex-wrap shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 border-b border-gray-100 flex-wrap shrink-0">
             <button
               onClick={openCreate}
               className="flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"

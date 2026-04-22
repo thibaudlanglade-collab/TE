@@ -148,8 +148,39 @@ export default function ScheduleDisplay({ schedule }: Props) {
         </p>
       </div>
 
-      {/* ── 7-column grid with time axis ───────────────────────────────────── */}
-      <div className="overflow-x-auto -mx-1">
+      {/* ── Mobile: stacked day list ──────────────────────────────────────── */}
+      <div className="md:hidden flex flex-col gap-3">
+        {days.map((dateStr, dayIndex) => {
+          const assignments = byDate[dateStr] ?? [];
+          const isToday = dateStr === today;
+          return (
+            <div key={dateStr} className="rounded-lg border border-gray-100 bg-white p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <p className={`text-sm font-semibold ${isToday ? "text-foreground" : "text-muted-foreground"}`}>
+                  {FR_DAYS[dayIndex]} {formatDDMM(dateStr)}
+                </p>
+                {isToday && <div className="w-1.5 h-1.5 rounded-full bg-gray-900" />}
+              </div>
+              {assignments.length === 0 ? (
+                <p className="text-xs text-gray-400">Aucune tâche</p>
+              ) : (
+                <div className="flex flex-col gap-1.5">
+                  {assignments.map((a) => (
+                    <AssignmentCard
+                      key={`${a.task_id}-${a.employee_id}-${a.start_time}`}
+                      assignment={a}
+                      colorIndex={hashEmployeeId(a.employee_id) % PALETTE.length}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Desktop: 7-column grid with time axis ─────────────────────────── */}
+      <div className="hidden md:block overflow-x-auto -mx-1">
         <div className="min-w-[740px] flex px-1">
 
           {/* Time axis — decorative hour marks */}

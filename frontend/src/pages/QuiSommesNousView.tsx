@@ -8,17 +8,17 @@ import DemoCallout from "@/components/DemoCallout"
 export default function QuiSommesNousView() {
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-6">
+    <div className="max-w-4xl mx-auto py-8 sm:py-10 px-4 sm:px-6">
 
       {/* HERO */}
-      <div className="text-center mb-16 max-w-3xl mx-auto">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-50 mb-5">
-          <Building2 className="h-7 w-7 text-violet-500" />
+      <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 mb-4 sm:mb-5">
+          <Building2 className="h-6 w-6 sm:h-7 sm:w-7 text-violet-500" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-5 tracking-tight leading-tight">
           À l'origine de Synthèse
         </h1>
-        <p className="text-lg text-gray-600 leading-relaxed">
+        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
           Une idée née d'un constat simple : les pros passent trop
           d'heures à dompter des logiciels pensés pour quelqu'un d'autre.
           Alors on a pris la feuille blanche. Depuis, chaque
@@ -29,12 +29,12 @@ export default function QuiSommesNousView() {
 
 
       {/* NOS VALEURS */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-8">
+      <div className="mb-12 sm:mb-16">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6 sm:mb-8">
           Ce qu'on croit
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
           <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-violet-200 transition-all">
             <div className="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
               <Handshake className="h-5 w-5 text-violet-500" />
@@ -81,11 +81,11 @@ export default function QuiSommesNousView() {
 
 
       {/* COMMENT ON TRAVAILLE */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+      <div className="mb-12 sm:mb-16">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3">
           Comment ça se passe, concrètement
         </h2>
-        <p className="text-base text-gray-600 mb-8">
+        <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
           De votre premier appel à un outil qui tourne au quotidien,
           voici les étapes.
         </p>
@@ -167,11 +167,11 @@ export default function QuiSommesNousView() {
 
       {/* CONTACT */}
       <div className="mb-6">
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6">
           <h3 className="text-base font-semibold text-gray-900 mb-4">
             Nous contacter
           </h3>
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <MapPin className="h-4 w-4 text-violet-400" />
               France

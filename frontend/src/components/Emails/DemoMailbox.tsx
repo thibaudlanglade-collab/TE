@@ -88,8 +88,8 @@ export default function DemoMailbox({ onBack }: { onBack: () => void }) {
         onOpenEmail={handleOpenEmailFromBriefing}
       />
 
-      {/* TOPICS SIDEBAR */}
-      <div className="w-60 border-r border-gray-200 flex flex-col bg-gray-50/50 shrink-0">
+      {/* TOPICS SIDEBAR — hidden on mobile */}
+      <div className={`${selectedEmail ? "hidden" : "hidden md:flex"} w-60 md:shrink-0 border-r border-gray-200 flex-col bg-gray-50/50`}>
         {/* User header */}
         <div className="px-4 py-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
@@ -174,21 +174,51 @@ export default function DemoMailbox({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* EMAIL LIST */}
-      <div className="w-96 border-r border-gray-200 flex flex-col shrink-0">
-        <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between shrink-0">
-          <div>
-            <h2 className="text-base font-semibold text-gray-900">Boîte de réception</h2>
+      <div className={`${selectedEmail ? "hidden md:flex" : "flex"} w-full md:w-96 md:shrink-0 border-r border-gray-200 flex-col`}>
+        <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-gray-200 flex items-center justify-between gap-3 shrink-0">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onBack}
+                className="md:hidden -ml-1 p-1 rounded hover:bg-gray-100 text-gray-500"
+                aria-label="Retour"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <h2 className="text-base font-semibold text-gray-900 truncate">Boîte de réception</h2>
+            </div>
             <p className="text-xs text-gray-500 mt-0.5">
               {filteredEmails.filter((e) => !e.isRead).length} non-lus
             </p>
           </div>
           <button
             onClick={() => setShowBriefing(true)}
-            className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+            className="shrink-0 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
           >
             <Sunrise className="h-3.5 w-3.5" />
             Briefing
           </button>
+        </div>
+
+        {/* Mobile topic selector */}
+        <div className="md:hidden px-4 py-2 border-b border-gray-100 overflow-x-auto">
+          <div className="flex gap-1.5 w-max">
+            <button
+              onClick={() => setSelectedTopic("all")}
+              className={`text-xs px-2.5 py-1 rounded-full border whitespace-nowrap ${selectedTopic === "all" ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-gray-200 text-gray-600"}`}
+            >
+              Tous
+            </button>
+            {DEMO_TOPICS.filter((t) => t.count > 0).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setSelectedTopic(t.id)}
+                className={`text-xs px-2.5 py-1 rounded-full border whitespace-nowrap ${selectedTopic === t.id ? "bg-gray-200 border-gray-300 text-gray-900" : "bg-white border-gray-200 text-gray-600"}`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto">
@@ -207,12 +237,13 @@ export default function DemoMailbox({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* EMAIL DETAIL PANEL */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className={`${selectedEmail ? "flex" : "hidden md:flex"} flex-1 flex-col overflow-hidden`}>
         {selectedEmail ? (
           <EmailDetail
             email={selectedEmail}
             showDraft={showDraft}
             onToggleDraft={() => setShowDraft(!showDraft)}
+            onClose={() => setSelectedEmailId(null)}
           />
         ) : (
           <EmptyEmailState />
@@ -357,10 +388,12 @@ function EmailDetail({
   email,
   showDraft,
   onToggleDraft,
+  onClose,
 }: {
   email: DemoEmail;
   showDraft: boolean;
   onToggleDraft: () => void;
+  onClose?: () => void;
 }) {
   const [replyText, setReplyText] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -449,7 +482,16 @@ Durand BTP`;
   return (
     <div className="flex flex-col h-full">
       {/* Toolbar */}
-      <div className="px-6 py-3 border-b border-gray-200 flex items-center gap-2 shrink-0">
+      <div className="px-3 sm:px-6 py-2 sm:py-3 border-b border-gray-200 flex items-center gap-1 sm:gap-2 shrink-0">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center"
+            aria-label="Retour"
+          >
+            <ArrowLeft className="h-4 w-4 text-gray-500" />
+          </button>
+        )}
         <button className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center">
           <Archive className="h-4 w-4 text-gray-500" />
         </button>
@@ -470,13 +512,14 @@ Durand BTP`;
           }`}
         >
           <Sparkles className="h-3.5 w-3.5" />
-          {showDraft ? "Masquer la réponse" : "Répondre avec Synthèse"}
+          <span className="hidden sm:inline">{showDraft ? "Masquer la réponse" : "Répondre avec Synthèse"}</span>
+          <span className="sm:hidden">{showDraft ? "Masquer" : "Répondre"}</span>
         </button>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-6 max-w-3xl">
+        <div className="p-4 sm:p-6 max-w-3xl">
           {/* Header */}
           <div className="mb-6">
             <h1 className="text-xl font-semibold text-gray-900 mb-3">{email.subject}</h1>
@@ -526,7 +569,7 @@ Durand BTP`;
 
         {/* Reply / Draft panel */}
         {showDraft && (
-          <div className="border-t border-gray-200 bg-blue-50/30 p-6 max-w-3xl">
+          <div className="border-t border-gray-200 bg-blue-50/30 p-4 sm:p-6 max-w-3xl">
             {/* Sent confirmation */}
             {sendState === "sent" ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">

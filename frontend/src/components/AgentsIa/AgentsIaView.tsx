@@ -17,17 +17,17 @@ export default function AgentsIaView() {
   const [showRapportDemo, setShowRapportDemo] = useState(false)
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-6">
+    <div className="max-w-5xl mx-auto py-8 sm:py-10 px-4 sm:px-6">
 
       {/* HERO */}
-      <div className="text-center mb-16 max-w-3xl mx-auto">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-50 mb-5">
-          <Bot className="h-7 w-7 text-violet-500" />
+      <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-50 mb-4 sm:mb-5">
+          <Bot className="h-6 w-6 sm:h-7 sm:w-7 text-violet-500" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-4 tracking-tight leading-tight">
           Vos agents IA
         </h1>
-        <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-3">
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-3">
           Plus que des automatisations : des assistants qui r&#233;fl&#233;chissent,
           d&#233;cident, agissent &#8212; et vous demandent votre validation avant
           d&#8217;envoyer.
@@ -42,16 +42,16 @@ export default function AgentsIaView() {
       </div>
 
       {/* COMPARISON SECTION */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3 text-center">
+      <div className="mb-12 sm:mb-16">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 text-center">
           Quelle diff&#233;rence avec une automatisation ?
         </h2>
-        <p className="text-sm text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+        <p className="text-sm text-gray-600 text-center mb-6 sm:mb-8 max-w-2xl mx-auto">
           Les deux font gagner du temps, mais ne r&#233;solvent pas les m&#234;mes
           probl&#232;mes. Voici la diff&#233;rence en clair.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {/* Automation */}
           <div className="bg-white border-2 border-amber-200 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
@@ -107,16 +107,16 @@ export default function AgentsIaView() {
           </span>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3">
           Vos 4 agents pr&#234;ts &#224; l&#8217;emploi
         </h2>
-        <p className="text-base text-gray-600 mb-8 max-w-2xl">
+        <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-2xl">
           Ces agents sont configurables avec vous selon votre activit&#233;.
           Cliquez sur l&#8217;un d&#8217;eux pour comprendre ce qu&#8217;il fait, dans quel
           cas il vous fait gagner du temps.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {AVAILABLE_AGENTS.map((agent) => (
             <AgentCard
               key={agent.id}
@@ -157,7 +157,7 @@ function AgentCard({ agent, onClick }: { agent: Agent; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="bg-white rounded-2xl border border-gray-200 p-6 text-left
+      className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-6 text-left
                  hover:shadow-md hover:border-violet-200 transition-all group"
     >
       <div className="flex items-start justify-between mb-4">
@@ -208,9 +208,9 @@ function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-gray-100 flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4 min-w-0 flex-1">
-            <div className="text-3xl shrink-0">{agent.emoji}</div>
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-100 flex items-start justify-between gap-3 sm:gap-4">
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="text-2xl sm:text-3xl shrink-0">{agent.emoji}</div>
             <div className="min-w-0">
               <div className="inline-flex items-center text-[10px] font-medium px-2 py-1 rounded-md bg-amber-50 text-amber-700 uppercase tracking-wider mb-2">
                 {agent.category}
@@ -229,7 +229,7 @@ function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => v
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5 sm:space-y-6">
 
           {/* Problem */}
           <div>

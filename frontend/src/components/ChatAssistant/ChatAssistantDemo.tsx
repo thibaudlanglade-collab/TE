@@ -235,8 +235,8 @@ function MessageBubble({ message }: { message: ChatMessage }) {
   if (message.role === "user") {
     return (
       <div className="flex items-start gap-3 justify-end">
-        <div className="max-w-[80%]">
-          <div className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-relaxed">
+        <div className="max-w-[85%] sm:max-w-[80%] min-w-0">
+          <div className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-relaxed break-words">
             {message.content}
           </div>
         </div>
@@ -253,7 +253,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         <Sparkles className="h-4 w-4 text-white" />
       </div>
       <div className="flex-1 min-w-0 max-w-[85%]">
-        <div className="bg-gray-50 rounded-2xl rounded-tl-sm px-5 py-4">
+        <div className="bg-gray-50 rounded-2xl rounded-tl-sm px-4 sm:px-5 py-3 sm:py-4 break-words">
           <FormattedContent content={message.content} />
 
           {message.sources && message.sources.length > 0 && (

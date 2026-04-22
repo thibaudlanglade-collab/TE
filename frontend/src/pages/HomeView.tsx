@@ -567,9 +567,9 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
                   return [...items, ...items].map((label, i) => (
                     <div
                       key={i}
-                      className="w-64 sm:w-72 shrink-0 rounded-xl border border-dashed border-violet-200 bg-violet-50/50 dark:border-violet-800/50 dark:bg-violet-950/20 px-4 py-3"
+                      className="w-56 sm:w-72 shrink-0 rounded-xl border border-dashed border-violet-200 bg-violet-50/50 dark:border-violet-800/50 dark:bg-violet-950/20 px-3 py-2.5 sm:px-4 sm:py-3"
                     >
-                      <p className="text-[13px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                      <p className="text-[12px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                         {label}
                       </p>
                     </div>
@@ -620,7 +620,7 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
 
             {/* RIGHT — Globe interactif */}
             <div className="flex items-center justify-center p-6 sm:p-8 md:p-10 border-b md:border-b-0 border-violet-200/60 order-1 md:order-2">
-              <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
+              <GlobeInteractive className="w-full max-w-[200px] sm:max-w-xs" />
             </div>
 
           </div>

@@ -180,14 +180,14 @@ export default function ChatAssistantView(_props: ChatAssistantViewProps) {
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] ${
+                  className={`max-w-[85%] sm:max-w-[80%] min-w-0 ${
                     msg.role === "user"
                       ? "bg-violet-500 text-white rounded-2xl rounded-br-md px-4 py-3"
-                      : "bg-white border border-gray-200 rounded-2xl rounded-bl-md px-5 py-4"
+                      : "bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 sm:px-5 py-3 sm:py-4"
                   }`}
                 >
                   <p
-                    className={`text-sm whitespace-pre-line leading-relaxed ${
+                    className={`text-sm whitespace-pre-line leading-relaxed break-words ${
                       msg.role === "user" ? "text-white" : "text-gray-800"
                     }`}
                   >

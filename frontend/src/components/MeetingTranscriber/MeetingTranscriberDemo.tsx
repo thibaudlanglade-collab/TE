@@ -90,7 +90,7 @@ export default function MeetingTranscriberDemo({ onBack }: MeetingTranscriberDem
       </div>
 
       {/* 3 example cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
         {MEETING_EXAMPLES.map((example) => {
           const Icon = ICON_MAP[example.iconName] || Mic
           const isSelected = selectedExample?.id === example.id

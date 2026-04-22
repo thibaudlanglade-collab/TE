@@ -8,6 +8,10 @@ const DAY_MS = 86_400_000;
 export interface TrialState {
   id: string;
   startedAt: number; // ms since epoch
+  // Populated once the backend has minted a real access token. Sending the
+  // visitor back to this URL re-enters the SAME trial (same seeded data,
+  // same expiry) instead of creating a new one.
+  resumeUrl?: string;
 }
 
 function readCookie(name: string): string | null {
@@ -49,6 +53,21 @@ export function startTrial(): TrialState {
 
 export function getOrStartTrial(): TrialState {
   return getTrial() ?? startTrial();
+}
+
+/**
+ * Persist a backend-minted `/app/<token>` URL on the current trial.
+ *
+ * If a trial already exists, its `id` and `startedAt` are preserved so the
+ * 14-day counter doesn't reset for returning visitors. If none exists, a
+ * fresh trial is created with the current timestamp.
+ */
+export function setTrialResumeUrl(resumeUrl: string): TrialState {
+  const existing = getTrial();
+  const base: TrialState = existing ?? startTrial();
+  const updated: TrialState = { ...base, resumeUrl };
+  writeCookie(COOKIE_NAME, JSON.stringify(updated), TRIAL_DAYS);
+  return updated;
 }
 
 export function daysRemaining(trial: TrialState): number {

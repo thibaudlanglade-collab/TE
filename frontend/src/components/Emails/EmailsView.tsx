@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Archive,
+  ArrowLeft,
   Inbox,
   Mail,
   MailOpen,
@@ -196,7 +197,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
 
       {/* ── ACTION BAR ─────────────────────────────────────────────────── */}
       {status?.connected && (
-        <div className="shrink-0 border-b border-violet-100/60 dark:border-gray-800 flex items-center px-6 py-3 gap-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm">
+        <div className="shrink-0 border-b border-violet-100/60 dark:border-gray-800 flex flex-wrap items-center px-3 sm:px-6 py-2.5 sm:py-3 gap-2 sm:gap-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm">
           {/* Briefing button */}
           <button
             onClick={() => { setShowBriefing(true); void refreshBriefing(); }}
@@ -207,7 +208,8 @@ export default function EmailsView({ onExit: _onExit }: Props) {
             }`}
           >
             <Sparkles className="h-3.5 w-3.5" />
-            Briefing du jour
+            <span className="hidden sm:inline">Briefing du jour</span>
+            <span className="sm:hidden">Briefing</span>
             {hasBriefingBadge && (
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 border-2 border-white" />
             )}
@@ -222,9 +224,9 @@ export default function EmailsView({ onExit: _onExit }: Props) {
             <Settings className="h-4 w-4" />
           </button>
 
-          <div className="flex-1" />
+          <div className="hidden sm:block flex-1" />
 
-          <span className="text-xs text-gray-400">
+          <span className="hidden md:inline text-xs text-gray-400 truncate max-w-[240px]">
             {status.email_address}
             {status.last_sync_at && (
               <> · Synchro {timeAgo(status.last_sync_at)}</>
@@ -233,14 +235,14 @@ export default function EmailsView({ onExit: _onExit }: Props) {
           <button
             onClick={() => void triggerSync()}
             disabled={loading}
-            className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 transition-all disabled:opacity-50 font-medium"
+            className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 transition-all disabled:opacity-50 font-medium ml-auto sm:ml-0"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-            Actualiser
+            <span className="hidden sm:inline">Actualiser</span>
           </button>
           <button
             onClick={() => void disconnectGmail()}
-            className="text-xs text-gray-400 hover:text-red-500 transition-colors px-2 py-1"
+            className="hidden sm:inline text-xs text-gray-400 hover:text-red-500 transition-colors px-2 py-1"
           >
             Déconnecter
           </button>
@@ -261,7 +263,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
         <div className="flex flex-1 min-h-0">
 
           {/* ── LEFT PANE ───────────────────────────────────────────────── */}
-          <aside className="w-96 min-w-80 border-r border-violet-100/60 dark:border-gray-800 flex flex-col min-h-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          <aside className={`${selectedEmail ? "hidden md:flex" : "flex"} w-full md:w-96 md:min-w-80 md:max-w-96 border-r border-violet-100/60 dark:border-gray-800 flex-col min-h-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm`}>
 
             {/* Filters header — fixed, does not scroll */}
             <div className="shrink-0 border-b border-gray-100">
@@ -477,7 +479,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
           </aside>
 
           {/* ── RIGHT PANE ──────────────────────────────────────────────── */}
-          <main className="flex-1 min-h-0 flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          <main className={`${selectedEmail ? "flex" : "hidden md:flex"} flex-1 min-h-0 flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm`}>
             {!selectedEmail && (
               <div className="flex-1 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3 text-center">
@@ -494,8 +496,15 @@ export default function EmailsView({ onExit: _onExit }: Props) {
             {selectedEmail && (
               <>
                 {/* Email header: subject + badges + sender */}
-                <div className="shrink-0 border-b border-gray-100 px-8 py-5">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="shrink-0 border-b border-gray-100 px-4 sm:px-8 py-4 sm:py-5">
+                  <button
+                    onClick={() => void selectEmail(null)}
+                    className="md:hidden flex items-center gap-1 text-xs text-gray-500 hover:text-gray-900 mb-3 transition-colors"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    Retour à la liste
+                  </button>
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     {selectedEmail.subject || "(sans objet)"}
                   </h2>
                   {(selectedEmail.topic || selectedEmail.priority) && (
@@ -555,7 +564,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
                 </div>
 
                 {/* "Répondre avec Synthèse" action row */}
-                <div className="shrink-0 border-b border-gray-100 px-8 py-3 flex items-center gap-2">
+                <div className="shrink-0 border-b border-gray-100 px-4 sm:px-8 py-3 flex items-center gap-2">
                   <button
                     onClick={handleOpenReply}
                     className="flex items-center gap-2 text-sm px-4 py-2.5 rounded-lg font-medium transition-all
@@ -567,7 +576,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
                 </div>
 
                 {/* Email body — scrollable */}
-                <div className="flex-1 overflow-y-auto min-h-0 px-8 py-5">
+                <div className="flex-1 overflow-y-auto min-h-0 px-4 sm:px-8 py-4 sm:py-5">
                   {selectedEmail.body_plain ? (
                     <pre className="whitespace-pre-wrap text-sm text-gray-600 font-sans leading-relaxed">
                       {selectedEmail.body_plain}
@@ -611,7 +620,7 @@ export default function EmailsView({ onExit: _onExit }: Props) {
 
                 {/* Reply drawer */}
                 {replyOpen && (
-                  <div className="shrink-0 border-t border-gray-200 bg-gray-50 px-6 py-4 flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
+                  <div className="shrink-0 border-t border-gray-200 bg-gray-50 px-4 sm:px-6 py-4 flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
                     {replyError && (
                       <p className="text-xs text-red-500">{replyError}</p>
                     )}
