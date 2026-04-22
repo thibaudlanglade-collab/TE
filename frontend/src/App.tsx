@@ -37,6 +37,24 @@ import { getTrial } from "./lib/trial";
 import type { Feature } from "./types";
 import { getTodayBriefing } from "./api/emailsClient";
 
+// Pages where the visitor is actually using their trial workspace.
+// Marketing pages (contact, tarification, rgpd, etc.) are excluded so trial
+// hints and demo popups don't appear there.
+const TRIAL_FEATURE_PAGES = [
+  "chat-assistant",
+  "smart",
+  "photo-to-document",
+  "meeting-transcriber",
+  "planner",
+  "emails",
+  "automations",
+  "agents-ia",
+  "agent-rapport",
+  "classic",
+  "briefing",
+  "mon-equipe",
+] as const;
+
 const PAGE_TITLES: Record<string, string> = {
   home: "Synthèse",
   "chat-assistant": "Assistant Synthèse",
@@ -94,7 +112,10 @@ export default function App() {
   // so they can return to their 14-day trial even if they clear cookies later.
   const [showBookmarkHint, setShowBookmarkHint] = useState(false);
   useEffect(() => {
-    if (activeMode === "demo" || activeMode === "home") return;
+    if (!(TRIAL_FEATURE_PAGES as readonly string[]).includes(activeMode)) {
+      setShowBookmarkHint(false);
+      return;
+    }
     const trial = getTrial();
     if (!trial) return;
     const key = `synthese-trial-bookmark-dismissed-${trial.id}`;
@@ -609,20 +630,7 @@ export default function App() {
       <CookieConsent />
 
       {/* Small popup on demo feature pages inviting users to get a real preview */}
-      {[
-        "chat-assistant",
-        "smart",
-        "photo-to-document",
-        "meeting-transcriber",
-        "planner",
-        "emails",
-        "automations",
-        "agents-ia",
-        "agent-rapport",
-        "classic",
-        "briefing",
-        "mon-equipe",
-      ].includes(activeMode) && <DemoPreviewPopup />}
+      {(TRIAL_FEATURE_PAGES as readonly string[]).includes(activeMode) && <DemoPreviewPopup />}
     </div>
   );
 }

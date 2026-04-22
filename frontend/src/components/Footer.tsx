@@ -109,7 +109,7 @@ export default function Footer() {
               <li className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-gray-400" />
                 <a
-                  href="mailto:langlade.thibaud@synthèse.fr"
+                  href="mailto:langlade.thibaud@xn--synthse-6xa.fr"
                   className="hover:text-violet-600 transition-colors break-all"
                 >
                   langlade.thibaud@synthèse.fr

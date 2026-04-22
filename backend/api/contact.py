@@ -1,3 +1,4 @@
+import logging
 import smtplib
 import ssl
 from email.message import EmailMessage
@@ -7,6 +8,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field, field_validator
 
 import config
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -80,8 +83,16 @@ async def submit_contact(payload: ContactPayload):
                 server.login(config.SMTP_USER, config.SMTP_PASSWORD)
                 server.send_message(msg)
     except smtplib.SMTPException as exc:
+        logger.exception(
+            "Contact SMTP failure host=%s port=%s user=%s to=%s",
+            config.SMTP_HOST, config.SMTP_PORT, config.SMTP_USER, config.CONTACT_TO_EMAIL,
+        )
         raise HTTPException(status_code=502, detail=f"SMTP error: {exc}")
     except OSError as exc:
+        logger.exception(
+            "Contact network failure host=%s port=%s",
+            config.SMTP_HOST, config.SMTP_PORT,
+        )
         raise HTTPException(status_code=502, detail=f"Network error: {exc}")
 
     return {"ok": True}

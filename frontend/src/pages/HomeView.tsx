@@ -7,6 +7,7 @@ import {
   Smartphone, CloudSun, FileSpreadsheet, Camera,
   TrendingUp, RefreshCw, Leaf,
   Building2, Sparkles, Rocket,
+  Play,
 } from "lucide-react";
 import DemoCallout from "@/components/DemoCallout";
 import { GlobeInteractive } from "@/components/ui/cobe-globe-interactive";
@@ -485,6 +486,62 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
   return (
     <div>
       <HeroSection onComprendreClick={onComprendreClick} />
+
+      {/* ENCART VIDÉO — résumé de Synthèse en vidéo */}
+      <section className="pt-10 sm:pt-14 pb-4 sm:pb-6">
+        <div className="mx-auto w-full max-w-4xl px-4">
+          <AnimatedContainer className="text-center mb-6 sm:mb-8">
+            <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">
+              Synthèse en 60 secondes
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-tight text-gray-900 leading-tight">
+              Regardez ce que Synthèse peut faire pour vous.
+            </h2>
+          </AnimatedContainer>
+
+          <AnimatedContainer delay={0.15}>
+            {/*
+              POUR AJOUTER LA VIDÉO :
+              — Hébergée (YouTube / Vimeo) : remplacer le bloc "placeholder" ci-dessous par
+                <iframe
+                  src="https://www.youtube.com/embed/TON_ID?rel=0"
+                  className="absolute inset-0 h-full w-full"
+                  title="Synthèse en 60 secondes"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              — Fichier local : déposer la vidéo dans frontend/public/ (ex: synthese-intro.mp4)
+                puis remplacer par
+                <video
+                  src="/synthese-intro.mp4"
+                  poster="/synthese-intro-poster.jpg"
+                  controls
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+            */}
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 shadow-xl shadow-violet-500/10">
+              {/* Placeholder — à remplacer par la vidéo une fois prête */}
+              <div
+                className="absolute inset-0 opacity-[0.08]"
+                style={{ backgroundImage: "radial-gradient(#7c3aed 1px, transparent 1px)", backgroundSize: "20px 20px" }}
+                aria-hidden
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+                <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm border border-violet-200 shadow-lg shadow-violet-500/20">
+                  <Play className="h-7 w-7 sm:h-9 sm:w-9 text-violet-600 translate-x-0.5" fill="currentColor" />
+                </div>
+                <p className="text-sm sm:text-base font-medium text-gray-700">
+                  Vidéo bientôt disponible
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 max-w-md">
+                  Un aperçu rapide de Synthèse en action — on vous montre tout ce que vous venez de lire, en mouvement.
+                </p>
+              </div>
+            </div>
+          </AnimatedContainer>
+        </div>
+      </section>
 
       {/* CARTES PERSONNALISATION */}
       <section className="py-16 md:py-24">

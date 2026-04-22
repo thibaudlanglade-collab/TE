@@ -402,6 +402,65 @@ class AutomationRun(Base):
         }
 
 
+class AssistantConversation(Base):
+    __tablename__ = "assistant_conversations"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    session_token: Mapped[Optional[str]] = mapped_column(String(64), nullable=True, index=True)
+    title: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    messages: Mapped[list["AssistantMessage"]] = relationship(
+        "AssistantMessage",
+        back_populates="conversation",
+        cascade="all, delete-orphan",
+        order_by="AssistantMessage.id",
+    )
+
+    def to_dict(self, include_messages: bool = False) -> dict[str, Any]:
+        result: dict[str, Any] = {
+            "id": self.id,
+            "title": self.title,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+        if include_messages:
+            result["messages"] = [m.to_dict() for m in self.messages]
+        return result
+
+
+class AssistantMessage(Base):
+    __tablename__ = "assistant_messages"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    conversation_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("assistant_conversations.id", ondelete="CASCADE"),
+        nullable=False, index=True,
+    )
+    role: Mapped[str] = mapped_column(String(32), nullable=False)
+    content_json: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    conversation: Mapped["AssistantConversation"] = relationship(
+        "AssistantConversation", back_populates="messages"
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "role": self.role,
+            "content": json.loads(self.content_json or "[]"),
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
 class MorningBriefing(Base):
     __tablename__ = "morning_briefings"
 
