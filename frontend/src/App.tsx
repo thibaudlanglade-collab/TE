@@ -22,6 +22,7 @@ import QuiSommesNousView from "./pages/QuiSommesNousView";
 import TarificationView from "./pages/TarificationView";
 import DemoView from "./pages/DemoView";
 import WelcomeView from "./pages/WelcomeView";
+import DashboardHomeView from "./pages/DashboardHomeView";
 import BriefingView from "./pages/BriefingView";
 import MonEquipeView from "./pages/MonEquipeView";
 import MentionsLegalesView from "./pages/MentionsLegalesView";
@@ -77,6 +78,7 @@ const PAGE_TITLES: Record<string, string> = {
   tarification: "Tarification",
   demo: "Obtenez votre aperçu",
   welcome: "Bienvenue",
+  dashboard: "Mon espace Synthèse",
   "mentions-legales": "Mentions légales",
   "politique-confidentialite": "Politique de confidentialité",
   classic: "Synthèse",
@@ -86,7 +88,7 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "welcome" | "briefing" | "mon-equipe" | "mentions-legales" | "politique-confidentialite">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "welcome" | "dashboard" | "briefing" | "mon-equipe" | "mentions-legales" | "politique-confidentialite">("home");
   const navigate = useNavigate();
 
   // Mobile sidebar
@@ -503,6 +505,8 @@ export default function App() {
           {activeMode === "demo" && <DemoView />}
 
           {activeMode === "welcome" && <WelcomeView />}
+
+          {activeMode === "dashboard" && <DashboardHomeView />}
 
           {activeMode === "mentions-legales" && <MentionsLegalesView />}
 

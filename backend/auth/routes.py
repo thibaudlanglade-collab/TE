@@ -94,12 +94,10 @@ async def activate_token(
         return RedirectResponse(url="/expired", status_code=status.HTTP_302_FOUND)
 
     session_token = await open_session(db, user)
-    # Land on the dedicated WelcomeView (activeMode="welcome"). It reads
-    # the trial cookie, shows the RGPD reassurance + "what you're about
-    # to test" copy, and has a CTA that moves the visitor into the
-    # Assistant. The page is distinct from the marketing homepage so
-    # the trial state is visually unambiguous.
-    target = "/#welcome"
+    # First visit → the RGPD onboarding; after the visitor has dismissed
+    # it once (welcome_shown=True), drop them straight into the dashboard
+    # landing. Both pages are served by the SPA via hash routes.
+    target = "/#welcome" if not user.welcome_shown else "/#dashboard"
 
     redirect = RedirectResponse(url=target, status_code=status.HTTP_302_FOUND)
     redirect.set_cookie(

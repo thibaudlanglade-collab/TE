@@ -30,11 +30,20 @@ export default function WelcomeView() {
   const trial = getTrial();
   const daysLeft = trial ? daysRemaining(trial) : 14;
 
-  function handleEnter() {
+  async function handleEnter() {
     setSubmitting(true);
-    // Hash navigation is synchronous; the brief spinner just gives the
-    // visitor a sense that the click registered.
-    setTimeout(() => navigate("/chat-assistant"), 80);
+    // Flip welcome_shown on the backend so future /app/<token>
+    // activations go straight to /#dashboard without showing this
+    // onboarding again. Non-fatal if it fails — we still navigate.
+    try {
+      await fetch("/api/welcome/seen", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      // Ignore — the UX works either way.
+    }
+    navigate("/dashboard");
   }
 
   return (
