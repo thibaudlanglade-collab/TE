@@ -94,7 +94,10 @@ async def activate_token(
         return RedirectResponse(url="/expired", status_code=status.HTTP_302_FOUND)
 
     session_token = await open_session(db, user)
-    target = "/welcome" if not user.welcome_shown else "/dashboard"
+    # /welcome and /dashboard were TE-main-specific views; the `te` SPA
+    # doesn't know them. Land on / so the session cookie is set without a
+    # confusing URL, and the React shell takes over from there.
+    target = "/"
 
     redirect = RedirectResponse(url=target, status_code=status.HTTP_302_FOUND)
     redirect.set_cookie(
