@@ -1,12 +1,11 @@
 import {
-  Building2, MapPin, Mail, Phone, Sparkles,
+  Building2, MapPin, Mail, Phone,
   RefreshCw,
   Eye, Handshake,
 } from "lucide-react"
-import { useNavigate } from "../lib/navigate"
+import DemoCallout from "@/components/DemoCallout"
 
 export default function QuiSommesNousView() {
-  const navigate = useNavigate()
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-6">
@@ -179,7 +178,7 @@ export default function QuiSommesNousView() {
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Mail className="h-4 w-4 text-violet-400" />
-              <a href="mailto:contact@synthèse.fr" className="hover:text-violet-600 transition-colors">contact@synthèse.fr</a>
+              <a href="mailto:langlade.thibaud@synthèse.fr" className="hover:text-violet-600 transition-colors break-all">langlade.thibaud@synthèse.fr</a>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Phone className="h-4 w-4 text-violet-400" />
@@ -190,16 +189,8 @@ export default function QuiSommesNousView() {
       </div>
 
 
-      {/* CTA */}
-      <div className="text-center py-8">
-        <button
-          onClick={() => navigate("/contact")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
-        >
-          <Sparkles className="h-4 w-4" />
-          Parlons de votre activité
-        </button>
-      </div>
+      {/* CTA — démo 14 jours gratuits */}
+      <DemoCallout />
     </div>
   )
 }

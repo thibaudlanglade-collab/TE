@@ -4,6 +4,7 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "../lib/navigate"
+import DemoCallout from "@/components/DemoCallout"
 
 export default function TarificationView() {
   const navigate = useNavigate()
@@ -227,10 +228,15 @@ export default function TarificationView() {
       </div>
 
 
-      {/* CTA */}
+      {/* CALLOUT — démo 14 jours gratuits */}
+      <div className="mb-8">
+        <DemoCallout />
+      </div>
+
+      {/* CTA — devis personnalisé */}
       <div className="text-center py-8 bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-3xl border border-violet-100 px-8">
         <h2 className="text-2xl font-semibold text-gray-900 mb-3">
-          Demandez votre devis personnalisé
+          Vous préférez parler de votre tarification ?
         </h2>
         <p className="text-base text-gray-600 mb-6 max-w-xl mx-auto">
           15 minutes au téléphone suffisent pour comprendre vos besoins
@@ -238,10 +244,10 @@ export default function TarificationView() {
         </p>
         <button
           onClick={() => navigate("/contact")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-white text-violet-600 text-sm font-semibold rounded-xl border border-violet-300 hover:bg-violet-50 hover:border-violet-400 transition-all"
         >
           <Sparkles className="h-4 w-4" />
-          Demander un devis
+          Demander un devis personnalisé
         </button>
       </div>
     </div>
@@ -389,11 +395,11 @@ function SavingsCalculator() {
 
           <div className="mt-4">
             <button
-              onClick={() => navigate("/contact")}
+              onClick={() => navigate("/demo")}
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
             >
               <Sparkles className="h-4 w-4" />
-              Demander un devis personnalisé
+              Tester gratuitement 14 jours
             </button>
           </div>
         </div>

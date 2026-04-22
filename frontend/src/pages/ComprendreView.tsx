@@ -1,16 +1,15 @@
 import {
-  Lightbulb, Brain, Cable, Sparkles,
+  Lightbulb, Brain, Cable,
   Mail, FolderOpen, FileSpreadsheet, Building2, Calculator,
   Calendar, Users, Zap, Bot,
   MessageSquare, CheckCircle2, Clock, Wrench,
   Target, RefreshCw,
-  Sheet
+  Sheet,
 } from "lucide-react"
 import RadialOrbitalTimeline, { type OrbitalNode } from "@/components/ui/radial-orbital-timeline"
-import { useNavigate } from "../lib/navigate"
+import DemoCallout from "@/components/DemoCallout"
 
 export default function ComprendreView() {
-  const navigate = useNavigate();
   return (
     <div className="max-w-4xl mx-auto py-6 sm:py-10 px-4 sm:px-6 pb-24">
 
@@ -611,24 +610,9 @@ export default function ComprendreView() {
 
 
       {/* ============================================ */}
-      {/* CTA */}
+      {/* CTA — démo 14 jours gratuits */}
       {/* ============================================ */}
-      <div className="text-center py-7 sm:py-8 bg-gradient-to-br from-violet-50 via-blue-50 to-violet-50 rounded-2xl sm:rounded-3xl border border-violet-100 px-5 sm:px-8">
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 leading-tight">
-          Maintenant que vous avez compris le « comment »...
-        </h2>
-        <p className="text-sm sm:text-base text-gray-700 mb-6 max-w-xl mx-auto leading-relaxed">
-          Explorez les fonctionnalités dans la barre de gauche, ou
-          prenons un moment ensemble pour parler de votre activité.
-        </p>
-        <button
-          onClick={() => navigate("/contact")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm touch-manipulation"
-        >
-          <Sparkles className="h-4 w-4" />
-          Parlons de votre activité
-        </button>
-      </div>
+      <DemoCallout />
     </div>
   )
 }

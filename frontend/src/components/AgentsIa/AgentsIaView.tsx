@@ -1,10 +1,11 @@
 import { useState } from "react"
 import {
   Bot, Zap, Target, FileText, BarChart3, Headphones,
-  X, Sparkles, AlertTriangle, Lightbulb, Eye
+  X, Sparkles, AlertTriangle, Lightbulb, Eye, Rocket
 } from "lucide-react"
 import { AVAILABLE_AGENTS, COMPARISON_DATA, type Agent } from "@/data/agentsIaDemoData"
 import AgentRapportDemo from "@/components/AgentRapportDemo"
+import DemoCallout from "@/components/DemoCallout"
 import { useNavigate } from "../../lib/navigate"
 
 const ICON_MAP: Record<string, any> = {
@@ -124,6 +125,11 @@ export default function AgentsIaView() {
             />
           ))}
         </div>
+      </div>
+
+      {/* CALLOUT — try the demo */}
+      <div className="mb-8">
+        <DemoCallout />
       </div>
 
       {/* MODAL */}
@@ -279,11 +285,11 @@ function AgentModal({ agent, onClose, onDemo }: { agent: Agent; onClose: () => v
             </button>
           )}
           <button
-            onClick={() => { onClose(); navigate("/contact") }}
+            onClick={() => { onClose(); navigate("/demo") }}
             className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-sm"
           >
-            <Sparkles className="h-4 w-4" />
-            &#199;a m&#8217;int&#233;resse, contactez-moi
+            <Rocket className="h-4 w-4" />
+            Essayer en d&#233;mo gratuite
           </button>
           <button
             onClick={onClose}

@@ -1,15 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "../lib/navigate";
 import {
-  Search,
   Wallet, Wrench, HandHeart,
   X, CheckCircle2, CalendarCheck,
   Shield,
   Smartphone, CloudSun, FileSpreadsheet, Camera,
   TrendingUp, RefreshCw, Leaf,
-  Building2, Sparkles,
+  Building2, Sparkles, Rocket,
 } from "lucide-react";
-import { StarButton } from "@/components/ui/star-button";
+import DemoCallout from "@/components/DemoCallout";
 import { GlobeInteractive } from "@/components/ui/cobe-globe-interactive";
 import { HeroSection } from "@/components/ui/hero-section";
 import { FeatureCard, AnimatedContainer } from "@/components/ui/grid-feature-cards";
@@ -463,11 +462,11 @@ function IntegrationModal({
             Fermer
           </button>
           <button
-            onClick={() => { onClose(); navigate("/contact"); }}
+            onClick={() => { onClose(); navigate("/demo"); }}
             className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg"
           >
-            <CalendarCheck className="w-4 h-4" />
-            Parler à un expert
+            <Rocket className="w-4 h-4" />
+            Obtenir mon aperçu gratuit
           </button>
         </div>
       </div>
@@ -624,6 +623,22 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
               <GlobeInteractive className="w-full max-w-[240px] sm:max-w-xs" />
             </div>
 
+          </div>
+        </div>
+
+        {/* MINI CTA — après la section Jarvis */}
+        <div className="mt-8 sm:mt-10 mx-auto max-w-3xl">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 px-5 py-4 sm:px-7 sm:py-5 rounded-2xl bg-gradient-to-r from-violet-100/80 via-fuchsia-50 to-violet-100/80 border border-violet-200/80 shadow-sm">
+            <p className="text-base sm:text-[15px] font-medium text-gray-800 text-center sm:text-left">
+              Curieux de voir cette petite voix à l'œuvre ?
+            </p>
+            <button
+              onClick={() => navigate("/demo")}
+              className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-500 to-blue-500 hover:from-violet-600 hover:to-blue-600 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            >
+              <Rocket className="h-4 w-4" />
+              Tester la démo gratuitement
+            </button>
           </div>
         </div>
       </div>
@@ -881,6 +896,11 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
         </div>
       </div>
 
+      {/* CALLOUT — démo gratuite 14 jours */}
+      <div className="mb-16 sm:mb-20">
+        <DemoCallout variant="compact" />
+      </div>
+
       {/* SYNTHÈSE C'EST QUI + TARIFICATION — DUO */}
       <div className="mb-20">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
@@ -961,41 +981,13 @@ export default function HomeView({ onComprendreClick, onRgpdClick }: { onCompren
 
       </div>
 
-      {/* CTA FINAL */}
-      <div className="bg-gradient-to-br from-violet-100 via-pink-50 to-fuchsia-100 dark:from-violet-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center border border-violet-200/50 shadow-lg shadow-violet-500/5">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-gray-900 dark:text-white mb-3 leading-tight tracking-tight">
-          Prêt à découvrir Synthèse en action ?
-        </h2>
-        <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
-          Explorez librement la plateforme, ou prenons un moment ensemble pour
-          parler de votre activité.
-        </p>
+      {/* CTA FINAL — 14 jours gratuits */}
+      <DemoCallout />
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
-          <StarButton
-            lightColor="#7C3AED"
-            className="rounded-xl h-12 px-6 touch-manipulation"
-            onClick={() => navigate("/demo")}
-          >
-            ✨ Obtenir un aperçu
-          </StarButton>
-
-          <button
-            onClick={() =>
-              alert("Naviguez librement dans la sidebar pour explorer")
-            }
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm sm:text-base font-semibold rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all touch-manipulation"
-          >
-            <Search className="h-5 w-5" />
-            Explorer la plateforme
-          </button>
-        </div>
-
-        <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 mt-5 sm:mt-6 leading-relaxed">
-          Compte de démonstration — toutes les fonctionnalités sont accessibles
-          dans la sidebar
-        </p>
-      </div>
+      <p className="text-center text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 mt-5 sm:mt-6 leading-relaxed">
+        Vous pouvez aussi explorer librement les fonctionnalités via la
+        barre de gauche.
+      </p>
 
       {/* MODAL */}
       {selectedApp && (

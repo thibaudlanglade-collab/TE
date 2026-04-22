@@ -1,5 +1,6 @@
 import { Sparkles, Mail, Phone, MapPin, User } from "lucide-react";
 import { useNavigate } from "../lib/navigate";
+import { openCookieConsent } from "./CookieConsent";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -72,6 +73,22 @@ export default function Footer() {
               </li>
               <li>
                 <button
+                  onClick={() => navigate("/mentions-legales")}
+                  className="hover:text-violet-600 transition-colors"
+                >
+                  Mentions légales
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigate("/politique-confidentialite")}
+                  className="hover:text-violet-600 transition-colors"
+                >
+                  Politique de confidentialité
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => navigate("/contact")}
                   className="hover:text-violet-600 transition-colors"
                 >
@@ -92,10 +109,10 @@ export default function Footer() {
               <li className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-gray-400" />
                 <a
-                  href="mailto:contact@synthèse.fr"
-                  className="hover:text-violet-600 transition-colors"
+                  href="mailto:langlade.thibaud@synthèse.fr"
+                  className="hover:text-violet-600 transition-colors break-all"
                 >
-                  contact@synthèse.fr
+                  langlade.thibaud@synthèse.fr
                 </a>
               </li>
               <li className="flex items-center gap-2">
@@ -115,10 +132,21 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-100 text-center text-xs text-gray-500">
-          © 2025 Synthèse · RGPD conforme
+        <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center gap-y-2 gap-x-4 text-xs text-gray-500">
+          <span>© 2025 Synthèse · RGPD conforme</span>
+          <Sep />
+          <button
+            onClick={openCookieConsent}
+            className="hover:text-violet-600 transition-colors"
+          >
+            Préférences cookies
+          </button>
         </div>
       </div>
     </footer>
   );
+}
+
+function Sep() {
+  return <span className="hidden sm:inline text-gray-300">·</span>;
 }

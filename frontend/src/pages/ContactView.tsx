@@ -217,10 +217,10 @@ export default function ContactView() {
                   <Mail className="h-4 w-4" />
                 </div>
                 <a
-                  href="mailto:contact@synthèse.fr"
-                  className="hover:underline underline-offset-2"
+                  href="mailto:langlade.thibaud@synthèse.fr"
+                  className="hover:underline underline-offset-2 break-all"
                 >
-                  contact@synthèse.fr
+                  langlade.thibaud@synthèse.fr
                 </a>
               </li>
               <li className="flex items-center gap-3">

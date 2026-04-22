@@ -1,69 +1,22 @@
 import { useState, type FormEvent } from "react";
 import {
-  HardHat,
-  ClipboardList,
-  Workflow,
-  CheckCircle2,
   ArrowRight,
   Mail,
+  Rocket,
+  Sparkles,
 } from "lucide-react";
-
-interface DemoCard {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  features: string[];
-  tint: string;
-  accentColor: string;
-}
-
-const DEMO_CARDS: DemoCard[] = [
-  {
-    icon: HardHat,
-    title: "Terrain",
-    description:
-      "Pour ceux qui travaillent en mobilité : BTP, artisans, techniciens, commerciaux.",
-    features: [
-      "Photos de factures qui se classent toutes seules",
-      "Devis générés depuis une description",
-      "Rapports clients en quelques secondes",
-      "Réponses à vos questions sur vos documents",
-    ],
-    tint: "bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 border-violet-200/70",
-    accentColor: "#7c3aed",
-  },
-  {
-    icon: ClipboardList,
-    title: "Gestion",
-    description:
-      "Pour ceux qui jonglent avec beaucoup d'administratif : cabinets, services, gestion immobilière, formation.",
-    features: [
-      "Extraction automatique de contrats et documents",
-      "Boîte mail centralisée et triée",
-      "Rapports détaillés sur vos dossiers clients",
-      "Recherche intelligente dans vos documents",
-    ],
-    tint: "bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 border-emerald-200/70",
-    accentColor: "#059669",
-  },
-  {
-    icon: Workflow,
-    title: "Opérations",
-    description:
-      "Pour ceux qui gèrent flux et équipes : restauration, commerce, production, logistique.",
-    features: [
-      "Commandes fournisseurs centralisées",
-      "Suivi des stocks automatisé",
-      "Tableau de bord de votre activité",
-      "Alertes intelligentes sur vos opérations",
-    ],
-    tint: "bg-gradient-to-br from-indigo-100 via-violet-50 to-fuchsia-100 border-indigo-200/70",
-    accentColor: "#4f46e5",
-  },
-];
+import { useNavigate } from "../lib/navigate";
+import { getTrial, getOrStartTrial, daysRemaining } from "../lib/trial";
 
 export default function DemoView() {
   const [code, setCode] = useState("");
+  const navigate = useNavigate();
+  const existingTrial = getTrial();
+
+  function handleStartTrial() {
+    getOrStartTrial();
+    navigate("/comprendre");
+  }
 
   function handleCodeSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,6 +26,7 @@ export default function DemoView() {
   }
 
   const codeEmpty = code.trim().length === 0;
+  const remaining = existingTrial ? daysRemaining(existingTrial) : null;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10 sm:py-16">
@@ -88,72 +42,47 @@ export default function DemoView() {
         </p>
       </div>
 
-      {/* BLOC 2 — 3 cards, gradient tints + grid pattern */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 mb-16 sm:mb-20">
-        {DEMO_CARDS.map((card) => {
-          const Icon = card.icon;
-          return (
-            <div
-              key={card.title}
-              aria-disabled="true"
-              className={`relative overflow-hidden flex flex-col rounded-2xl border p-6 sm:p-7 opacity-[0.9] cursor-default select-none ${card.tint}`}
+      {/* BLOC 2 — Single CTA card: start or resume 14-day trial */}
+      <div className="max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-violet-200/70 bg-gradient-to-br from-violet-100 via-fuchsia-50 to-pink-100 p-8 sm:p-10 md:p-12 text-center shadow-lg shadow-violet-500/10">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage: "radial-gradient(#7c3aed 1px, transparent 1px)",
+              backgroundSize: "18px 18px",
+            }}
+            aria-hidden
+          />
+
+          <div className="relative z-10 flex flex-col items-center">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/80 text-violet-700 border border-violet-200 mb-5">
+              <Sparkles className="h-3 w-3" />
+              14 jours offerts · sans engagement
+            </span>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-4 leading-tight tracking-tight max-w-2xl">
+              Essayez nos fonctionnalités gratuitement avec vos données pendant 14 jours
+            </h2>
+
+            <p className="text-sm sm:text-base text-gray-700 mb-7 max-w-xl mx-auto leading-relaxed">
+              Un seul clic suffit. Pas de carte bancaire, pas de formulaire, pas d'attente — votre démo est créée instantanément.
+            </p>
+
+            <button
+              onClick={handleStartTrial}
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-violet-500 to-blue-500 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-violet-600 hover:to-blue-600 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.07]"
-                style={{
-                  backgroundImage: `radial-gradient(${card.accentColor} 1px, transparent 1px)`,
-                  backgroundSize: "18px 18px",
-                }}
-                aria-hidden
-              />
+              <Rocket className="h-4 w-4 sm:h-5 sm:w-5" />
+              {existingTrial
+                ? `Reprendre ma démo${remaining !== null ? ` · ${remaining} jour${remaining > 1 ? "s" : ""} restant${remaining > 1 ? "s" : ""}` : ""}`
+                : "Commencer ma démo gratuite"}
+            </button>
 
-              <div className="relative z-10 flex flex-col h-full">
-                {/* Header — icon + title */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-sm bg-white"
-                    style={{ color: card.accentColor }}
-                  >
-                    <Icon className="h-6 w-6" strokeWidth={1.75} />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 tracking-tight leading-tight">
-                    {card.title}
-                  </h3>
-                </div>
-
-                {/* Description */}
-                <p className="text-sm text-gray-700 leading-relaxed mb-5 break-words">
-                  {card.description}
-                </p>
-
-                {/* Divider */}
-                <div className="h-px bg-gray-900/10 mb-4" aria-hidden />
-
-                {/* Features */}
-                <ul className="space-y-2 mb-6">
-                  {card.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2">
-                      <CheckCircle2
-                        className="h-4 w-4 shrink-0 mt-0.5"
-                        style={{ color: card.accentColor }}
-                      />
-                      <span className="text-xs sm:text-[13px] text-gray-700 leading-snug break-words">
-                        {feat}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Badge */}
-                <div className="mt-auto pt-2">
-                  <span className="inline-flex items-center text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/80 text-gray-600 uppercase tracking-wider border border-white shadow-sm">
-                    Bientôt disponible
-                  </span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+            <p className="mt-4 text-[11px] sm:text-xs text-gray-500">
+              Accès immédiat · Aucune inscription · Aucune carte bancaire
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* BLOC 3 — Unified action section (code d'accès + espace personnalisé) */}
@@ -164,7 +93,7 @@ export default function DemoView() {
             Vous avez déjà un code d'accès&nbsp;?
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed mb-6 sm:mb-7 max-w-lg mx-auto">
-            Si Thibaud vous a envoyé un code personnalisé, entrez-le ici pour
+            Si Synthèse vous a envoyé un code personnalisé, entrez-le ici pour
             accéder directement à votre espace.
           </p>
 
@@ -207,7 +136,7 @@ export default function DemoView() {
           </p>
 
           <a
-            href="mailto:contact@synthese.fr?subject=Demande%20d'un%20espace%20personnalis%C3%A9"
+            href="mailto:langlade.thibaud@synthèse.fr?subject=Demande%20d'un%20espace%20personnalis%C3%A9"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-violet-600 text-sm font-semibold rounded-xl border border-violet-300 hover:bg-violet-50 hover:border-violet-400 transition-all"
           >
             <Mail className="h-4 w-4" />
