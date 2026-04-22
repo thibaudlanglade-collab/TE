@@ -94,10 +94,11 @@ async def activate_token(
         return RedirectResponse(url="/expired", status_code=status.HTTP_302_FOUND)
 
     session_token = await open_session(db, user)
-    # /welcome and /dashboard were TE-main-specific views; the `te` SPA
-    # doesn't know them. Land on / so the session cookie is set without a
-    # confusing URL, and the React shell takes over from there.
-    target = "/"
+    # Land the visitor directly inside a feature (the AI Assistant) rather
+    # than the marketing homepage — that way the "I'm in the trial" state
+    # is visually unambiguous. The hash picks a specific sidebar item so
+    # the SPA sets activeMode="chat-assistant" on load.
+    target = "/#chat-assistant"
 
     redirect = RedirectResponse(url=target, status_code=status.HTTP_302_FOUND)
     redirect.set_cookie(
