@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, MessageSquare, Info, X, Bookmark } from "lucide-react";
+import { Sparkles, MessageSquare, Info, X } from "lucide-react";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Topbar } from "./components/Topbar/Topbar";
 import WorkflowLauncher from "./components/WorkflowLauncher/WorkflowLauncher";
@@ -108,40 +108,25 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [showCustomizationHint]);
 
-  // Trial bookmark hint: once per trial, encourage the visitor to save the URL
-  // so they can return to their 14-day trial even if they clear cookies later.
-  const [showBookmarkHint, setShowBookmarkHint] = useState(false);
+  // "Welcome to your trial" toast — fires once, right after /app/<token>
+  // lands the visitor back on /. DemoView sets the flag in localStorage
+  // before the redirect; we read it on mount and clear it.
+  const [showTrialWelcome, setShowTrialWelcome] = useState(false);
   useEffect(() => {
-    if (!(TRIAL_FEATURE_PAGES as readonly string[]).includes(activeMode)) {
-      setShowBookmarkHint(false);
-      return;
-    }
-    const trial = getTrial();
-    if (!trial) return;
-    const key = `synthese-trial-bookmark-dismissed-${trial.id}`;
     try {
-      if (localStorage.getItem(key) === "1") return;
+      if (localStorage.getItem("synthese-trial-just-activated") === "1") {
+        setShowTrialWelcome(true);
+        localStorage.removeItem("synthese-trial-just-activated");
+      }
     } catch {
-      // localStorage unavailable — still show
+      // localStorage unavailable — skip
     }
-    setShowBookmarkHint(true);
-  }, [activeMode]);
-
-  function dismissBookmarkHint() {
-    setShowBookmarkHint(false);
-    const trial = getTrial();
-    if (!trial) return;
-    try {
-      localStorage.setItem(`synthese-trial-bookmark-dismissed-${trial.id}`, "1");
-    } catch {
-      // ignore
-    }
-  }
-
-  const bookmarkShortcut =
-    typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
-      ? "⌘ + D"
-      : "Ctrl + D";
+  }, []);
+  useEffect(() => {
+    if (!showTrialWelcome) return;
+    const timer = setTimeout(() => setShowTrialWelcome(false), 8000);
+    return () => clearTimeout(timer);
+  }, [showTrialWelcome]);
 
   // Scroll container ref — reset scroll on page change
   const mainRef = useRef<HTMLElement | null>(null);
@@ -385,6 +370,37 @@ export default function App() {
         <span className="sm:hidden">Contact</span>
       </button>
 
+      {/* Trial activation toast — fires once, right after /app/<token> lands
+          the visitor back on /. Confirms the 14-day demo has started. */}
+      {showTrialWelcome && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed top-[52px] sm:top-[60px] right-3 sm:right-4 z-[60] w-[calc(100%-1.5rem)] sm:w-auto sm:max-w-sm animate-toast-in"
+        >
+          <div className="flex items-start gap-3 rounded-2xl border border-emerald-300/70 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 px-4 py-3.5 shadow-lg shadow-emerald-500/10">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-50">
+              <Sparkles className="h-5 w-5 text-emerald-600" />
+            </div>
+            <div className="flex-1 pt-0.5 min-w-0">
+              <p className="text-sm font-semibold text-gray-900">
+                Votre démo a démarré !
+              </p>
+              <p className="mt-0.5 text-xs leading-relaxed text-gray-700">
+                Vous avez 14 jours pour tester toutes les fonctionnalités. Explorez la barre de gauche.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowTrialWelcome(false)}
+              aria-label="Fermer"
+              className="shrink-0 rounded-md p-1 text-emerald-700/60 hover:bg-emerald-200/40 hover:text-emerald-800 transition-colors"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* First-visit customization hint — amber toast top-right */}
       {showCustomizationHint && (
         <div
@@ -415,37 +431,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Trial bookmark hint — amber toast top-right, once per trial */}
-      {showBookmarkHint && !showCustomizationHint && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="fixed top-[52px] sm:top-[60px] right-3 sm:right-4 z-[60] w-[calc(100%-1.5rem)] sm:w-auto sm:max-w-sm animate-toast-in"
-        >
-          <div className="flex items-start gap-3 rounded-2xl border border-amber-300/60 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 px-4 py-3.5 shadow-lg shadow-amber-500/10">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-50">
-              <Bookmark className="h-5 w-5 text-amber-600" />
-            </div>
-            <div className="flex-1 pt-0.5 min-w-0">
-              <p className="text-sm font-semibold text-gray-900">
-                Enregistrez ce lien
-              </p>
-              <p className="mt-0.5 text-xs leading-relaxed text-gray-700">
-                Ajoutez cette page à vos favoris ({bookmarkShortcut}) pour
-                retrouver votre démo facilement. Sans ça, vous pourriez perdre
-                l'accès si vous fermez votre navigateur.
-              </p>
-            </div>
-            <button
-              onClick={dismissBookmarkHint}
-              aria-label="Fermer"
-              className="shrink-0 rounded-md p-1 text-amber-700/60 hover:bg-amber-200/40 hover:text-amber-800 transition-colors"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Sidebar */}
       <Sidebar

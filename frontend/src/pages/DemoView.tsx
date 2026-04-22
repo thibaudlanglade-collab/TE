@@ -29,6 +29,13 @@ export default function DemoView() {
       // Preserves existing id + startedAt if any — returning visitors without
       // a resumeUrl don't get their 14-day counter reset.
       setTrialResumeUrl(access_url);
+      // Survives the full-page redirect — App.tsx reads it on mount and shows
+      // the "welcome to your trial" toast once, then clears it.
+      try {
+        localStorage.setItem("synthese-trial-just-activated", "1");
+      } catch {
+        // localStorage unavailable — the toast just won't fire, flow still works
+      }
       window.location.href = access_url;
     } catch (err) {
       setStartError(
