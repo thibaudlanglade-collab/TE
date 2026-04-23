@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Sparkles, MessageSquare, Info, X } from "lucide-react";
 import { Sidebar } from "./components/Sidebar/Sidebar";
+import DashboardSidebar from "./components/DashboardSidebar/DashboardSidebar";
 import { Topbar } from "./components/Topbar/Topbar";
 import WorkflowLauncher from "./components/WorkflowLauncher/WorkflowLauncher";
 import ProgressPanel from "./components/ProgressPanel/ProgressPanel";
@@ -35,7 +36,7 @@ import { useFeatures } from "./hooks/useFeatures";
 import { useWorkflowRun } from "./hooks/useWorkflowRun";
 import { useNavigate, NAVIGATE_EVENT } from "./lib/navigate";
 import { initAnalytics, trackPageView } from "./lib/analytics";
-import { getTrial } from "./lib/trial";
+import { getTrial, daysRemaining } from "./lib/trial";
 import type { Feature } from "./types";
 import { getTodayBriefing } from "./api/emailsClient";
 
@@ -55,6 +56,13 @@ const TRIAL_FEATURE_PAGES = [
   "classic",
   "briefing",
   "mon-equipe",
+] as const;
+
+// Pages that belong to the trial workspace. Show DashboardSidebar instead of
+// the marketing Sidebar, and the "Se déconnecter" link in the topbar.
+const WORKSPACE_PAGES = [
+  ...TRIAL_FEATURE_PAGES,
+  "dashboard",
 ] as const;
 
 const PAGE_TITLES: Record<string, string> = {
@@ -325,6 +333,23 @@ export default function App() {
   const pageTitle = selected?.name ?? PAGE_TITLES[activeMode] ?? "Synthèse";
   const trial = getTrial();
   const hasResumableTrial = !!trial?.resumeUrl;
+  const isWorkspace = (WORKSPACE_PAGES as readonly string[]).includes(activeMode);
+  const trialDaysLeft = trial ? daysRemaining(trial) : 14;
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+    } catch {
+      // Non-fatal — still clear client cookie and go home.
+    }
+    try {
+      document.cookie = "synthese_trial=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax";
+    } catch {
+      // sessionStorage unavailable — skip
+    }
+    setActiveMode("home");
+    window.location.hash = "home";
+  }
 
   return (
     <div className="min-h-screen bg-stone-100 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
@@ -436,7 +461,16 @@ export default function App() {
       )}
 
 
-      {/* Sidebar */}
+      {/* Sidebar — workspace pages get the TE-main-style DashboardSidebar,
+          everything else keeps the marketing Sidebar. */}
+      {isWorkspace ? (
+        <DashboardSidebar
+          activeMode={activeMode}
+          daysLeft={trialDaysLeft}
+          mobileOpen={sidebarOpen}
+          onMobileClose={() => setSidebarOpen(false)}
+        />
+      ) : (
       <Sidebar
         onChatAssistantClick={() => { handleChatAssistantClick(); setSidebarOpen(false); }}
         chatAssistantModeActive={activeMode === "chat-assistant"}
@@ -476,11 +510,16 @@ export default function App() {
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
+      )}
 
       {/* Main area offset by sidebar + demo banner */}
       <div className={`lg:ml-60 flex flex-col h-screen ${activeMode !== "demo" ? "pt-[41px]" : ""}`}>
         {/* Topbar */}
-        <Topbar pageTitle={pageTitle} onMenuClick={() => setSidebarOpen(true)} />
+        <Topbar
+          pageTitle={pageTitle}
+          onMenuClick={() => setSidebarOpen(true)}
+          onLogout={isWorkspace ? handleLogout : undefined}
+        />
 
         {/* Content */}
         <main ref={mainRef} className="flex-1 overflow-y-auto">
