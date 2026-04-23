@@ -22,6 +22,7 @@ from api.assistant import assistant_router
 from api.tarifs import tarifs_router
 from api.drive import drive_router
 from api.clients import clients_router, client_report_router
+from api.quotes import quotes_router
 from auth.routes import router as auth_router
 from services.gmail_sync import start_scheduler, stop_scheduler
 from db.database import async_session_maker, init_db
@@ -86,6 +87,7 @@ app.include_router(tarifs_router, prefix="/api")
 app.include_router(drive_router, prefix="/api")
 app.include_router(clients_router, prefix="/api")
 app.include_router(client_report_router, prefix="/api")
+app.include_router(quotes_router, prefix="/api")
 # No prefix — auth_router already includes /api/auth/* and /app/{token} paths.
 # Mounted BEFORE the SPA catch-all so /app/{token} and /expired are not
 # swallowed by index.html.

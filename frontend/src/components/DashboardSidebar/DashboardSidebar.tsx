@@ -202,9 +202,10 @@ export default function DashboardSidebar({
           <Item
             icon={FileText}
             label="Devis"
+            mode="devis"
             activeMode={activeMode}
-            status="soon"
-            soonLabel="Arrive dans votre version définitive"
+            status="active"
+            onClick={go("/devis")}
           />
           <Item
             icon={Camera}

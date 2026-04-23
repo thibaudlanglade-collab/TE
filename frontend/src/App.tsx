@@ -28,6 +28,7 @@ import BriefingView from "./pages/BriefingView";
 import MonEquipeView from "./pages/MonEquipeView";
 import TarifsView from "./pages/TarifsView";
 import ClientsView from "./pages/ClientsView";
+import DevisView from "./pages/DevisView";
 import MentionsLegalesView from "./pages/MentionsLegalesView";
 import PolitiqueConfidentialiteView from "./pages/PolitiqueConfidentialiteView";
 import AgentRapportDemo from "./components/AgentRapportDemo";
@@ -67,6 +68,7 @@ const WORKSPACE_PAGES = [
   "dashboard",
   "tarifs",
   "clients",
+  "devis",
 ] as const;
 
 const PAGE_TITLES: Record<string, string> = {
@@ -84,6 +86,7 @@ const PAGE_TITLES: Record<string, string> = {
   "mon-equipe": "Mon équipe",
   tarifs: "Grille tarifaire",
   clients: "Rapport client",
+  devis: "Devis",
   rgpd: "RGPD",
   features: "Par secteur",
   comprendre: "Comprendre Synthèse",
@@ -102,7 +105,7 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "welcome" | "dashboard" | "briefing" | "mon-equipe" | "tarifs" | "clients" | "mentions-legales" | "politique-confidentialite">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "tarification" | "demo" | "welcome" | "dashboard" | "briefing" | "mon-equipe" | "tarifs" | "clients" | "devis" | "mentions-legales" | "politique-confidentialite">("home");
   const navigate = useNavigate();
 
   // Mobile sidebar
@@ -550,6 +553,8 @@ export default function App() {
           {activeMode === "tarifs" && <TarifsView />}
 
           {activeMode === "clients" && <ClientsView />}
+
+          {activeMode === "devis" && <DevisView />}
 
           {activeMode === "demo" && <DemoView />}
 
