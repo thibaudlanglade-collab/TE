@@ -9,6 +9,7 @@ export type AppPath =
   | "/rgpd"
   | "/features"
   | "/qui-sommes-nous"
+  | "/pourquoi-synthese"
   | "/tarification"
   | "/demo"
   | "/home";
