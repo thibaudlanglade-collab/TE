@@ -209,13 +209,27 @@ export default function BoostedFeaturesSection() {
           })}
         </AnimatedContainer>
 
-        {/* Bottom punch line */}
-        <AnimatedContainer delay={0.4} className="mt-10 sm:mt-14 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-50 via-fuchsia-50 to-amber-50 border border-violet-100">
-            <Sparkles className="h-4 w-4 text-violet-500" />
-            <p className="text-[13px] sm:text-sm text-gray-700 leading-relaxed">
-              Chaque outil se configure <strong className="text-gray-900">autour de votre métier</strong>.
-              Ce ne sont que des points de départ.
+        {/* Bottom punch line — "ce ne sont que des exemples, on peut tout construire" */}
+        <AnimatedContainer delay={0.4} className="mt-10 sm:mt-14">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-gradient-to-br from-violet-50 via-fuchsia-50 to-amber-50 border border-violet-100 p-6 sm:p-8 text-center shadow-sm">
+            <div className="inline-flex items-center justify-center gap-2 mb-3">
+              <Sparkles className="h-4 w-4 text-violet-500" />
+              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-violet-600">
+                Ce ne sont que 6 exemples
+              </span>
+              <Sparkles className="h-4 w-4 text-violet-500" />
+            </div>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-display text-gray-900 leading-snug mb-3">
+              Si vous pouvez le décrire,{" "}
+              <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-amber-500 bg-clip-text text-transparent">
+                on peut le construire.
+              </span>
+            </h3>
+            <p className="text-[13px] sm:text-sm md:text-base text-gray-700 leading-relaxed">
+              Ces 6 outils ne sont que des <strong className="text-gray-900">points de départ</strong>.
+              Synthèse se configure entièrement <strong className="text-gray-900">autour de votre métier</strong> :
+              chaque fonctionnalité est sur-mesure, chaque automatisation est adaptée à vos process.
+              La seule limite, c'est <strong className="text-gray-900">votre imagination</strong>.
             </p>
           </div>
         </AnimatedContainer>
