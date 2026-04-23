@@ -10,7 +10,9 @@ from datetime import datetime
 from typing import Any, Optional
 
 from sqlalchemy import (
+    JSON,
     Boolean,
+    Date,
     DateTime,
     Float,
     ForeignKey,
@@ -544,5 +546,395 @@ class TarifGrid(Base):
             "vat_rate": float(self.vat_rate) if self.vat_rate is not None else None,
             "category": self.category,
             "is_seed": self.is_seed,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BTP domain models (ported from TE-main): clients, suppliers, invoices, quotes,
+# extractions, Drive OAuth, watched folders, activity logs.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class OAuthConnection(Base):
+    """Encrypted OAuth credentials per (user_id, provider).
+
+    access_token and refresh_token are stored as Fernet ciphertext
+    (see services/crypto.py). Plaintext never hits the database.
+    """
+
+    __tablename__ = "oauth_connections"
+    __table_args__ = (
+        UniqueConstraint("user_id", "provider", name="uq_oauth_user_provider"),
+    )
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    provider: Mapped[str] = mapped_column(String(50), nullable=False)
+    access_token: Mapped[str] = mapped_column(Text, nullable=False)
+    refresh_token: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    scopes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    account_email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    connected_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "provider": self.provider,
+            "account_email": self.account_email,
+            "scopes": json.loads(self.scopes) if self.scopes else [],
+            "expires_at": self.expires_at.isoformat() if self.expires_at else None,
+            "connected_at": self.connected_at.isoformat() if self.connected_at else None,
+        }
+
+
+class Client(Base):
+    """Prospect's customers. Seed rows have is_seed=True."""
+
+    __tablename__ = "clients"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    type: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    address: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    phone: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    is_seed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "type": self.type,
+            "address": self.address,
+            "email": self.email,
+            "phone": self.phone,
+            "notes": self.notes,
+            "is_seed": self.is_seed,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class Supplier(Base):
+    """Prospect's suppliers."""
+
+    __tablename__ = "suppliers"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    category: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    siret: Mapped[Optional[str]] = mapped_column(String(14), nullable=True)
+    city: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    is_seed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "category": self.category,
+            "siret": self.siret,
+            "city": self.city,
+            "notes": self.notes,
+            "is_seed": self.is_seed,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class Invoice(Base):
+    """Supplier invoices received by the prospect."""
+
+    __tablename__ = "invoices"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    supplier_id: Mapped[Optional[str]] = mapped_column(
+        String(36),
+        ForeignKey("suppliers.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    invoice_number: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    invoice_date: Mapped[Optional[datetime]] = mapped_column(Date, nullable=True)
+    amount_ht: Mapped[Optional[float]] = mapped_column(Numeric(12, 2), nullable=True)
+    vat_rate: Mapped[Optional[float]] = mapped_column(Numeric(5, 4), nullable=True)
+    amount_vat: Mapped[Optional[float]] = mapped_column(Numeric(12, 2), nullable=True)
+    amount_ttc: Mapped[Optional[float]] = mapped_column(Numeric(12, 2), nullable=True)
+    auto_liquidation: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    original_filename: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    stored_filename: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    file_path: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    raw_text: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    extracted_data: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="processed")
+    is_seed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    uploaded_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "supplier_id": self.supplier_id,
+            "invoice_number": self.invoice_number,
+            "invoice_date": self.invoice_date.isoformat() if self.invoice_date else None,
+            "amount_ht": float(self.amount_ht) if self.amount_ht is not None else None,
+            "vat_rate": float(self.vat_rate) if self.vat_rate is not None else None,
+            "amount_vat": float(self.amount_vat) if self.amount_vat is not None else None,
+            "amount_ttc": float(self.amount_ttc) if self.amount_ttc is not None else None,
+            "auto_liquidation": self.auto_liquidation,
+            "original_filename": self.original_filename,
+            "stored_filename": self.stored_filename,
+            "file_path": self.file_path,
+            "raw_text": self.raw_text,
+            "extracted_data": self.extracted_data,
+            "status": self.status,
+            "is_seed": self.is_seed,
+            "uploaded_at": self.uploaded_at.isoformat() if self.uploaded_at else None,
+        }
+
+
+class Quote(Base):
+    """Quotes issued by the prospect to their clients."""
+
+    __tablename__ = "quotes"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    client_id: Mapped[Optional[str]] = mapped_column(
+        String(36),
+        ForeignKey("clients.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    quote_number: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    title: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    lines: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)
+    amount_ht: Mapped[Optional[float]] = mapped_column(Numeric(12, 2), nullable=True)
+    vat_rate: Mapped[Optional[float]] = mapped_column(Numeric(5, 4), nullable=True)
+    amount_ttc: Mapped[Optional[float]] = mapped_column(Numeric(12, 2), nullable=True)
+    status: Mapped[str] = mapped_column(String(50), nullable=False, default="draft")
+    created_from: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    source_text: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    is_seed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "client_id": self.client_id,
+            "quote_number": self.quote_number,
+            "title": self.title,
+            "description": self.description,
+            "lines": self.lines or [],
+            "amount_ht": float(self.amount_ht) if self.amount_ht is not None else None,
+            "vat_rate": float(self.vat_rate) if self.vat_rate is not None else None,
+            "amount_ttc": float(self.amount_ttc) if self.amount_ttc is not None else None,
+            "status": self.status,
+            "created_from": self.created_from,
+            "source_text": self.source_text,
+            "is_seed": self.is_seed,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class Extraction(Base):
+    """Smart Extract history: raw document → structured data."""
+
+    __tablename__ = "extractions"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_type: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    original_filename: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    stored_filename: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    raw_text: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    extracted_data: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    document_type: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    target_folder: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "source_type": self.source_type,
+            "original_filename": self.original_filename,
+            "stored_filename": self.stored_filename,
+            "raw_text": self.raw_text,
+            "extracted_data": self.extracted_data,
+            "document_type": self.document_type,
+            "target_folder": self.target_folder,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class WatchedFolder(Base):
+    """Drive/Dropbox folders polled by the automation engine."""
+
+    __tablename__ = "watched_folders"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    provider: Mapped[str] = mapped_column(String(50), nullable=False)
+    folder_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    folder_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    last_checked_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    files_processed: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "provider": self.provider,
+            "folder_id": self.folder_id,
+            "folder_name": self.folder_name,
+            "last_checked_at": self.last_checked_at.isoformat() if self.last_checked_at else None,
+            "files_processed": self.files_processed,
+            "is_active": self.is_active,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class ClientReportFolder(Base):
+    """Drive folders the prospect wants searched when asking questions
+    about a client on the Rapport Client page."""
+
+    __tablename__ = "client_report_folders"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    provider: Mapped[str] = mapped_column(
+        String(50), nullable=False, default="google_drive"
+    )
+    folder_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    folder_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    is_enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "provider": self.provider,
+            "folder_id": self.folder_id,
+            "folder_name": self.folder_name,
+            "is_enabled": self.is_enabled,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class ActivityLog(Base):
+    """Structured activity log."""
+
+    __tablename__ = "activity_logs"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("access_tokens.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    action: Mapped[str] = mapped_column(String(100), nullable=False)
+    activity_metadata: Mapped[Optional[dict]] = mapped_column(
+        "metadata", JSON, nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now(), index=True
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "action": self.action,
+            "metadata": self.activity_metadata,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
