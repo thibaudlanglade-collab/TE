@@ -13,7 +13,7 @@ import { AutomationsView } from "./components/Automations";
 import { PhotoToDocumentView } from "./components/PhotoToDocument";
 import { MeetingTranscriberView } from "./components/MeetingTranscriber";
 import { ChatAssistantView } from "./components/ChatAssistant";
-import { AgentsIaView } from "./components/AgentsIa";
+import { AgentsIaView, AgentCategoryDetailView } from "./components/AgentsIa";
 import HomeView from "./pages/HomeView";
 import RgpdView from "./pages/RgpdView";
 import FeaturesView from "./pages/FeaturesView";
@@ -45,8 +45,9 @@ import type { Feature } from "./types";
 import { getTodayBriefing } from "./api/emailsClient";
 
 // Pages where the visitor is actually using their trial workspace.
-// Marketing pages (contact, tarification, rgpd, etc.) are excluded so trial
-// hints and demo popups don't appear there.
+// Marketing pages (contact, tarification, rgpd, agents-ia/*, etc.) are excluded
+// so trial hints and demo popups don't appear there, and the marketing sidebar
+// stays visible.
 const TRIAL_FEATURE_PAGES = [
   "chat-assistant",
   "smart",
@@ -55,8 +56,6 @@ const TRIAL_FEATURE_PAGES = [
   "planner",
   "emails",
   "automations",
-  "agents-ia",
-  "agent-rapport",
   "classic",
   "briefing",
   "mon-equipe",
@@ -82,6 +81,11 @@ const PAGE_TITLES: Record<string, string> = {
   emails: "Emails",
   automations: "Automatisations",
   "agents-ia": "Mes agents IA",
+  "agent-speed-to-lead": "Speed to Lead",
+  "agent-traitement-documents": "Traitement de documents",
+  "agent-suivi-relance": "Suivi & relance",
+  "agent-reactivation": "Réactivation base clients",
+  "agent-reporting": "Reporting & notifications",
   "agent-rapport": "Rapport client",
   briefing: "Briefing du jour",
   "mon-equipe": "Mon équipe",
@@ -107,7 +111,7 @@ export default function App() {
   const { loading, error: featuresError } = useFeatures();
   const [selected, setSelected] = useState<Feature | null>(null);
   const { run, start, reset } = useWorkflowRun();
-  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "pourquoi-synthese" | "tarification" | "demo" | "welcome" | "dashboard" | "briefing" | "mon-equipe" | "tarifs" | "clients" | "devis" | "mentions-legales" | "politique-confidentialite">("home");
+  const [activeMode, setActiveMode] = useState<"home" | "classic" | "chat-assistant" | "smart" | "photo-to-document" | "meeting-transcriber" | "planner" | "emails" | "automations" | "agents-ia" | "agent-rapport" | "agent-speed-to-lead" | "agent-traitement-documents" | "agent-suivi-relance" | "agent-reactivation" | "agent-reporting" | "rgpd" | "features" | "comprendre" | "contact" | "qui-sommes-nous" | "pourquoi-synthese" | "tarification" | "demo" | "welcome" | "dashboard" | "briefing" | "mon-equipe" | "tarifs" | "clients" | "devis" | "mentions-legales" | "politique-confidentialite">("home");
   const navigate = useNavigate();
 
   // Mobile sidebar
@@ -289,6 +293,13 @@ export default function App() {
     reset();
     setSelected(null);
     setActiveMode("agents-ia");
+    maybeShowCustomizationHint();
+  }
+
+  function handleAgentCategoryClick(id: string) {
+    reset();
+    setSelected(null);
+    setActiveMode(`agent-${id}` as typeof activeMode);
     maybeShowCustomizationHint();
   }
 
@@ -508,6 +519,8 @@ export default function App() {
         monEquipeModeActive={activeMode === "mon-equipe"}
         onAgentsIaClick={() => { handleAgentsIaClick(); setSidebarOpen(false); }}
         agentsIaModeActive={activeMode === "agents-ia"}
+        onAgentCategoryClick={(id) => { handleAgentCategoryClick(id); setSidebarOpen(false); }}
+        activeAgentCategoryId={activeMode.startsWith("agent-") && activeMode !== "agent-rapport" ? activeMode.slice("agent-".length) : undefined}
         onAgentRapportClick={() => { handleAgentRapportClick(); setSidebarOpen(false); }}
         agentRapportModeActive={activeMode === "agent-rapport"}
         onRgpdClick={() => { handleRgpdClick(); setSidebarOpen(false); }}
@@ -598,6 +611,26 @@ export default function App() {
 
           {activeMode === "agents-ia" && (
             <AgentsIaView />
+          )}
+
+          {activeMode === "agent-speed-to-lead" && (
+            <AgentCategoryDetailView categoryId="speed-to-lead" />
+          )}
+
+          {activeMode === "agent-traitement-documents" && (
+            <AgentCategoryDetailView categoryId="traitement-documents" />
+          )}
+
+          {activeMode === "agent-suivi-relance" && (
+            <AgentCategoryDetailView categoryId="suivi-relance" />
+          )}
+
+          {activeMode === "agent-reactivation" && (
+            <AgentCategoryDetailView categoryId="reactivation" />
+          )}
+
+          {activeMode === "agent-reporting" && (
+            <AgentCategoryDetailView categoryId="reporting" />
           )}
 
           {activeMode === "agent-rapport" && (

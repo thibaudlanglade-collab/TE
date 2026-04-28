@@ -24,7 +24,7 @@ import {
   Lightbulb,
   Mail,
   MessageSquare,
-  Mic,
+  Repeat,
   Settings2,
   Sparkles,
   Sunrise,
@@ -85,6 +85,34 @@ function Item({ icon: Icon, label, mode, activeMode, status, soonLabel, onClick 
           Démo
         </span>
       )}
+    </button>
+  );
+}
+
+function SubItem({
+  icon: Icon,
+  label,
+  isActive,
+  onClick,
+}: {
+  icon: ComponentType<{ className?: string }>;
+  label: string;
+  isActive?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-[13px] w-full text-left transition-all duration-150",
+        isActive
+          ? "bg-violet-50 text-violet-700 font-medium"
+          : "font-normal text-gray-500 hover:bg-gray-100 hover:text-gray-800",
+      )}
+    >
+      <Icon className={cn("h-3.5 w-3.5 shrink-0", isActive ? "text-violet-500" : "text-gray-400")} />
+      <span className="flex-1 truncate">{label}</span>
     </button>
   );
 }
@@ -216,14 +244,6 @@ export default function DashboardSidebar({
             onClick={go("/photo-to-document")}
           />
           <Item
-            icon={Mic}
-            label="Transcripteur"
-            mode="meeting-transcriber"
-            activeMode={activeMode}
-            status="active"
-            onClick={go("/meeting-transcriber")}
-          />
-          <Item
             icon={Calendar}
             label="Planificateur"
             mode="planner"
@@ -293,6 +313,13 @@ export default function DashboardSidebar({
             status="active"
             onClick={go("/agents-ia")}
           />
+          <div className="ml-3 pl-3 border-l border-gray-200 space-y-0.5">
+            <SubItem icon={Zap} label="Speed to Lead" isActive={activeMode === "agent-speed-to-lead"} onClick={go("/agent-speed-to-lead")} />
+            <SubItem icon={FileText} label="Traitement de documents" isActive={activeMode === "agent-traitement-documents"} onClick={go("/agent-traitement-documents")} />
+            <SubItem icon={Repeat} label="Suivi & relance" isActive={activeMode === "agent-suivi-relance"} onClick={go("/agent-suivi-relance")} />
+            <SubItem icon={Users} label="Réactivation" isActive={activeMode === "agent-reactivation"} onClick={go("/agent-reactivation")} />
+            <SubItem icon={BarChart3} label="Reporting" isActive={activeMode === "agent-reporting"} onClick={go("/agent-reporting")} />
+          </div>
           <Item
             icon={BarChart3}
             label="Rapport client (Q&A)"
